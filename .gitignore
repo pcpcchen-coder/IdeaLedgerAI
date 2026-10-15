@@ -12,3 +12,6 @@ extension/dist/
 
 # 平台回應原始樣本：含個資，永不提交（遮罩後放 extension/fixtures/<平台>/）
 extension/fixtures/raw/
+
+# 由 npm run gen 產生
+extension/src/adapters/registry.generated.js

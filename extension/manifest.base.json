@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Idea Ledger Sweeper",
+  "version": "0.1.0",
+  "description": "定時巡檢各 AI 平台的對話歷史，送往本機 collector。只讀。",
+  "permissions": ["storage", "alarms", "tabs"],
+  "host_permissions": ["http://127.0.0.1:8787/*"],
+  "background": { "service_worker": "bg.js" },
+  "content_scripts": [],
+  "options_page": "options.html"
+}

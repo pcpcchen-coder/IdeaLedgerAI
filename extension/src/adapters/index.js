@@ -1,25 +1,26 @@
-// 依網域取得對應平台的 adapter。新增平台：在 ADAPTERS 加一列，並實作 adapters/<platform>/。
-import * as chatgpt from "./chatgpt/fetch.js";
-import * as claude from "./claude/fetch.js";
+// 平台註冊表。平台是開放的：每個 src/adapters/<id>/ 資料夾（含 platform.json）由建置自動註冊，
+// 這個檔不需要因為新增平台而修改。新增方式見 docs/ADDING_A_PLATFORM.md。
+import { ADAPTER_MODULES } from "./registry.generated.js";
 
 /** 每個 adapter 必須提供的函式（固定介面，見 CLAUDE.md） */
 export const ADAPTER_OPS = ["checkLogin", "listUpdated", "getConversation"];
 
-const ADAPTERS = {
-  "chatgpt.com": { platform: "chatgpt", impl: chatgpt },
-  "claude.ai": { platform: "claude", impl: claude },
-  // "www.kimi.com": T13 實作後加入
-};
+const BY_HOST = new Map();
+for (const mod of ADAPTER_MODULES) {
+  for (const host of mod.descriptor.hosts) {
+    BY_HOST.set(host, { platform: mod.descriptor.id, name: mod.descriptor.name, impl: mod });
+  }
+}
 
 /**
  * @param {string} hostname
- * @returns {{ platform: string, impl: Record<string, Function> } | null}
+ * @returns {{ platform: string, name: string, impl: Record<string, Function> } | null}
  */
 export function getAdapter(hostname) {
-  return ADAPTERS[hostname] ?? null;
+  return BY_HOST.get(hostname) ?? null;
 }
 
-/** 已註冊的平台與網域，供背景程式找分頁用 */
+/** 已註冊平台的描述（id、name、hosts），供背景程式找分頁、設定頁顯示用 */
 export function registeredPlatforms() {
-  return Object.entries(ADAPTERS).map(([host, a]) => ({ host, platform: a.platform }));
+  return ADAPTER_MODULES.map((m) => m.descriptor);
 }

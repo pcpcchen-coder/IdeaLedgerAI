@@ -1,7 +1,8 @@
 // 統一的對話格式（設計文件 v2 第 4.1 節）。所有 adapter 的 parseConversation 都必須輸出這個格式。
 import { AdapterFormatError } from "./errors.js";
 
-export const PLATFORMS = ["chatgpt", "claude", "kimi"];
+// 平台是開放的，不在這裡列舉；只檢查 id 格式（與 build.config.mjs 的 PLATFORM_ID 相同）。
+export const PLATFORM_ID = /^[a-z][a-z0-9-]{1,31}$/;
 export const ROLES = ["user", "assistant"];
 
 /**
@@ -13,7 +14,7 @@ export const ROLES = ["user", "assistant"];
 
 /**
  * @typedef {Object} NormalizedConversation
- * @property {"chatgpt"|"claude"|"kimi"} platform
+ * @property {string} platform       平台 id，由 adapter 的 platform.json 定義（例如 chatgpt、gemini）
  * @property {string} conv_id
  * @property {string} title
  * @property {string} url
@@ -40,7 +41,7 @@ export function validateNormalized(c) {
     throw new AdapterFormatError(`統一格式檢查失敗：${msg}`);
   };
   if (!c || typeof c !== "object") fail("不是物件");
-  if (!PLATFORMS.includes(c.platform)) fail(`platform 不合法：${c.platform}`);
+  if (typeof c.platform !== "string" || !PLATFORM_ID.test(c.platform)) fail(`platform 不合法：${c.platform}`);
   for (const k of ["conv_id", "title", "url"]) {
     if (typeof c[k] !== "string") fail(`${k} 必須是字串`);
   }

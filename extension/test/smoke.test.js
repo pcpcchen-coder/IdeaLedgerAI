@@ -1,11 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
 import { validateNormalized } from "../src/lib/types.js";
 import { AdapterFormatError } from "../src/lib/errors.js";
 import { getAdapter, ADAPTER_OPS, registeredPlatforms } from "../src/adapters/index.js";
 import { handleRpc } from "../src/content/rpc.js";
-import { OUTPUTS } from "../build.config.mjs";
+import { OUTPUTS, buildManifest, readBaseManifest, loadPlatforms } from "../build.config.mjs";
 
 const valid = () => ({
   platform: "chatgpt",
@@ -27,7 +26,8 @@ test("validateNormalized 接受合法對話", () => {
 
 test("validateNormalized 擋下不合法欄位", () => {
   const cases = [
-    (c) => (c.platform = "gemini"),
+    (c) => (c.platform = "Gemini!"),
+    (c) => (c.platform = undefined),
     (c) => (c.conv_id = ""),
     (c) => (c.project = 1),
     (c) => (c.updated_at = "2026-10-15 02:40:00"),
@@ -44,13 +44,29 @@ test("validateNormalized 擋下不合法欄位", () => {
   }
 });
 
-test("getAdapter 依網域回傳 adapter，且都實作固定介面", () => {
+test("validateNormalized 接受任何格式正確的平台 id（平台是開放的）", () => {
+  for (const id of ["gemini", "grok", "my-platform2"]) {
+    const c = valid();
+    c.platform = id;
+    assert.equal(validateNormalized(c).platform, id);
+  }
+});
+
+test("getAdapter 依網域回傳 adapter", () => {
   assert.equal(getAdapter("chatgpt.com").platform, "chatgpt");
-  assert.equal(getAdapter("claude.ai").platform, "claude");
+  assert.equal(getAdapter("claude.ai").name, "Claude");
   assert.equal(getAdapter("example.com"), null);
-  for (const { host } of registeredPlatforms()) {
-    for (const op of ADAPTER_OPS) {
-      assert.equal(typeof getAdapter(host).impl[op], "function", `${host} 缺少 ${op}`);
+});
+
+test("每個已註冊平台都實作固定介面，且與 platform.json 一致", () => {
+  const onDisk = loadPlatforms();
+  const registered = registeredPlatforms();
+  assert.deepEqual(registered.map((d) => d.id).sort(), onDisk.map((d) => d.id));
+  for (const d of registered) {
+    for (const host of d.hosts) {
+      const a = getAdapter(host);
+      assert.equal(a.platform, d.id);
+      for (const op of ADAPTER_OPS) assert.equal(typeof a.impl[op], "function", `${d.id} 缺少 ${op}`);
     }
   }
 });
@@ -80,8 +96,16 @@ test("handleRpc 轉發結果與錯誤", async () => {
   assert.equal((await handleRpc(null, { op: "checkLogin" })).error.name, "NoAdapter");
 });
 
-test("manifest 引用的檔案都會由建置產出", async () => {
-  const manifest = JSON.parse(await readFile(new URL("../manifest.json", import.meta.url), "utf-8"));
+test("manifest 引用的檔案都會由建置產出，且涵蓋所有平台網域", () => {
+  const platforms = loadPlatforms();
+  const manifest = buildManifest(readBaseManifest(), platforms);
+  for (const p of platforms) {
+    for (const h of p.hosts) {
+      assert.ok(manifest.host_permissions.includes(`https://${h}/*`), `host_permissions 缺少 ${h}`);
+      assert.ok(manifest.content_scripts[0].matches.includes(`https://${h}/*`), `content_scripts 缺少 ${h}`);
+    }
+  }
+  assert.ok(manifest.host_permissions.includes("http://127.0.0.1:8787/*"));
   const referenced = [
     manifest.background.service_worker,
     manifest.options_page,

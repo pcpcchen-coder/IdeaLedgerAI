@@ -5,7 +5,10 @@
   "type": "module",
   "description": "Idea Ledger 帳號層巡檢 Chrome 擴充（MV3）",
   "scripts": {
+    "gen": "node scripts/gen-registry.mjs",
+    "prebuild": "npm run gen",
     "build": "node build.mjs",
+    "pretest": "npm run gen",
     "test": "node --test \"test/**/*.test.js\""
   },
   "devDependencies": {

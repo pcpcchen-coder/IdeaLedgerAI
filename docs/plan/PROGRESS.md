@@ -13,6 +13,11 @@
 
 ## 工作紀錄
 
+### 2026-10-15 · 平台開放架構（George 提出的需求，T00 追加）
+- 需求：日後使用者要能自行加入 Gemini、Grok 等平台。
+- 完成：平台改為資料夾自動註冊。`src/adapters/<id>/platform.json` 描述平台，`npm run gen` 掃描產生註冊表，建置時由 `manifest.base.json` 加上各平台網域產生 manifest；`validateNormalized` 改為只檢查平台 id 格式。新增 `docs/ADDING_A_PLATFORM.md`。擴充測試增為 11 個，包含「放一個 gemini、grok 資料夾就自動註冊並進 manifest」與描述錯誤（id 不符、網域重複、含 https）時建置失敗。
+- 文件：CLAUDE.md 加「平台開放」約束；設計文件升為 v2.1（第 11 節）；T03 改為平台 id 不做 enum、新增 `platform_name` 與 `capture` 欄位；T06、T07 改為平台清單一律動態取得；新增 T18（設定頁免程式新增平台）、T19（實測）；T13 Kimi 的驗收加上「只新增資料夾、不改其他檔」。
+
 ### 2026-10-15 · T00 Repo 骨架與開發環境
 - 完成：v2 目錄結構、esbuild 建置（IIFE）、`make setup／build／test`；v1 程式碼移入 `extension/legacy/`；遮罩工具 `scripts/redact_fixture.py`；測試共 16 個全過（擴充 5、collector 2、遮罩工具 9）。
 - 學到：manifest 路徑要以 `dist/` 為根（建置時複製進去），已修正 T00 工單描述，並用測試確保 manifest 引用的檔案都會產出。遮罩工具需要 `--extra-value`，因為像 Claude 組織清單裡的 `uuid` 無法從鍵名判斷是組織 ID。

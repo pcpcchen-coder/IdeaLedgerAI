@@ -1,0 +1,5 @@
+{
+  "id": "claude",
+  "name": "Claude",
+  "hosts": ["claude.ai"]
+}

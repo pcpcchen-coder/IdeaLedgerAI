@@ -24,6 +24,8 @@
 | `GET /v2/health` | 各平台最近一次 `sweep_run` 的狀態、時間，以及 `conv` 筆數 |
 | `GET /v2/watermark?platform=x` | 該平台已存對話中最大的 `updated_at`；無資料回 `null`。供擴充儲存遺失時復原 |
 
+- **平台開放**：`platform` 不做 enum，只檢查格式 `^[a-z][a-z0-9-]{1,31}$`；任何新平台不需改 collector 就能寫入。另收選填的 `platform_name`（顯示名稱，來自平台描述），存進 `conv` 供日誌顯示；未提供時以 id 代替。
+- **擷取方式欄位**：選填 `capture`，`"api"`（預設，帳號層巡檢）或 `"page"`（T18 免程式平台的頁面文字擷取）。`capture="page"` 時必填 `page_text`、`messages` 可為空陣列；`capture="api"` 時 `messages` 至少一則。兩種都要存，供 summarizer 判斷輸入形式。
 - 環境變數：`IDEA_TOKEN`（必填，缺少就啟動失敗）、`IDEA_DB`（預設 `./ledger.db`）。
 - 請求大小上限 10 MB。
 - 時間一律存 ISO 8601 UTC。
@@ -33,7 +35,9 @@
 - [ ] 無 token／錯誤 token → 401
 - [ ] 新增、更新、相同 `updated_at` 重送、較舊 `updated_at` 送入，四種情況回應與 `dirty` 都正確
 - [ ] `#nolog` 對話不落地；先存一般版本再送含 `#nolog` 的版本 → 被刪除
-- [ ] 格式錯誤（缺欄位、role 不合法）→ 422
+- [ ] 格式錯誤（缺欄位、role 不合法、platform 格式不符）→ 422
+- [ ] 未曾出現過的平台 id（例如 `gemini`、`grok`）可直接寫入，`health` 也會列出它
+- [ ] `capture="page"` 帶 `page_text` 可寫入；缺 `page_text` → 422
 - [ ] `health`、`watermark` 回傳符合寫入的資料
 - [ ] `make test` 全過
 

@@ -1,0 +1,5 @@
+{
+  "id": "chatgpt",
+  "name": "ChatGPT",
+  "hosts": ["chatgpt.com"]
+}

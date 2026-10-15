@@ -34,7 +34,7 @@ ol li,ul li{margin:4px 0}
 <body>
 <main>
 <h1>Idea Ledger v2：帳號層巡檢設計</h1>
-<p class="sub">設計文件 v2 · 2026-10-15 · 取代 v1 的「各瀏覽器即時擷取」為主線</p>
+<p class="sub">設計文件 v2.1 · 2026-10-15 · 取代 v1 的「各瀏覽器即時擷取」為主線；v2.1 新增平台開放擴充（第 11 節）</p>
 
 <div class="tldr">
 <strong>一句話：</strong>一台常開的電腦（建議 Mac Mini）上，用一個專用 Chrome 設定檔登入 ChatGPT、Claude、Kimi；擴充每 30 分鐘以你的登入狀態讀取各平台的對話歷史，把新增或有更新的對話送給本機 collector，由本地模型摘要成想法卡。
@@ -97,7 +97,9 @@ async function getConversation(id)          // → NormalizedConversation（見 
 Authorization: Bearer &lt;token&gt;
 
 {
-  "platform": "chatgpt",              // chatgpt | claude | kimi
+  "platform": "chatgpt",              // 平台 id，由 adapter 的 platform.json 定義，不限定清單
+  "platform_name": "ChatGPT",         // 顯示名稱（選填）
+  "capture": "api",                   // api：帳號層巡檢；page：免程式平台的頁面文字擷取
   "conv_id": "6710c2e4-...",
   "title": "換電站排程想法",
   "url": "https://chatgpt.com/c/6710c2e4-...",
@@ -198,13 +200,25 @@ sweep_run(platform, started_at, finished_at, status, listed, fetched, error)
 <tr><td>多台同時巡檢</td><td>重複請求</td><td>collector 冪等；建議只開一個主節點</td></tr>
 </table>
 
-<h2>11. 里程碑</h2>
+<h2>11. 平台開放擴充（v2.1 新增）</h2>
+<p>ChatGPT、Claude 只是內建的前兩個平台。使用者日後要加入 Gemini、Grok 或其他網頁版 AI，都不需要修改核心程式。</p>
+<table>
+<tr><th></th><th>方式一：寫 adapter</th><th>方式二：設定頁新增（免程式）</th></tr>
+<tr><td>做法</td><td>新增 <code>extension/src/adapters/&lt;id&gt;/</code>：<code>platform.json</code>（id、name、hosts）＋ 解析層 ＋ 取資料層</td><td>設定頁填名稱、網域、對話網址規則</td></tr>
+<tr><td>註冊</td><td>建置時自動掃描資料夾，產生註冊表與 manifest 網域權限</td><td>執行時向使用者要網域權限，動態注入擷取腳本</td></tr>
+<tr><td>收集範圍</td><td>帳號歷史全部，含手機 App</td><td>只有在這個瀏覽器打開過的對話</td></tr>
+<tr><td>資料形式</td><td>結構化訊息（<code>capture="api"</code>）</td><td>頁面純文字（<code>capture="page"</code>）</td></tr>
+</table>
+<p>為了讓兩種方式都成立，整條管線只認<strong>平台 id 的格式</strong>（小寫英數與連字號），不維護平台清單：collector 不做 enum 檢查、摘要與 Obsidian 寫入以 id 與顯示名稱處理。方式二可以先用，之後寫好 adapter 再升級，同一個 id 沿用，歷史資料不中斷。操作說明見 repo 的 <code>docs/ADDING_A_PLATFORM.md</code>。</p>
+
+<h2>12. 里程碑</h2>
 <table>
 <tr><th>階段</th><th>內容</th><th>完成條件</th></tr>
 <tr><td>M1</td><td>ChatGPT、Claude adapter + collector v2 端點</td><td>手機 App 的對話出現在 SQLite</td></tr>
 <tr><td>M2</td><td>Summarizer worker + Obsidian 寫入 + 每日日誌</td><td>想法卡與日誌自動產生</td></tr>
 <tr><td>M3</td><td>Kimi adapter（先做介面探查）</td><td>Kimi 對話進入流程</td></tr>
 <tr><td>M4</td><td>健康監控、首次回填、專案黑名單</td><td>連續一週無人看管正常運作</td></tr>
+<tr><td>M5</td><td>設定頁免程式新增平台</td><td>從設定頁加入 Gemini 或 Grok 並收到資料</td></tr>
 </table>
 </main>
 </body>
