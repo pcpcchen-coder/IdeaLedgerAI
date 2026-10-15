@@ -36,7 +36,7 @@
 - **目前分支**：從頂層 `current_leaf_message_uuid` 沿 `parent_message_uuid` 往回走到根，再反轉。不能只依 `index` 排序（B 中 index 3、4 是兩次回覆，5 是編輯後的訊息，屬於不同分支）。
 - 重試 → 同一則 human 訊息下多一則 assistant（B：`d1e4cb28`、`568835a3` 的 parent 相同）。
 - 編輯 → 同一則 assistant 下多一則 human（B：`1c891dc7`、`01cf1c0d` 的 parent 都是 `46d7886c`）。
-- 訊息文字：`content` 為陣列，取 `type: "text"` 的 `text` 串接；`text` 頂層欄位也有值，以 `content` 為準。
+- 訊息文字：`content` 為陣列，取 `type: "text"` 的 `text` 串接（`thinking` 區塊略過）。頂層 `text` 欄位在本次樣本中**全是空字串**（T05 確認），只能以 `content` 為準。
 
 ## 5. 附件長什麼樣
 

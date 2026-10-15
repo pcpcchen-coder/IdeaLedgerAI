@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T05 Claude 解析層（T02 樣本已提交；缺的手機對話 D 不影響解析層）；之後 T07（依賴 T04 ✅、T05、T06 ✅）。T11 還等 T08。
+- **☁️ 雲端可做：** T07 取資料層與設定頁（依賴 T04 ✅、T05 ✅、T06 ✅）。T11 還等 T08。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
@@ -15,6 +15,10 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T05 Claude 解析層
+- 完成：`extension/src/adapters/claude/parse.js`（組織、清單、單篇），以 T02 fixtures 測試 10 個；擴充測試共 63 個全過。
+- 學到：Claude 的 `chat_messages` 平鋪所有分支，`index` 只是建立順序（重試的兩則回覆是 index 3、4，編輯後的訊息是 5），必須從 `current_leaf_message_uuid` 回溯。頂層 `text` 欄位全是空字串，文字只在 `content`。清單回應沒有分頁資訊，`parseList` 需要呼叫端傳入這次的 `offset`／`limit`。
 
 ### 2026-10-15 · T04 ChatGPT 解析層
 - 完成：`extension/src/adapters/chatgpt/parse.js`（session、清單、單篇），以 T01 fixtures 測試 9 個；擴充測試全過。

@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| ⬜ 待辦 | ☁️ 雲端 | 45 分 | T02 |
+| ✅ 完成（2026-10-15） | ☁️ 雲端 | 45 分 | T02 |
 
 ## 目標
 
@@ -28,11 +28,21 @@ parseConversation(json)   // → NormalizedConversation（platform="claude"）
 
 ## 驗收（node:test）
 
-- [ ] simple、branched、project、attachment 四個樣本各有對應測試，判準同 T04
-- [ ] `conversation_attachment.json` → 含 `[附件: 檔名]`，不含檔案內容
-- [ ] 變造樣本 → `AdapterFormatError`
-- [ ] `make test` 全過
+- [x] simple、branched、project、attachment 四個樣本各有對應測試，判準同 T04
+- [x] `conversation_attachment.json` → 含 `[附件: 檔名]`，不含檔案內容
+- [x] 變造樣本 → `AdapterFormatError`
+- [x] `make test` 全過
 
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T05:` 開頭。
+
+## 完成紀錄
+
+- `parse.js`：`parseOrganizations`、`parseList`、`parseConversation`；測試 10 個（`test/claude-parse.test.js`）。
+- 介面補充（T07 使用時注意）：
+  - `parseList(json, { offset, limit })`：清單回應是陣列、沒有分頁資訊，要傳入這次請求的 `offset`、`limit` 才能算出 `next`。
+  - `parseConversation(json, { project })`：單篇只有 `project_uuid`，專案名稱在清單的 `project.name`；T07 可把清單項目的 `project` 傳進來，沒傳就用 `project_uuid`。
+  - `parseOrganizations` 找不到可聊天的組織時丟 `NeedsLogin`，回應不是陣列才丟 `AdapterFormatError`。
+- 只取 `content` 的 `text` 區塊（`thinking` 等略過）；`attachments` 與 `files` 只留檔名，不取 `extracted_content`。
+- 更正 NOTES：頂層 `text` 欄位在樣本中全是空字串，不是「也有值」。
