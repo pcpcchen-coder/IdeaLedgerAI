@@ -21,7 +21,7 @@
 ### 2026-10-15 · T08 M1 本機首測（🟡 進行中）
 - 完成：在 George 的 Mac（現用 Chrome 設定檔）裝好擴充與 collector；Claude 端到端打通（292 篇列出、首輪讀 30 篇寫入）。修正隨機延遲鎖住「立即巡檢」的問題。
 - 決定（George）：首次回填改為由新到舊；已存下的舊佇列也依新到舊取。
-- 學到：MV3 背景程式不能用長 setTimeout 等待；ChatGPT 清單端點有帳號層限流，被限流時連網頁本身的側欄也拿不到，單篇端點不受影響。
+- 學到：collector 資料庫（對話全文）不能放在 iCloud 同步的資料夾（例如 macOS 的「文件」），T11 部署要放 `~/Library/Application Support/IdeaLedger/` 之類的本機位置；MV3 背景程式不能用長 setTimeout 等待；ChatGPT 清單端點有帳號層限流，被限流時連網頁本身的側欄也拿不到，單篇端點不受影響。
 - 剩餘：Claude 回填完成後驗 A–C、E 與分支；ChatGPT 429。
 
 ### 2026-10-15 · T18 設定頁免程式新增平台
