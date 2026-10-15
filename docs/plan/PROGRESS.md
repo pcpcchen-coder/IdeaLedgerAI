@@ -18,6 +18,11 @@
 
 ## 工作紀錄
 
+### 2026-10-15 · T11 Mac Mini 部署（本機部分）
+- 完成：在 George 的 Mac Mini 安裝 launchd 服務（collector、summarizer 使用者輸入模式）、clone AiMemory，`doctor.sh` 全綠，第一次推送成功（想法卡 40）。
+- 學到：部署腳本要相容 macOS bash 3.2；summarizer 會在 AiMemory clone 完成前就啟動，安全檢查擋下了那一輪。
+- 剩餘：手機對話 1 小時內出現想法卡的驗收；禁止睡眠、開機自動開 Chrome。
+
 ### 2026-10-15 · T26 以使用者輸入取代摘要
 - 決定（George）：先不跑模型摘要，想法卡改記對話中使用者輸入的文字（交辦工作時輸入少但足以表達需求）；使用者輸入因此會寫進 AiMemory，AI 回覆仍只留本機。程式放 `~/IdeaLedger`。
 - 完成：`summarizer/extract.py` 與 `run_extract_once`；`python -m summarizer` 沒設 `LLM_MODEL` 即為此模式；想法卡版面「## 使用者輸入」；`doctor.sh` 不再要求 LLM；`install.sh` 沿用 T08 token。新增 8 個測試，`make test` 全過。CLAUDE.md、部署文件同步更新。

@@ -49,7 +49,7 @@
 - [x] `make test` 全過
 
 🖥（George）：
-- [ ] `deploy/doctor.sh` 全部通過
+- [x] `deploy/doctor.sh` 全部通過（2026-10-15，使用者輸入模式）
 - [ ] 手機 App 聊一段，1 小時內 AiMemory 出現想法卡
 
 ## 不做
@@ -71,3 +71,10 @@
 ## 剩餘
 
 - 🖥 George 在 Mac Mini 照 `docs/DEPLOY_MAC.md` 部署、`deploy/doctor.sh` 全過、手機對話 1 小時內出現想法卡（等 T08 完成）。
+
+## 部署紀錄（2026-10-15）
+
+- 程式在 `~/IdeaLedger/IdeaLedgerAI`（George 指定），資料在 `~/Library/Application Support/IdeaLedger/`；沿用 T08 的資料庫與 token。
+- 由雲端工作階段透過 Finder 執行 `~/IdeaLedger/deploy_T11.command`（停臨時 collector → `git pull` → `install.sh` → clone AiMemory → `doctor.sh`）。
+- 實機問題：macOS 內建 bash 3.2 把 `$VAR` 後緊接的中文當成變數名稱（cba7cc9 修正並加測試）；第一次 clone AiMemory 時 summarizer 同時在跑，那一輪發佈因偵測到 `ledger/` 以外的變動而中止（安全機制正常），下一輪即推送成功（AiMemory `a7893df`：想法卡 40、日誌 16、索引 20）。
+- 剩餘（🖥 George）：手機 App 對話 1 小時內出現想法卡；禁止睡眠、開機自動開 Chrome；擴充可改從 `~/IdeaLedger/IdeaLedgerAI/extension/dist` 載入（目前仍從「文件」裡的首測副本載入，功能相同）。
