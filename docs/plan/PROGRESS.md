@@ -4,16 +4,21 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T04 ChatGPT 解析層、T05 Claude 解析層（依賴 T01、T02 的樣本已提交；缺的手機對話 D 不影響解析層）。Phase 2b（T20–T23）已全部完成；T11 還等 T08。
+- **☁️ 雲端可做：** T05 Claude 解析層（T02 樣本已提交；缺的手機對話 D 不影響解析層）；之後 T07（依賴 T04 ✅、T05、T06 ✅）。T11 還等 T08。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
 
+- **ChatGPT 專案名稱（T04）。** 清單與單篇回應只有專案的 `gizmo_id`（`g-p-…`），沒有名稱；想法卡的 `platform_project` 目前會是這串 ID。要顯示名稱需在 T07 另找取得專案名稱的端點（需 DevTools 採樣驗證）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T04 ChatGPT 解析層
+- 完成：`extension/src/adapters/chatgpt/parse.js`（session、清單、單篇），以 T01 fixtures 測試 9 個；擴充測試全過。
+- 學到：「再試一次」產生的是使用者訊息底下的兄弟 `reasoning_recap` 節點，「編輯」產生的是上一則助理回覆底下的兄弟使用者節點；兩者都只要從 `current_node` 回溯即可正確取得目前分支。清單第 1 頁 28 筆中有 14 筆是專案對話，與一般對話混排。
 
 ### 2026-10-15 · T22 衍生索引
 - 完成：`ledger/platforms.md`、`ledger/monthly/YYYY-MM.md`、`ledger/ideas/index.md`、`ledger/ideas/by-project/<代號>.md`，每次寫入後重新產生、內容相同不寫；`status` 從想法卡檔案讀，封存的想法不進索引但保留在月彙總；過期的 by-project 檔會刪除。summarizer 測試 47 個全過。
