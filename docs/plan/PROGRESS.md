@@ -4,14 +4,19 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** 目前沒有依賴全部滿足的 ☁️ 工單。T04、T05 等 T01、T02 的樣本；T07 等 T04、T05。可先預做 T11 的雲端部分（docker-compose、launchd、部署步驟），或 T07 中不依賴樣本的設定頁與燈號。
-- **🖥 等 George：** T01 ChatGPT 介面採樣、T02 Claude 介面採樣（改用主控台採樣腳本後各約 15 分鐘，含建立測試對話）。**這兩張現在是整個專案的關鍵路徑。**
+- **☁️ 雲端可做：** T20 寫入路徑對齊 AiMemory（之後 T21、T23、T22）。這幾張不依賴 T01、T02。
+- **🖥 George 進行中：** T01 ChatGPT 介面採樣、T02 Claude 介面採樣。雲端工作階段等待採樣檔，不要動這兩張。
 
 ## 卡住／待決定
 
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · 資料存放改為 AiMemory
+- 決定（George）：本 repo 只做工具開發；資料寫到私人 repo `pcpcchen-coder/AiMemory`，當資料庫用。AiMemory 已有人工維護的個人記憶（profile、decisions、memory-pack、projects、inbox）。
+- 完成：在 AiMemory 新增 `ledger/` 自動寫入區與路徑規格 `ledger/README.md`（想法卡、每日日誌、每月彙總、想法索引、平台總覽；與每月彙整的銜接；寫入與同步規則），README 目錄結構補上一行，其他檔案未動。本 repo 的 CLAUDE.md 加入 repo 分工與「只能寫 ledger/」約束；新增 T20–T23。
+- 待決定：AiMemory 的 README 仍寫著「本 repo 目前為 public」，但實際已是 private，需由 George 決定是否更正（屬人工維護檔案，工具不改）。
 
 ### 2026-10-15 · T01、T02 輔助工具（T01、T02 本身仍待 George）
 - 背景：George 請雲端工作階段直接操作本機完成採樣，但這個對話沒有連結到他的電腦，無法操作他的瀏覽器。

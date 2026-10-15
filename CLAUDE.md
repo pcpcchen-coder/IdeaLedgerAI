@@ -6,6 +6,13 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 
 現行設計：`docs/2026-10-15_IdeaLedger_帳號層巡檢設計文件_v2.html`（v1 即時擷取已降為選用模式，預設關閉）。
 
+## Repo 分工（不要混淆）
+
+- **本 repo（IdeaLedgerAI）＝開發工具用。** 只放擴充、collector、summarizer 的程式、設計文件與測試。**不得放任何真實個人資料**；fixtures 只能是遮罩後的測試對話。
+- **資料存放＝ [pcpcchen-coder/AiMemory](https://github.com/pcpcchen-coder/AiMemory)（私人 repo，當資料庫用）。** 工具產出的想法卡、日誌、索引寫到 AiMemory 的 `ledger/`，路徑規格以 `AiMemory/ledger/README.md` 為準。
+- **工具只能寫 AiMemory 的 `ledger/`**，不得新增、修改、刪除 AiMemory 其他任何檔案（`profile.md`、`decisions.md`、`memory-pack.md`、`projects/`、`inbox/` 等由 George 人工維護）。
+- 對話全文只留在 Mac Mini 本機的 collector 資料庫，不進任何 repo。
+
 ## 不可違反的設計約束
 
 - **無痕**：不得在使用者的 AI 對話中插入任何文字或觸發工具呼叫。
@@ -45,7 +52,7 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 
 - 文件與註解用繁體中文。
 - Summarizer 由 `python -m summarizer` 執行（環境變數見 `summarizer/prompt.md`）；設定 `IDEA_VAULT` 才會寫 Obsidian。想法卡中 `<!-- 以下為個人筆記，系統不會覆寫 -->` 之後的內容與 `status` 由使用者擁有，任何改動都不得覆寫。
-- 想法卡路徑：`Ideas/YYYY/MM/YYYY-MM-DD_<platform>_<標題>.md`；日誌：`Ideas/_log/YYYY-MM-DD.md`，第一行為各平台巡檢狀態。
+- 寫入路徑以 `AiMemory/ledger/README.md` 為準：想法卡 `ledger/conversations/YYYY/MM/YYYY-MM-DD_<platform>_<標題>.md`；日誌 `ledger/daily/YYYY/MM/YYYY-MM-DD.md`（第一行為各平台巡檢狀態）。T20 完成前，程式仍寫舊路徑 `Ideas/`。
 - 日誌依對話實際更新時間歸日，不依巡檢時間。
 - 各平台內部介面皆為非官方，實作前先以 DevTools Network 驗證，並在 adapter 內做回應格式檢查。
 - 秘密（token）不進 repo，用環境變數或 `.env`。

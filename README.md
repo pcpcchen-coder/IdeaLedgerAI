@@ -1,6 +1,6 @@
 # Idea Ledger AI
 
-跨平台 AI 對話自動記錄系統：自動收集你在各 AI 平台上的對話（網頁、桌面 App、手機 App 都算），用本地模型摘要成「想法卡」，並記錄每天跟哪個平台互動。
+跨平台 AI 對話自動記錄系統的**開發專案**（資料存放在私人 repo [AiMemory](https://github.com/pcpcchen-coder/AiMemory) 的 `ledger/`）：自動收集你在各 AI 平台上的對話（網頁、桌面 App、手機 App 都算），用本地模型摘要成「想法卡」，並記錄每天跟哪個平台互動。
 
 **設計原則：無痕、一次設定、只讀、平台開放。** 對話中不需任何操作，也不在對話裡留下任何痕跡。
 
@@ -18,14 +18,14 @@ Chrome 專用設定檔（已登入各平台）
   → extension/src/adapters/<id>/   在平台分頁內同源讀取歷史（只讀、節流）；一個平台一個資料夾
   → collector/  127.0.0.1:8787    FastAPI + SQLite，冪等
   → summarizer/                   LiteLLM → Ollama 本地摘要
-  → Obsidian vault                Ideas/ 想法卡 + Ideas/_log/ 每日平台互動日誌
+  → AiMemory repo（ledger/）       想法卡、每日平台互動日誌、每月彙總（git 發佈）
 ```
 
 ## 文件
 
 | 文件 | 內容 |
 |---|---|
-| [設計文件 v2.1](docs/2026-10-15_IdeaLedger_帳號層巡檢設計文件_v2.html) | **現行設計**：帳號層巡檢、平台開放擴充 |
+| [設計文件 v2.2](docs/2026-10-15_IdeaLedger_帳號層巡檢設計文件_v2.html) | **現行設計**：帳號層巡檢、平台開放擴充、資料存放於 AiMemory |
 | [新增 AI 平台](docs/ADDING_A_PLATFORM.md) | 加入 Gemini、Grok 等平台的兩種方式 |
 | [設計文件 v1](docs/2026-10-15_IdeaLedger_設計文件_v1.html) | 舊版：各瀏覽器即時擷取（已降為選用模式） |
 | [工具評估](docs/00_工具評估_2026-10-07.md) | 為什麼自建而不用現成工具 |

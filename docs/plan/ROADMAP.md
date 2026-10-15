@@ -47,7 +47,7 @@
 | **Phase 2 有想法卡（M2）** |||||
 | [T09](tickets/T09_Summarizer_worker.md) | Summarizer worker | ☁️ | 90 分 | T03 | ✅ |
 | [T10](tickets/T10_Obsidian寫入與每日日誌.md) | Obsidian 寫入與每日日誌 | ☁️ | 60 分 | T09 | ✅ |
-| T11 | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T10 | ⬜ |
+| T11 | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T23 | ⬜ |
 | **Phase 3 Kimi（M3）** |||||
 | T12 | Kimi 探查 | 🖥 | 30 分 | T08 | ⬜ |
 | T13 | Kimi adapter | ☁️ | 60 分 | T12 | ⬜ |
@@ -59,6 +59,11 @@
 | **Phase 5 開放擴充** |||||
 | T18 | 設定頁免程式新增平台（頁面文字擷取） | ☁️ | 90 分 | T03, T07 | ⬜ |
 | T19 | 免程式平台實測（以 Gemini 或 Grok 驗證） | 🖥 | 20 分 | T18 | ⬜ |
+| **Phase 2b 寫入 AiMemory** |||||
+| T20 | 寫入路徑對齊 AiMemory `ledger/` | ☁️ | 30 分 | T10 | ⬜ |
+| T21 | 專案清單改讀 AiMemory `projects/` | ☁️ | 30 分 | T20 | ⬜ |
+| T22 | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ⬜ |
+| T23 | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ⬜ |
 
 狀態符號：⬜ 待辦 · 🟡 進行中 · ✅ 完成 · ⛔ 卡住
 
@@ -68,7 +73,7 @@
 
 **T10 Obsidian 寫入與每日日誌** — 依摘要結果寫想法卡（同一對話覆寫同檔）、更新 `Ideas/_log/YYYY-MM-DD.md`（依對話實際更新時間歸日，第一行為各平台巡檢狀態）。驗收：給定 SQLite 狀態，產出的 Markdown 與預期快照一致。
 
-**T11 Mac Mini 部署** — ☁️ 寫 `docker-compose.yml`、`.env.example`、summarizer 的 launchd plist、部署步驟；🖥 George 照步驟部署。驗收：手機 App 聊一段，1 小時內出現想法卡。
+**T11 Mac Mini 部署** — ☁️ 寫 `docker-compose.yml`、`.env.example`、summarizer 與發佈器的 launchd plist、部署步驟（含在 Mac Mini clone AiMemory 並設定 push 權限）；🖥 George 照步驟部署。驗收：手機 App 聊一段，1 小時內 AiMemory 出現想法卡。
 
 **T12 Kimi 探查** — 🖥 確認 Kimi App 的對話是否出現在網頁歷史；在 DevTools 採樣歷史清單與單篇對話的回應。產出：fixtures 與一頁探查筆記。若沒有可用介面，記錄改走頁面文字退路。
 
@@ -85,3 +90,15 @@
 **T18 設定頁免程式新增平台** — 設定頁「新增平台」：填顯示名稱、網域、對話網址規則（取對話 ID 的正規式）。儲存時以 `chrome.permissions.request` 向使用者要該網域權限（manifest 加 `optional_host_permissions: ["https://*/*"]` 與 `scripting` 權限），再用 `chrome.scripting.registerContentScripts` 動態注入通用頁面擷取腳本（沿用 v1 邏輯：對話靜止 20 秒後取 `main` 純文字，臨時對話與 `#nolog` 略過）。送 collector 時 `capture="page"`、帶 `page_text` 與 `platform_name`。可刪除（解除注入、收回權限）。平台 id 由名稱產生並避開已註冊的 id。驗收：以假網域的單元測試涵蓋新增、刪除、權限被拒、id 衝突；無需修改 adapters 或 manifest.base.json 以外的核心程式即可新增平台。
 
 **T19 免程式平台實測** — 🖥 在設定頁新增 Gemini 或 Grok，聊一段後確認 collector 收到 `capture="page"` 的資料。
+
+## Phase 2b：寫入 AiMemory（2026-10-15 新增）
+
+資料存放改為 [AiMemory](https://github.com/pcpcchen-coder/AiMemory)（私人 repo）的 `ledger/`，規格見 `AiMemory/ledger/README.md`。這四張都不依賴 T01、T02，可先做。
+
+**T20 寫入路徑對齊** — `summarizer/obsidian.py` 改寫到 `ledger/conversations/YYYY/MM/` 與 `ledger/daily/YYYY/MM/`；環境變數 `IDEA_VAULT` 改名 `IDEA_MEMORY_REPO`（指向 AiMemory 的本機 clone）。驗收：快照測試改為新路徑；寫入範圍不超出 `ledger/`。
+
+**T21 專案清單改讀 AiMemory** — 專案代號＝`AiMemory/projects/*.md` 的檔名（排除 README），名稱＝檔案第一個標題；取代 `summarizer/projects.txt`。想法卡的 `projects` 存代號，歸不到的填 `other`。驗收：新增一個專案檔後，不改工具即可被歸類。
+
+**T22 衍生索引** — 產生 `ledger/platforms.md`、`ledger/monthly/YYYY-MM.md`、`ledger/ideas/index.md`、`ledger/ideas/by-project/<代號>.md`，格式依 ledger 規格。內容相同不重寫。驗收：快照測試；新平台、新專案自動出現。
+
+**T23 Git 發佈器** — 每輪：`git pull --rebase` → 寫入 → 若有變動則以 `Idea Ledger Bot` commit → push；push 被拒則重新 pull 再試一次，仍失敗留到下一輪。commit 前檢查變更只在 `ledger/` 內，否則中止且不 commit。驗收：以本機假遠端（bare repo）測試正常發佈、無變動不 commit、遠端有新 commit 時正確 rebase、使用者在遠端改了 `status` 後重寫仍保留、`ledger/` 外有變動時中止。

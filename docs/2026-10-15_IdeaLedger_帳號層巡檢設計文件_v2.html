@@ -34,7 +34,7 @@ ol li,ul li{margin:4px 0}
 <body>
 <main>
 <h1>Idea Ledger v2：帳號層巡檢設計</h1>
-<p class="sub">設計文件 v2.1 · 2026-10-15 · 取代 v1 的「各瀏覽器即時擷取」為主線；v2.1 新增平台開放擴充（第 11 節）</p>
+<p class="sub">設計文件 v2.1 · 2026-10-15 · 取代 v1 的「各瀏覽器即時擷取」為主線；v2.1 新增平台開放擴充（第 11 節）；v2.2 資料存放改為 AiMemory repo（第 13 節）</p>
 
 <div class="tldr">
 <strong>一句話：</strong>一台常開的電腦（建議 Mac Mini）上，用一個專用 Chrome 設定檔登入 ChatGPT、Claude、Kimi；擴充每 30 分鐘以你的登入狀態讀取各平台的對話歷史，把新增或有更新的對話送給本機 collector，由本地模型摘要成想法卡。
@@ -65,7 +65,7 @@ ol li,ul li{margin:4px 0}
 <span class="box">平台分頁中的 sweeper<br><small>同源讀取歷史</small></span><span class="arr">→</span>
 <span class="box">Collector<br><small>127.0.0.1:8787</small></span><span class="arr">→</span>
 <span class="box">Summarizer<br><small>LiteLLM → Ollama</small></span><span class="arr">→</span>
-<span class="box">Obsidian vault</span>
+<span class="box">AiMemory repo<br><small>ledger/，git 發佈</small></span>
 </div>
 
 <h3>2.1 為什麼讀取要在平台分頁裡執行</h3>
@@ -220,6 +220,16 @@ sweep_run(platform, started_at, finished_at, status, listed, fetched, error)
 <tr><td>M4</td><td>健康監控、首次回填、專案黑名單</td><td>連續一週無人看管正常運作</td></tr>
 <tr><td>M5</td><td>設定頁免程式新增平台</td><td>從設定頁加入 Gemini 或 Grok 並收到資料</td></tr>
 </table>
+<h2>13. 資料存放：AiMemory（v2.2 新增）</h2>
+<p>產出不再寫到 iCloud 上的 Obsidian vault，而是寫進私人 repo <code>pcpcchen-coder/AiMemory</code> 的 <code>ledger/</code>，當作資料庫使用。</p>
+<ul>
+<li><strong>分工：</strong>IdeaLedgerAI 只放工具；AiMemory 放資料。AiMemory 其他部分（profile、decisions、memory-pack、projects、inbox）由 George 人工維護，工具只能寫 <code>ledger/</code>。</li>
+<li><strong>路徑規格：</strong>以 <code>AiMemory/ledger/README.md</code> 為準：想法卡 <code>ledger/conversations/YYYY/MM/</code>、每日日誌 <code>ledger/daily/YYYY/MM/</code>、每月彙總 <code>ledger/monthly/</code>、想法索引 <code>ledger/ideas/</code>、平台總覽 <code>ledger/platforms.md</code>。</li>
+<li><strong>同步：</strong>Mac Mini 上保留 AiMemory 的 clone；每輪 pull → 寫入 → 有變動才 commit → push。想法卡的 <code>status</code> 與個人筆記由 George 擁有，重寫時保留。</li>
+<li><strong>隱私：</strong>對話全文只留在本機 collector 資料庫，repo 裡只有摘要、想法、決策與原對話連結。</li>
+<li><strong>銜接每月彙整：</strong><code>ledger/monthly/</code> 成為 AiMemory 每月 SOP 的輸入，由 George 決定哪些提升到 projects 或 decisions。</li>
+</ul>
+<p>對應工單：T20–T23（見 ROADMAP）。</p>
 </main>
 </body>
 </html>
