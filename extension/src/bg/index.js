@@ -3,6 +3,7 @@ import { registeredPlatforms } from "../adapters/index.js";
 import { badgeFor } from "../lib/status.js";
 import { createThrottle, realClock } from "../lib/throttle.js";
 import { createCollectorClient } from "./collector.js";
+import { createCustomManager } from "./custom.js";
 import { loadConfig, isPlatformEnabled } from "./config.js";
 import { createRpc } from "./rpc.js";
 import { runAllPlatforms, ROUND_DEFAULTS } from "./round.js";
@@ -12,6 +13,13 @@ import { createTabManager } from "./tabs.js";
 
 const storage = chrome.storage.local;
 const state = createStateStore(storage);
+// 自訂平台（設定頁免程式新增，T18）
+const custom = createCustomManager({
+  storage,
+  permissions: chrome.permissions,
+  scripting: chrome.scripting,
+  registered: registeredPlatforms(),
+});
 
 /** 擴充圖示徽章：全綠無字；有黃燈顯示黃色「!」；有紅燈顯示紅色「!」 */
 async function updateBadge() {
@@ -29,11 +37,13 @@ async function runAll(source) {
     return [];
   }
   if (source === "alarm" && !config.sweepEnabled) return [];
+  const collector = createCollectorClient({ baseUrl: config.collectorUrl, token: config.token });
+  await custom.drainQueue(collector).catch(() => {});
   const ctx = {
     state,
     tabs: createTabManager(chrome.tabs),
     rpc: createRpc(chrome.tabs),
-    collector: createCollectorClient({ baseUrl: config.collectorUrl, token: config.token }),
+    collector,
     clock: realClock,
     newThrottle: () => createThrottle(),
     config: { ...ROUND_DEFAULTS, sweeper: config.sweeper, projectBlacklist: config.projectBlacklist },
@@ -52,6 +62,7 @@ const scheduler = createScheduler({ alarms: chrome.alarms, clock: realClock, run
 async function setupAlarm() {
   const config = await loadConfig(storage);
   await scheduler.setup(config.intervalMinutes);
+  await custom.sync().catch((e) => console.warn("Idea Ledger：自訂平台注入對齊失敗", e));
   await updateBadge().catch(() => {});
 }
 
@@ -66,7 +77,27 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if (changes.config) updateBadge().catch(() => {});
 });
 
-chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+/** 頁面擷取（自訂平台）：平台一律以送出訊息的分頁網址判斷 */
+async function onPageCapture(sender, capture) {
+  const config = await loadConfig(storage);
+  if (!config.token) return { ok: false, reason: "尚未設定 collector token" };
+  const collector = createCollectorClient({ baseUrl: config.collectorUrl, token: config.token });
+  return custom.handleCapture(sender.tab?.url ?? sender.url, capture, {
+    collector,
+    now: new Date().toISOString(),
+    sweeper: config.sweeper,
+  });
+}
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type === "pageCaptureConfig") {
+    custom.findByUrl(sender.tab?.url ?? sender.url).then(sendResponse, () => sendResponse(null));
+    return true;
+  }
+  if (msg?.type === "pageCapture") {
+    onPageCapture(sender, msg.capture).then(sendResponse, (e) => sendResponse({ ok: false, reason: String(e) }));
+    return true;
+  }
   if (msg?.type === "sweepNow") {
     scheduler.trigger("manual").then(
       (results) => sendResponse({ ok: true, results }),

@@ -7,7 +7,8 @@
 - **🖥 等 George（關鍵路徑）：** T08 M1 本機首測（約 30 分鐘，依賴 T03 ✅、T07 ✅）：`make build` 後在 Chrome 載入 `extension/dist/`、啟動 collector、在設定頁填 token 後按「立即巡檢」。
 - **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘）；完成後雲端做 T25。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）。
-- **☁️ 雲端可做：** T18 設定頁免程式新增平台（依賴 T03 ✅、T07 ✅）；或預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
+- **🖥 等 George：** T19 免程式平台實測（約 20 分鐘，依賴 T18 ✅）：在設定頁新增 Gemini 或 Grok，聊一段後確認 collector 收到 `capture="page"` 的資料。
+- **☁️ 雲端可做：** 依賴都已滿足的 ☁️ 工單已做完（T14、T15 等 T11；T11 等 T08；T13 等 T12；T25 等 T24）。可預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
 
 ## 卡住／待決定
 
@@ -17,6 +18,14 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T18 設定頁免程式新增平台
+- 完成：設定頁填名稱、網域、對話網址規則即可新增平台（要網域權限、動態注入通用擷取腳本、存設定），可刪除；頁面靜止 20 秒擷取純文字送 collector（`capture="page"`），連不上時排隊補送。擴充測試 92 個全過，Playwright 實測設定頁新增／刪除。`docs/ADDING_A_PLATFORM.md` 方式二改為可用。
+- 學到：
+  - `chrome.permissions.request` 必須留在使用者點擊之內，所以輸入檢查改為同步、用設定頁已載入的清單，第一個 await 就是要權限。
+  - 頁面擷取的 `created_at` 若用擷取時間，想法卡檔名每次都會變；改存第一次擷取時間。
+  - 擷取腳本不信任自己回報的平台，背景程式一律以分頁網域找平台。
+- 剩餘：實機驗證（T19）。`#nolog` 在擷取端直接不送，所以「已收過的頁面擷取對話事後加上 #nolog」不會觸發 collector 刪除；需要時可改為送出由 collector 判斷。
 
 ### 2026-10-15 · T16 排除規則 UI
 - 完成：專案黑名單（設定頁多行文字框；巡檢時不讀單篇、不送 collector；略過數顯示在設定頁）。`#nolog` 確認由 collector 既有測試涵蓋。擴充測試 81 個全過，並以 Playwright 實測設定頁。

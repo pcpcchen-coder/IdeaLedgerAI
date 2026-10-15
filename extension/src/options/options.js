@@ -1,6 +1,7 @@
 // 設定頁：讀寫 chrome.storage 的設定、顯示各平台燈號、「立即巡檢」。顯示邏輯在 view.js。
 import { loadConfig } from "../bg/config.js";
-import { formToConfig, platformRows } from "./view.js";
+import { createCustomManager } from "../bg/custom.js";
+import { formToConfig, platformRows, shortTime } from "./view.js";
 
 const storage = chrome.storage.local;
 const $ = (id) => document.getElementById(id);
@@ -43,12 +44,52 @@ function renderPlatforms(rows) {
   );
 }
 
+let registered = []; // 內建 adapter（來自背景程式的 registeredPlatforms()）
+let customList = []; // 自訂平台（先載入，新增時同步檢查，權限請求才會留在點擊之內）
+const customManager = () =>
+  createCustomManager({ storage, permissions: chrome.permissions, scripting: chrome.scripting, registered });
+
+function renderCustom(list, status) {
+  $("customPlatforms").replaceChildren(
+    ...list.map((p) => {
+      const tr = document.createElement("tr");
+      for (const text of [p.name, p.hosts.join("、"), p.idPattern, shortTime(status[p.id]?.lastCaptureAt)]) {
+        const td = document.createElement("td");
+        td.textContent = text;
+        tr.append(td);
+      }
+      const err = status[p.id]?.lastError;
+      if (err) {
+        const div = document.createElement("div");
+        div.className = "error";
+        div.textContent = err;
+        tr.children[3].append(div);
+      }
+      const del = document.createElement("button");
+      del.type = "button";
+      del.textContent = "刪除";
+      del.addEventListener("click", async () => {
+        await customManager().remove(p.id);
+        $("customMessage").textContent = `已刪除 ${p.name}（已收集的資料保留在 collector）。`;
+        await refresh();
+      });
+      const td = document.createElement("td");
+      td.append(del);
+      tr.append(td);
+      return tr;
+    }),
+  );
+}
+
 async function refresh() {
   const config = await loadConfig(storage);
   const status = await chrome.runtime.sendMessage({ type: "getStatus" });
-  const platforms = status?.platforms ?? []; // 來自背景程式的 registeredPlatforms()
-  renderPlatforms(platformRows(platforms, status?.states ?? {}, config));
+  registered = status?.platforms ?? [];
+  renderPlatforms(platformRows(registered, status?.states ?? {}, config));
   $("sweepNow").disabled = Boolean(status?.running);
+  const manager = customManager();
+  customList = await manager.list();
+  renderCustom(customList, await manager.status());
 }
 
 async function load() {
@@ -73,6 +114,18 @@ $("form").addEventListener("submit", async (e) => {
   await refresh();
 });
 
+$("addCustom").addEventListener("click", async () => {
+  const input = { name: $("customName").value, host: $("customHost").value, idPattern: $("customPattern").value };
+  try {
+    const p = await customManager().add(input, customList);
+    for (const id of ["customName", "customHost", "customPattern"]) $(id).value = "";
+    $("customMessage").textContent = `已新增 ${p.name}（平台 id：${p.id}）。打開該平台的對話後，頁面靜止 20 秒就會擷取。`;
+  } catch (e) {
+    $("customMessage").textContent = e.message;
+  }
+  await refresh();
+});
+
 $("sweepNow").addEventListener("click", async () => {
   $("sweepNow").disabled = true;
   message("巡檢中…");
@@ -83,7 +136,7 @@ $("sweepNow").addEventListener("click", async () => {
 
 // 巡檢狀態寫在 storage，變動時即時更新表格
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === "local" && Object.keys(changes).some((k) => k.startsWith("platform:"))) refresh();
+  if (area === "local" && Object.keys(changes).some((k) => k.startsWith("platform:") || k === "pageStatus")) refresh();
 });
 
 load();

@@ -49,6 +49,20 @@
     <tbody id="platforms"></tbody>
   </table>
 
+  <h2>自訂平台（頁面擷取）</h2>
+  <p class="muted" style="margin:0 0 6px">不用寫程式就能加入其他 AI 平台。只會收集在這個瀏覽器打開過的對話（頁面靜止 20 秒後擷取文字）；手機 App 的對話要在電腦上打開一次才會收到。</p>
+  <table>
+    <thead><tr><th>平台</th><th>網域</th><th>對話網址規則</th><th>最後擷取</th><th></th></tr></thead>
+    <tbody id="customPlatforms"></tbody>
+  </table>
+  <div class="row" style="align-items:flex-end">
+    <div style="flex:1 1 140px"><label for="customName" style="margin-top:0">顯示名稱</label><input type="text" id="customName" placeholder="Grok"></div>
+    <div style="flex:1 1 160px"><label for="customHost" style="margin-top:0">網域</label><input type="text" id="customHost" placeholder="grok.com"></div>
+    <div style="flex:1 1 160px"><label for="customPattern" style="margin-top:0">對話網址規則</label><input type="text" id="customPattern" placeholder="/c/([\w-]+)"></div>
+    <button type="button" id="addCustom">新增平台</button>
+  </div>
+  <p id="customMessage" class="muted"></p>
+
   <div class="row">
     <button type="submit" class="primary">儲存</button>
     <button type="button" id="sweepNow">立即巡檢</button>
