@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| ⬜ 待辦 | 🖥 George | 30 分 | T00 |
+| 🟡 進行中（缺 D） | 🖥 George | 30 分 | T00 |
 
 ## 目標
 
@@ -66,10 +66,15 @@
 
 ## 驗收
 
-- [ ] 上表檔案（`project_list.json` 視情況）都已遮罩並提交
-- [ ] `NOTES.md` 回答上述 5 題
-- [ ] `grep -ri "@" extension/fixtures/chatgpt/*.json` 找不到你的 email
+- [x] 上表檔案已遮罩並提交（專案對話在主清單中，不需要 `project_list.json`）
+- [ ] `NOTES.md` 回答上述 5 題（第 3 題待補）
+- [x] `grep -ri "@" extension/fixtures/chatgpt/*.json` 找不到你的 email
 
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T01:` 開頭。若問題 3 的答案是「沒有」，在 PROGRESS「卡住／待決定」記下，這會影響整個設計。
+
+## 剩餘
+
+- 2026-10-15 已在 Claude 桌面 App 內建瀏覽器完成 A、B、C 的建立與採樣（見 `extension/fixtures/chatgpt/NOTES.md`）。
+- **D 手機 App 對話未做**：George 在手機 ChatGPT App 開一段「IdeaLedger 測試 D」來回 1 輪 → 到網頁版確認是否出現在歷史清單 → 補採單篇（`conversation_mobile.json`）並回答 NOTES 第 3 題。

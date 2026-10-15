@@ -1,0 +1,193 @@
+{
+  "uuid": "3b215612-3fc1-4002-ae59-a18c2b2a9a45",
+  "name": "三種水果列表",
+  "summary": "",
+  "model": "claude-opus-5-5",
+  "created_at": "2026-10-15T02:57:39.227119Z",
+  "updated_at": "2026-10-15T02:58:44.728797Z",
+  "settings": {
+    "enabled_bananagrams": true,
+    "enabled_web_search": true,
+    "enabled_mcp_tools": {
+      "（已省略：使用者連接的工具清單）": 70
+    },
+    "paprika_mode": "auto",
+    "enabled_monkeys_in_a_barrel": false,
+    "enabled_saffron": true,
+    "tool_search_mode": "auto",
+    "thinking_mode": "auto",
+    "effort_level": "high",
+    "chat_memory_mode": "enabled",
+    "preview_feature_uses_artifacts": true,
+    "enabled_turmeric": true
+  },
+  "is_starred": false,
+  "is_archived": false,
+  "is_temporary": false,
+  "workspace_upgraded": false,
+  "is_multiplayer": false,
+  "platform": "CLAUDE_AI",
+  "is_wiggle_enabled": false,
+  "effective_thinking_mode": "auto",
+  "current_leaf_message_uuid": "54016107-d065-4ee8-b4e1-4d08c558c0e0",
+  "chat_messages": [
+    {
+      "uuid": "4c3940a4-1bd3-48bf-946d-c2790c9c7c52",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:57:39.389994Z",
+          "stop_timestamp": "2026-10-15T02:57:39.389994Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 B：請列出三種水果。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 0,
+      "created_at": "2026-10-15T02:57:39.389994Z",
+      "updated_at": "2026-10-15T02:57:39.838988Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+    },
+    {
+      "uuid": "46d7886c-ba01-4ba5-b284-961ad59d2fbf",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:57:40.710125Z",
+          "stop_timestamp": "2026-10-15T02:57:40.710125Z",
+          "type": "text",
+          "text": "1. 蘋果\n2. 香蕉\n3. 芒果",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 1,
+      "created_at": "2026-10-15T02:57:40.710125Z",
+      "updated_at": "2026-10-15T02:57:40.710125Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "4c3940a4-1bd3-48bf-946d-c2790c9c7c52"
+    },
+    {
+      "uuid": "1c891dc7-7748-4f81-a45e-422cd9e41aa8",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:57:55.245283Z",
+          "stop_timestamp": "2026-10-15T02:57:55.245283Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 B：再列三種蔬菜。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 2,
+      "created_at": "2026-10-15T02:57:55.245283Z",
+      "updated_at": "2026-10-15T02:57:55.245283Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "46d7886c-ba01-4ba5-b284-961ad59d2fbf"
+    },
+    {
+      "uuid": "d1e4cb28-2e73-47c4-8818-fa11154779b3",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:57:56.563758Z",
+          "stop_timestamp": "2026-10-15T02:57:56.563758Z",
+          "type": "text",
+          "text": "1. 高麗菜\n2. 紅蘿蔔\n3. 菠菜",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 3,
+      "created_at": "2026-10-15T02:57:56.563758Z",
+      "updated_at": "2026-10-15T02:57:56.563758Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "1c891dc7-7748-4f81-a45e-422cd9e41aa8"
+    },
+    {
+      "uuid": "568835a3-dc36-4051-b40e-3910081cfe8b",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:58:10.939271Z",
+          "stop_timestamp": "2026-10-15T02:58:10.939271Z",
+          "type": "text",
+          "text": "1. 高麗菜\n2. 紅蘿蔔\n3. 菠菜",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 4,
+      "created_at": "2026-10-15T02:58:10.939271Z",
+      "updated_at": "2026-10-15T02:58:10.939271Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "1c891dc7-7748-4f81-a45e-422cd9e41aa8"
+    },
+    {
+      "uuid": "01cf1c0d-8567-4495-876d-907d881a7097",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:58:43.488857Z",
+          "stop_timestamp": "2026-10-15T02:58:43.488857Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 B（編輯版）：再列三種花。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 5,
+      "created_at": "2026-10-15T02:58:43.488857Z",
+      "updated_at": "2026-10-15T02:58:43.488857Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "46d7886c-ba01-4ba5-b284-961ad59d2fbf"
+    },
+    {
+      "uuid": "54016107-d065-4ee8-b4e1-4d08c558c0e0",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:58:44.728797Z",
+          "stop_timestamp": "2026-10-15T02:58:44.728797Z",
+          "type": "text",
+          "text": "1. 玫瑰\n2. 向日葵\n3. 櫻花",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 6,
+      "created_at": "2026-10-15T02:58:44.728797Z",
+      "updated_at": "2026-10-15T02:58:44.728797Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "01cf1c0d-8567-4495-876d-907d881a7097"
+    }
+  ]
+}

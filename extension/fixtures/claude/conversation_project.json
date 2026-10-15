@@ -1,0 +1,126 @@
+{
+  "uuid": "3791b027-8d83-4e71-9598-60cedf1126fc",
+  "name": "IdeaLedger 測試 C",
+  "summary": "",
+  "model": "claude-opus-5-5",
+  "created_at": "2026-10-15T02:59:39.867471Z",
+  "updated_at": "2026-10-15T03:00:19.232588Z",
+  "settings": {
+    "enabled_bananagrams": true,
+    "enabled_web_search": true,
+    "enabled_mcp_tools": {
+      "（已省略：使用者連接的工具清單）": 70
+    },
+    "paprika_mode": "auto",
+    "enabled_monkeys_in_a_barrel": false,
+    "enabled_saffron": true,
+    "tool_search_mode": "auto",
+    "thinking_mode": "auto",
+    "effort_level": "high",
+    "chat_memory_mode": "enabled",
+    "preview_feature_uses_artifacts": true,
+    "enabled_turmeric": true
+  },
+  "is_starred": false,
+  "is_archived": false,
+  "is_temporary": false,
+  "project_uuid": "01a13d2c-ba34-737e-9f8d-b4b555f7a468",
+  "workspace_upgraded": false,
+  "is_multiplayer": false,
+  "platform": "CLAUDE_AI",
+  "is_wiggle_enabled": false,
+  "effective_thinking_mode": "auto",
+  "current_leaf_message_uuid": "3c18905d-43b4-4783-935d-6544cf389984",
+  "chat_messages": [
+    {
+      "uuid": "56f4636a-1c81-442e-96aa-025c27431f04",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:59:39.990724Z",
+          "stop_timestamp": "2026-10-15T02:59:39.990724Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 C：這是專案內的測試對話，請回「收到 C1」，不用做其他事。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 0,
+      "created_at": "2026-10-15T02:59:39.990724Z",
+      "updated_at": "2026-10-15T02:59:40.389763Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+    },
+    {
+      "uuid": "5978b38d-95af-4312-b29c-e0daefb93078",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:59:41.350457Z",
+          "stop_timestamp": "2026-10-15T02:59:41.350457Z",
+          "type": "text",
+          "text": "收到 C1",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 1,
+      "created_at": "2026-10-15T02:59:41.350457Z",
+      "updated_at": "2026-10-15T02:59:41.350457Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "56f4636a-1c81-442e-96aa-025c27431f04"
+    },
+    {
+      "uuid": "770f99df-795d-42e3-a12b-2e43a5140c7f",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T03:00:17.930541Z",
+          "stop_timestamp": "2026-10-15T03:00:17.930541Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 C：請回「收到 C2」。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 2,
+      "created_at": "2026-10-15T03:00:17.930541Z",
+      "updated_at": "2026-10-15T03:00:17.930541Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "5978b38d-95af-4312-b29c-e0daefb93078"
+    },
+    {
+      "uuid": "3c18905d-43b4-4783-935d-6544cf389984",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T03:00:19.232588Z",
+          "stop_timestamp": "2026-10-15T03:00:19.232588Z",
+          "type": "text",
+          "text": "收到 C2",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 3,
+      "created_at": "2026-10-15T03:00:19.232588Z",
+      "updated_at": "2026-10-15T03:00:19.232588Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "770f99df-795d-42e3-a12b-2e43a5140c7f"
+    }
+  ]
+}

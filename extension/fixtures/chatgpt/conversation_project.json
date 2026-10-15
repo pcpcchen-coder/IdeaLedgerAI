@@ -1,0 +1,298 @@
+{
+  "title": "回覆測試 C",
+  "create_time": 1792033590.286256,
+  "update_time": 1792033605.590466,
+  "moderation_results": [],
+  "plugin_ids": null,
+  "conversation_id": "6ad04335-ce98-83ec-910b-0046d770b040",
+  "conversation_template_id": "g-p-6aceca0463ac8191af88a517b0d2d3eb",
+  "gizmo_id": "g-p-6aceca0463ac8191af88a517b0d2d3eb",
+  "gizmo_type": "snorlax",
+  "is_archived": false,
+  "is_starred": null,
+  "safe_urls": [
+    "ID_2",
+    "ID_1",
+    "https://www.openai.com",
+    "ID_3"
+  ],
+  "blocked_urls": [],
+  "default_model_slug": "gpt-6-thinking",
+  "atlas_mode_enabled": null,
+  "conversation_origin": null,
+  "is_read_only": null,
+  "voice": null,
+  "async_status": null,
+  "disabled_tool_ids": [],
+  "is_temporary_chat": false,
+  "is_do_not_remember": false,
+  "memory_scope": "global_enabled",
+  "context_scopes": null,
+  "sugar_item_id": null,
+  "sugar_item_visible": false,
+  "pinned_time": null,
+  "is_study_mode": false,
+  "owner": null,
+  "sectioned_conversation": null,
+  "mapping": {
+    "client-created-root": {
+      "id": "client-created-root",
+      "message": null,
+      "parent": null,
+      "children": [
+        "d109db1e-81be-451a-b705-2d8aa4a4081a"
+      ]
+    },
+    "d109db1e-81be-451a-b705-2d8aa4a4081a": {
+      "id": "d109db1e-81be-451a-b705-2d8aa4a4081a",
+      "message": {
+        "id": "d109db1e-81be-451a-b705-2d8aa4a4081a",
+        "author": {
+          "role": "user",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033589.091,
+        "update_time": 1792033593.761377,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "IdeaLedger 測試 C：這是專案內的測試對話，請回「收到 C1」，不用做其他事。"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": null,
+        "weight": 1,
+        "metadata": {
+          "request_id": "d28fdb4a-3d45-46fb-824d-24378e295359",
+          "message_source": null,
+          "turn_exchange_id": "a0d5298b-18fe-4df9-af67-05edeb52761f",
+          "working_turn_id": "a0d5298b-18fe-4df9-af67-05edeb52761f",
+          "can_save": false
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "client-created-root",
+      "children": [
+        "27ce7166-9636-4695-9ab0-5e95a4ea24c1"
+      ]
+    },
+    "27ce7166-9636-4695-9ab0-5e95a4ea24c1": {
+      "id": "27ce7166-9636-4695-9ab0-5e95a4ea24c1",
+      "message": {
+        "id": "27ce7166-9636-4695-9ab0-5e95a4ea24c1",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033591.666431,
+        "update_time": 1792033593.62969,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "收到 C1"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": true,
+        "weight": 1,
+        "metadata": {
+          "finish_details": {
+            "type": "stop",
+            "stop_tokens": "[REDACTED]"
+          },
+          "is_complete": true,
+          "citations": [],
+          "content_references": [],
+          "model_dil_v2": {
+            "code": "DIL.render(__dil.jsx(()=>{const __dilConstants=DIL.useConstants();const __dilModelDataBindings=DIL.useAppData((appData)=>appData.opGenui?.modelDataBindings??{});return __dil.jsx(\"text\",null,__dilConstants[\"0\"]);},{\"key\":\"body:0\"}));",
+            "constants": {
+              "0": "收到 C1"
+            },
+            "fallbackMarkdown": "收到 C1",
+            "fallbackMarkdownVersion": 1,
+            "appData": {
+              "opGenui": {
+                "componentResults": {},
+                "interactionSurface": "mainline",
+                "modelDataBindings": {}
+              }
+            }
+          },
+          "view_state": {},
+          "resolved_model_slug": "gpt-6",
+          "gizmo_id": "g-p-6aceca0463ac8191af88a517b0d2d3eb",
+          "search_result_groups": [],
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": false,
+          "request_id": "d28fdb4a-3d45-46fb-824d-24378e295359",
+          "message_type": "next",
+          "turn_exchange_id": "a0d5298b-18fe-4df9-af67-05edeb52761f",
+          "working_turn_id": "a0d5298b-18fe-4df9-af67-05edeb52761f",
+          "model_slug": "gpt-6",
+          "requested_model_slug": "gpt-6",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": true,
+          "parent_id": "3c184906-e184-4e2b-8111-412e62b09fc8",
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": "final"
+      },
+      "parent": "d109db1e-81be-451a-b705-2d8aa4a4081a",
+      "children": [
+        "76b7ddb7-52e4-4263-ab22-5eb7b914cbaa"
+      ]
+    },
+    "76b7ddb7-52e4-4263-ab22-5eb7b914cbaa": {
+      "id": "76b7ddb7-52e4-4263-ab22-5eb7b914cbaa",
+      "message": {
+        "id": "76b7ddb7-52e4-4263-ab22-5eb7b914cbaa",
+        "author": {
+          "role": "user",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033599.825,
+        "update_time": 1792033605.049819,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "IdeaLedger 測試 C：請回「收到 C2」。"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": null,
+        "weight": 1,
+        "metadata": {
+          "request_id": "8ab4ec76-54ff-466b-8dc3-134fc8a359a7",
+          "message_source": null,
+          "turn_exchange_id": "eba5ec26-c25a-4604-b766-773efd444b2e",
+          "working_turn_id": "eba5ec26-c25a-4604-b766-773efd444b2e",
+          "can_save": false
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "27ce7166-9636-4695-9ab0-5e95a4ea24c1",
+      "children": [
+        "2a0e4403-6b29-4156-bebe-d4a655423efb"
+      ]
+    },
+    "2a0e4403-6b29-4156-bebe-d4a655423efb": {
+      "id": "2a0e4403-6b29-4156-bebe-d4a655423efb",
+      "message": {
+        "id": "2a0e4403-6b29-4156-bebe-d4a655423efb",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033603.086906,
+        "update_time": 1792033603.086906,
+        "content": {
+          "content_type": "reasoning_recap",
+          "content": "思考兩秒鐘"
+        },
+        "status": "finished_successfully",
+        "end_turn": false,
+        "weight": 1,
+        "metadata": {
+          "reasoning_status": "reasoning_ended",
+          "finished_duration_sec": 1,
+          "reasoning_start_time": 1792033601.8261147,
+          "reasoning_end_time": 1792033603.0804555,
+          "reasoning_recap_type": "hide_all",
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": false,
+          "request_id": "8ab4ec76-54ff-466b-8dc3-134fc8a359a7",
+          "message_type": "next",
+          "turn_exchange_id": "eba5ec26-c25a-4604-b766-773efd444b2e",
+          "working_turn_id": "eba5ec26-c25a-4604-b766-773efd444b2e",
+          "resolved_model_slug": "gpt-6-thinking",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": false,
+          "parent_id": "aa43fbca-1774-46ff-a5ac-14688cea1f1a",
+          "hide_inline_actions": true,
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "76b7ddb7-52e4-4263-ab22-5eb7b914cbaa",
+      "children": [
+        "adf13756-f244-4abc-aae7-d153e9120a1f"
+      ]
+    },
+    "adf13756-f244-4abc-aae7-d153e9120a1f": {
+      "id": "adf13756-f244-4abc-aae7-d153e9120a1f",
+      "message": {
+        "id": "adf13756-f244-4abc-aae7-d153e9120a1f",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033603.287544,
+        "update_time": 1792033604.91609,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "收到 C2"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": true,
+        "weight": 1,
+        "metadata": {
+          "finish_details": {
+            "type": "stop",
+            "stop_tokens": "[REDACTED]"
+          },
+          "is_complete": true,
+          "citations": [],
+          "content_references": [],
+          "model_dil_v2": {
+            "code": "DIL.render(__dil.jsx(()=>{const __dilConstants=DIL.useConstants();const __dilModelDataBindings=DIL.useAppData((appData)=>appData.opGenui?.modelDataBindings??{});return __dil.jsx(\"text\",null,__dilConstants[\"0\"]);},{\"key\":\"body:0\"}));",
+            "constants": {
+              "0": "收到 C2"
+            },
+            "fallbackMarkdown": "收到 C2",
+            "fallbackMarkdownVersion": 1,
+            "appData": {
+              "opGenui": {
+                "componentResults": {},
+                "interactionSurface": "mainline",
+                "modelDataBindings": {}
+              }
+            }
+          },
+          "view_state": {},
+          "resolved_model_slug": "gpt-6-thinking",
+          "gizmo_id": "g-p-6aceca0463ac8191af88a517b0d2d3eb",
+          "search_result_groups": [],
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": false,
+          "request_id": "8ab4ec76-54ff-466b-8dc3-134fc8a359a7",
+          "message_type": "next",
+          "turn_exchange_id": "eba5ec26-c25a-4604-b766-773efd444b2e",
+          "working_turn_id": "eba5ec26-c25a-4604-b766-773efd444b2e",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": true,
+          "parent_id": "2a0e4403-6b29-4156-bebe-d4a655423efb",
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": "final"
+      },
+      "parent": "2a0e4403-6b29-4156-bebe-d4a655423efb",
+      "children": []
+    }
+  },
+  "current_node": "adf13756-f244-4abc-aae7-d153e9120a1f",
+  "context_truncation_continuation": null
+}

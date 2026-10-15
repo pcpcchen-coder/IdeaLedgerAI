@@ -1,0 +1,185 @@
+{
+  "uuid": "0c9aaaff-0eaa-4de1-b593-1ccaac18b464",
+  "name": "台北 101 介紹",
+  "summary": "",
+  "model": "claude-opus-5-5",
+  "created_at": "2026-10-15T02:56:18.648010Z",
+  "updated_at": "2026-10-15T02:56:47.920277Z",
+  "settings": {
+    "enabled_bananagrams": true,
+    "enabled_web_search": true,
+    "enabled_mcp_tools": {
+      "（已省略：使用者連接的工具清單）": 70
+    },
+    "paprika_mode": "auto",
+    "enabled_monkeys_in_a_barrel": false,
+    "enabled_saffron": true,
+    "tool_search_mode": "auto",
+    "thinking_mode": "auto",
+    "effort_level": "high",
+    "chat_memory_mode": "enabled",
+    "preview_feature_uses_artifacts": true,
+    "enabled_turmeric": true
+  },
+  "is_starred": false,
+  "is_archived": false,
+  "is_temporary": false,
+  "workspace_upgraded": false,
+  "is_multiplayer": false,
+  "platform": "CLAUDE_AI",
+  "is_wiggle_enabled": false,
+  "effective_thinking_mode": "auto",
+  "current_leaf_message_uuid": "b274c27c-a239-4b2e-9a8a-fe8fea0763b7",
+  "chat_messages": [
+    {
+      "uuid": "fe4b88a0-980f-490c-a9c0-f89a75216fd1",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:56:18.822882Z",
+          "stop_timestamp": "2026-10-15T02:56:18.822882Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 A：請用一句話介紹台北 101。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 0,
+      "created_at": "2026-10-15T02:56:18.822882Z",
+      "updated_at": "2026-10-15T02:56:19.080648Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+    },
+    {
+      "uuid": "493d3f1c-da67-4223-850b-58b05008bd07",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:56:19.358456Z",
+          "stop_timestamp": "2026-10-15T02:56:20.311003Z",
+          "type": "thinking",
+          "thinking": "",
+          "summaries": [
+            {
+              "summary": "提供台北101的高度資訊。"
+            }
+          ],
+          "cut_off": false,
+          "truncated": false,
+          "hidden": false,
+          "thinking_hidden": true
+        },
+        {
+          "start_timestamp": "2026-10-15T02:56:21.565730Z",
+          "stop_timestamp": "2026-10-15T02:56:21.565730Z",
+          "type": "text",
+          "text": "台北 101 是位於台北信義區、高 508 公尺的地標摩天大樓，2004 年落成，曾是世界最高建築（至 2010 年），以竹節造型與巨型風阻尼球聞名。",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 1,
+      "created_at": "2026-10-15T02:56:21.565730Z",
+      "updated_at": "2026-10-15T02:56:21.565730Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "fe4b88a0-980f-490c-a9c0-f89a75216fd1"
+    },
+    {
+      "uuid": "904eab10-4de6-461f-bdcf-d8f6e6ae88ac",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:56:39.134465Z",
+          "stop_timestamp": "2026-10-15T02:56:39.134465Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 A：它有幾層樓？",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 2,
+      "created_at": "2026-10-15T02:56:39.134465Z",
+      "updated_at": "2026-10-15T02:56:39.134465Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "493d3f1c-da67-4223-850b-58b05008bd07"
+    },
+    {
+      "uuid": "95689dcc-cac9-46f0-b0c5-f6551926743d",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:56:40.509986Z",
+          "stop_timestamp": "2026-10-15T02:56:40.509986Z",
+          "type": "text",
+          "text": "地上 101 層，另有地下 5 層。",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 3,
+      "created_at": "2026-10-15T02:56:40.509986Z",
+      "updated_at": "2026-10-15T02:56:40.509986Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "904eab10-4de6-461f-bdcf-d8f6e6ae88ac"
+    },
+    {
+      "uuid": "4b820264-7382-4436-b55d-d1d76c39810a",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:56:46.819977Z",
+          "stop_timestamp": "2026-10-15T02:56:46.819977Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 A：謝謝，請回「收到」就好。",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 4,
+      "created_at": "2026-10-15T02:56:46.819977Z",
+      "updated_at": "2026-10-15T02:56:46.819977Z",
+      "truncated": false,
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "95689dcc-cac9-46f0-b0c5-f6551926743d"
+    },
+    {
+      "uuid": "b274c27c-a239-4b2e-9a8a-fe8fea0763b7",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T02:56:47.920277Z",
+          "stop_timestamp": "2026-10-15T02:56:47.920277Z",
+          "type": "text",
+          "text": "收到",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 5,
+      "created_at": "2026-10-15T02:56:47.920277Z",
+      "updated_at": "2026-10-15T02:56:47.920277Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "4b820264-7382-4436-b55d-d1d76c39810a"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "uuid": "c4f95a94-1376-4be0-9685-8d5c917e82a0",
+  "name": "IdeaLedger 測試 E 附件行數",
+  "summary": "",
+  "model": "claude-opus-5-5",
+  "created_at": "2026-10-15T03:01:59.227692Z",
+  "updated_at": "2026-10-15T03:02:01.224731Z",
+  "settings": {
+    "enabled_bananagrams": true,
+    "enabled_web_search": true,
+    "enabled_mcp_tools": {
+      "（已省略：使用者連接的工具清單）": 70
+    },
+    "paprika_mode": "auto",
+    "enabled_monkeys_in_a_barrel": false,
+    "enabled_saffron": true,
+    "tool_search_mode": "auto",
+    "thinking_mode": "auto",
+    "effort_level": "high",
+    "chat_memory_mode": "enabled",
+    "preview_feature_uses_artifacts": true,
+    "enabled_turmeric": true
+  },
+  "is_starred": false,
+  "is_archived": false,
+  "is_temporary": false,
+  "workspace_upgraded": false,
+  "is_multiplayer": false,
+  "platform": "CLAUDE_AI",
+  "is_wiggle_enabled": false,
+  "effective_thinking_mode": "auto",
+  "current_leaf_message_uuid": "23ff69cf-4010-4abd-9a77-b56d97e42bcf",
+  "chat_messages": [
+    {
+      "uuid": "a14c1daa-9558-452a-86c3-ddd815ac42e6",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T03:01:59.594163Z",
+          "stop_timestamp": "2026-10-15T03:01:59.594163Z",
+          "type": "text",
+          "text": "IdeaLedger 測試 E：附件有幾行？",
+          "citations": []
+        }
+      ],
+      "sender": "human",
+      "index": 0,
+      "created_at": "2026-10-15T03:01:59.594163Z",
+      "updated_at": "2026-10-15T03:01:59.743962Z",
+      "truncated": false,
+      "attachments": [
+        {
+          "id": "2a8c1afa-749f-536a-804c-42b583aa966b",
+          "file_name": "idealedger_test_E.txt",
+          "file_size": 85,
+          "file_type": "text/plain",
+          "extracted_content": "IdeaLedger 測試附件：這是一個無敏感資訊的小文字檔。\n第二行。\n",
+          "created_at": "2026-10-15T03:01:59.488576Z"
+        }
+      ],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "00000000-0000-4000-8000-000000000000"
+    },
+    {
+      "uuid": "23ff69cf-4010-4abd-9a77-b56d97e42bcf",
+      "text": "",
+      "content": [
+        {
+          "start_timestamp": "2026-10-15T03:02:01.224731Z",
+          "stop_timestamp": "2026-10-15T03:02:01.224731Z",
+          "type": "text",
+          "text": "附件共有 **2 行**：\n\n1. IdeaLedger 測試附件：這是一個無敏感資訊的小文字檔。\n2. 第二行。",
+          "citations": []
+        }
+      ],
+      "sender": "assistant",
+      "index": 1,
+      "created_at": "2026-10-15T03:02:01.224731Z",
+      "updated_at": "2026-10-15T03:02:01.224731Z",
+      "truncated": false,
+      "stop_reason": "end_turn",
+      "attachments": [],
+      "files": [],
+      "sync_sources": [],
+      "parent_message_uuid": "a14c1daa-9558-452a-86c3-ddd815ac42e6"
+    }
+  ]
+}

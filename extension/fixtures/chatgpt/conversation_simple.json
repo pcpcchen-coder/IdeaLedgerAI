@@ -1,0 +1,492 @@
+{
+  "title": "介紹台北101",
+  "create_time": 1792033376.938742,
+  "update_time": 1792033431.521274,
+  "moderation_results": [],
+  "plugin_ids": null,
+  "conversation_id": "6ad0425f-e738-83ec-967f-4dc358431e89",
+  "conversation_template_id": null,
+  "gizmo_id": null,
+  "gizmo_type": null,
+  "is_archived": false,
+  "is_starred": null,
+  "safe_urls": [
+    "ID_3",
+    "ID_1",
+    "ID_2",
+    "https://www.openai.com"
+  ],
+  "blocked_urls": [],
+  "default_model_slug": "gpt-6-thinking",
+  "atlas_mode_enabled": null,
+  "conversation_origin": null,
+  "is_read_only": null,
+  "voice": null,
+  "async_status": null,
+  "disabled_tool_ids": [],
+  "is_temporary_chat": false,
+  "is_do_not_remember": false,
+  "memory_scope": "global_enabled",
+  "context_scopes": null,
+  "sugar_item_id": null,
+  "sugar_item_visible": false,
+  "pinned_time": null,
+  "is_study_mode": false,
+  "owner": null,
+  "sectioned_conversation": null,
+  "mapping": {
+    "client-created-root": {
+      "id": "client-created-root",
+      "message": null,
+      "parent": null,
+      "children": [
+        "4ab5b879-4607-4c41-bf8e-f1023078cf29"
+      ]
+    },
+    "4ab5b879-4607-4c41-bf8e-f1023078cf29": {
+      "id": "4ab5b879-4607-4c41-bf8e-f1023078cf29",
+      "message": {
+        "id": "4ab5b879-4607-4c41-bf8e-f1023078cf29",
+        "author": {
+          "role": "user",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033368.749,
+        "update_time": 1792033384.929218,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "IdeaLedger 測試 A：請用一句話介紹台北 101。"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": null,
+        "weight": 1,
+        "metadata": {
+          "request_id": "c5e6f900-56fa-4bc7-8af4-df165c8ae44e",
+          "message_source": null,
+          "turn_exchange_id": "f1eeff21-ead2-4ddf-af8a-13b43e4f80ef",
+          "working_turn_id": "f1eeff21-ead2-4ddf-af8a-13b43e4f80ef",
+          "can_save": false
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "client-created-root",
+      "children": [
+        "12c7a3c4-708c-49d7-9424-db6e747fa56e"
+      ]
+    },
+    "12c7a3c4-708c-49d7-9424-db6e747fa56e": {
+      "id": "12c7a3c4-708c-49d7-9424-db6e747fa56e",
+      "message": {
+        "id": "12c7a3c4-708c-49d7-9424-db6e747fa56e",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033380.099853,
+        "update_time": 1792033380.099853,
+        "content": {
+          "content_type": "reasoning_recap",
+          "content": "思考兩秒鐘"
+        },
+        "status": "finished_successfully",
+        "end_turn": false,
+        "weight": 1,
+        "metadata": {
+          "reasoning_status": "reasoning_ended",
+          "finished_duration_sec": 1,
+          "reasoning_start_time": 1792033378.5091603,
+          "reasoning_end_time": 1792033380.0768788,
+          "reasoning_recap_type": "hide_all",
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": false,
+          "request_id": "c5e6f900-56fa-4bc7-8af4-df165c8ae44e",
+          "message_type": "next",
+          "turn_exchange_id": "f1eeff21-ead2-4ddf-af8a-13b43e4f80ef",
+          "working_turn_id": "f1eeff21-ead2-4ddf-af8a-13b43e4f80ef",
+          "resolved_model_slug": "gpt-6-thinking",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": false,
+          "parent_id": "8e240017-66a6-44aa-aac8-69c0c55821a1",
+          "hide_inline_actions": true,
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "4ab5b879-4607-4c41-bf8e-f1023078cf29",
+      "children": [
+        "b08fe0d9-faf8-44c4-805f-57bb3050f67f"
+      ]
+    },
+    "b08fe0d9-faf8-44c4-805f-57bb3050f67f": {
+      "id": "b08fe0d9-faf8-44c4-805f-57bb3050f67f",
+      "message": {
+        "id": "b08fe0d9-faf8-44c4-805f-57bb3050f67f",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033380.365554,
+        "update_time": 1792033384.654031,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "台北 101 是位於台灣台北市信義區的地標性摩天大樓，高達 508 公尺，以融合傳統東方文化與現代建築科技的設計聞名，曾是世界第一高樓。"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": true,
+        "weight": 1,
+        "metadata": {
+          "finish_details": {
+            "type": "stop",
+            "stop_tokens": "[REDACTED]"
+          },
+          "is_complete": true,
+          "citations": [],
+          "content_references": [],
+          "model_dil_v2": {
+            "code": "DIL.render(__dil.jsx(()=>{const __dilConstants=DIL.useConstants();const __dilModelDataBindings=DIL.useAppData((appData)=>appData.opGenui?.modelDataBindings??{});return __dil.jsx(\"text\",null,__dilConstants[\"0\"]);},{\"key\":\"body:0\"}));",
+            "constants": {
+              "0": "台北 101 是位於台灣台北市信義區的地標性摩天大樓，高達 508 公尺，以融合傳統東方文化與現代建築科技的設計聞名，曾是世界第一高樓。"
+            },
+            "fallbackMarkdown": "台北 101 是位於台灣台北市信義區的地標性摩天大樓，高達 508 公尺，以融合傳統東方文化與現代建築科技的設計聞名，曾是世界第一高樓。",
+            "fallbackMarkdownVersion": 1,
+            "appData": {
+              "opGenui": {
+                "componentResults": {},
+                "interactionSurface": "mainline",
+                "modelDataBindings": {}
+              }
+            }
+          },
+          "view_state": {},
+          "resolved_model_slug": "gpt-6-thinking",
+          "search_result_groups": [],
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": true,
+          "request_id": "c5e6f900-56fa-4bc7-8af4-df165c8ae44e",
+          "message_type": "next",
+          "turn_exchange_id": "f1eeff21-ead2-4ddf-af8a-13b43e4f80ef",
+          "working_turn_id": "f1eeff21-ead2-4ddf-af8a-13b43e4f80ef",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": true,
+          "parent_id": "12c7a3c4-708c-49d7-9424-db6e747fa56e",
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": "final"
+      },
+      "parent": "12c7a3c4-708c-49d7-9424-db6e747fa56e",
+      "children": [
+        "c78cc278-5d0b-43ce-9326-bb70f1dd1b60"
+      ]
+    },
+    "c78cc278-5d0b-43ce-9326-bb70f1dd1b60": {
+      "id": "c78cc278-5d0b-43ce-9326-bb70f1dd1b60",
+      "message": {
+        "id": "c78cc278-5d0b-43ce-9326-bb70f1dd1b60",
+        "author": {
+          "role": "user",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033408.025,
+        "update_time": 1792033415.28701,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "IdeaLedger 測試 A：它有幾層樓？"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": null,
+        "weight": 1,
+        "metadata": {
+          "request_id": "5556922d-ef7f-4182-9852-496094b08c69",
+          "message_source": null,
+          "turn_exchange_id": "049fdd3a-6d88-4681-ab0e-6b51f78261c7",
+          "working_turn_id": "049fdd3a-6d88-4681-ab0e-6b51f78261c7",
+          "can_save": false
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "b08fe0d9-faf8-44c4-805f-57bb3050f67f",
+      "children": [
+        "db0f9f2a-9673-4d9d-b6bf-defe3b9fe060"
+      ]
+    },
+    "db0f9f2a-9673-4d9d-b6bf-defe3b9fe060": {
+      "id": "db0f9f2a-9673-4d9d-b6bf-defe3b9fe060",
+      "message": {
+        "id": "db0f9f2a-9673-4d9d-b6bf-defe3b9fe060",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033411.687359,
+        "update_time": 1792033411.687359,
+        "content": {
+          "content_type": "reasoning_recap",
+          "content": "思考兩秒鐘"
+        },
+        "status": "finished_successfully",
+        "end_turn": false,
+        "weight": 1,
+        "metadata": {
+          "reasoning_status": "reasoning_ended",
+          "finished_duration_sec": 2,
+          "reasoning_start_time": 1792033409.240444,
+          "reasoning_end_time": 1792033411.6775653,
+          "reasoning_recap_type": "hide_all",
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": false,
+          "request_id": "5556922d-ef7f-4182-9852-496094b08c69",
+          "message_type": "next",
+          "turn_exchange_id": "049fdd3a-6d88-4681-ab0e-6b51f78261c7",
+          "working_turn_id": "049fdd3a-6d88-4681-ab0e-6b51f78261c7",
+          "resolved_model_slug": "gpt-6-thinking",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": false,
+          "parent_id": "acbc3bd9-2754-4dd0-924c-05ada79d175b",
+          "hide_inline_actions": true,
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "c78cc278-5d0b-43ce-9326-bb70f1dd1b60",
+      "children": [
+        "bd520ab0-8235-4682-87e5-1d708a4c2bc2"
+      ]
+    },
+    "bd520ab0-8235-4682-87e5-1d708a4c2bc2": {
+      "id": "bd520ab0-8235-4682-87e5-1d708a4c2bc2",
+      "message": {
+        "id": "bd520ab0-8235-4682-87e5-1d708a4c2bc2",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033411.969107,
+        "update_time": 1792033414.200023,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "台北 101 共有 **地上 101 層、地下 5 層**，合計 **106 層**。"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": true,
+        "weight": 1,
+        "metadata": {
+          "finish_details": {
+            "type": "stop",
+            "stop_tokens": "[REDACTED]"
+          },
+          "is_complete": true,
+          "citations": [],
+          "content_references": [],
+          "model_dil_v2": {
+            "code": "DIL.render(__dil.jsx(()=>{const __dilConstants=DIL.useConstants();const __dilModelDataBindings=DIL.useAppData((appData)=>appData.opGenui?.modelDataBindings??{});return __dil.jsx(\"text\",null,__dilConstants[\"0\"],__dil.jsx(\"bold\",null,__dilConstants[\"1\"]),__dilConstants[\"2\"],__dil.jsx(\"bold\",null,__dilConstants[\"3\"]),__dilConstants[\"4\"]);},{\"key\":\"body:0\"}));",
+            "constants": {
+              "0": "台北 101 共有 ",
+              "1": "地上 101 層、地下 5 層",
+              "2": "，合計 ",
+              "3": "106 層",
+              "4": "。"
+            },
+            "fallbackMarkdown": "台北 101 共有 **地上 101 層、地下 5 層**，合計 **106 層**。",
+            "fallbackMarkdownVersion": 1,
+            "appData": {
+              "opGenui": {
+                "componentResults": {},
+                "interactionSurface": "mainline",
+                "modelDataBindings": {}
+              }
+            }
+          },
+          "view_state": {},
+          "resolved_model_slug": "gpt-6-thinking",
+          "search_result_groups": [],
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": true,
+          "request_id": "5556922d-ef7f-4182-9852-496094b08c69",
+          "message_type": "next",
+          "turn_exchange_id": "049fdd3a-6d88-4681-ab0e-6b51f78261c7",
+          "working_turn_id": "049fdd3a-6d88-4681-ab0e-6b51f78261c7",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": true,
+          "parent_id": "db0f9f2a-9673-4d9d-b6bf-defe3b9fe060",
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": "final"
+      },
+      "parent": "db0f9f2a-9673-4d9d-b6bf-defe3b9fe060",
+      "children": [
+        "100a3184-0f25-4e04-a2bc-099f0e7abe8a"
+      ]
+    },
+    "100a3184-0f25-4e04-a2bc-099f0e7abe8a": {
+      "id": "100a3184-0f25-4e04-a2bc-099f0e7abe8a",
+      "message": {
+        "id": "100a3184-0f25-4e04-a2bc-099f0e7abe8a",
+        "author": {
+          "role": "user",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033424.159,
+        "update_time": 1792033431.491349,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "IdeaLedger 測試 A：謝謝，請回「收到」就好。"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": null,
+        "weight": 1,
+        "metadata": {
+          "request_id": "9ed90878-3df1-4dcf-beee-a260c3d617de",
+          "message_source": null,
+          "turn_exchange_id": "5c70811b-f6d8-4685-b905-18faf1c6a985",
+          "working_turn_id": "5c70811b-f6d8-4685-b905-18faf1c6a985",
+          "can_save": false
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "bd520ab0-8235-4682-87e5-1d708a4c2bc2",
+      "children": [
+        "73f2ed3f-2657-4d20-8404-bb694aad3971"
+      ]
+    },
+    "73f2ed3f-2657-4d20-8404-bb694aad3971": {
+      "id": "73f2ed3f-2657-4d20-8404-bb694aad3971",
+      "message": {
+        "id": "73f2ed3f-2657-4d20-8404-bb694aad3971",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033427.190146,
+        "update_time": 1792033427.190146,
+        "content": {
+          "content_type": "reasoning_recap",
+          "content": "思考兩秒鐘"
+        },
+        "status": "finished_successfully",
+        "end_turn": false,
+        "weight": 1,
+        "metadata": {
+          "reasoning_status": "reasoning_ended",
+          "finished_duration_sec": 1,
+          "reasoning_start_time": 1792033425.7297943,
+          "reasoning_end_time": 1792033427.1776319,
+          "reasoning_recap_type": "hide_all",
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": false,
+          "request_id": "9ed90878-3df1-4dcf-beee-a260c3d617de",
+          "message_type": "next",
+          "turn_exchange_id": "5c70811b-f6d8-4685-b905-18faf1c6a985",
+          "working_turn_id": "5c70811b-f6d8-4685-b905-18faf1c6a985",
+          "resolved_model_slug": "gpt-6-thinking",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": false,
+          "parent_id": "ab698537-5aab-47c6-bfba-a49c10f9077b",
+          "hide_inline_actions": true,
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": null
+      },
+      "parent": "100a3184-0f25-4e04-a2bc-099f0e7abe8a",
+      "children": [
+        "c894f94f-f556-4aea-893f-871ccbaf8778"
+      ]
+    },
+    "c894f94f-f556-4aea-893f-871ccbaf8778": {
+      "id": "c894f94f-f556-4aea-893f-871ccbaf8778",
+      "message": {
+        "id": "c894f94f-f556-4aea-893f-871ccbaf8778",
+        "author": {
+          "role": "assistant",
+          "name": null,
+          "metadata": {}
+        },
+        "create_time": 1792033427.3453,
+        "update_time": 1792033428.679095,
+        "content": {
+          "content_type": "text",
+          "parts": [
+            "收到"
+          ]
+        },
+        "status": "finished_successfully",
+        "end_turn": true,
+        "weight": 1,
+        "metadata": {
+          "finish_details": {
+            "type": "stop",
+            "stop_tokens": "[REDACTED]"
+          },
+          "is_complete": true,
+          "citations": [],
+          "content_references": [],
+          "model_dil_v2": {
+            "code": "DIL.render(__dil.jsx(()=>{const __dilConstants=DIL.useConstants();const __dilModelDataBindings=DIL.useAppData((appData)=>appData.opGenui?.modelDataBindings??{});return __dil.jsx(\"text\",null,__dilConstants[\"0\"]);},{\"key\":\"body:0\"}));",
+            "constants": {
+              "0": "收到"
+            },
+            "fallbackMarkdown": "收到",
+            "fallbackMarkdownVersion": 1,
+            "appData": {
+              "opGenui": {
+                "componentResults": {},
+                "interactionSurface": "mainline",
+                "modelDataBindings": {}
+              }
+            }
+          },
+          "view_state": {},
+          "resolved_model_slug": "gpt-6-thinking",
+          "search_result_groups": [],
+          "cot_version": "v5",
+          "conversation_followup_suggestions_eligible": true,
+          "request_id": "9ed90878-3df1-4dcf-beee-a260c3d617de",
+          "message_type": "next",
+          "turn_exchange_id": "5c70811b-f6d8-4685-b905-18faf1c6a985",
+          "working_turn_id": "5c70811b-f6d8-4685-b905-18faf1c6a985",
+          "model_slug": "gpt-6-thinking",
+          "default_model_slug": "gpt-6-thinking",
+          "can_save": true,
+          "parent_id": "73f2ed3f-2657-4d20-8404-bb694aad3971",
+          "model_switcher_deny": []
+        },
+        "recipient": "all",
+        "channel": "final"
+      },
+      "parent": "73f2ed3f-2657-4d20-8404-bb694aad3971",
+      "children": []
+    }
+  },
+  "current_node": "c894f94f-f556-4aea-893f-871ccbaf8778",
+  "context_truncation_continuation": null
+}

@@ -4,14 +4,26 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T20 寫入路徑對齊 AiMemory（之後 T21、T23、T22）。這幾張不依賴 T01、T02。
-- **🖥 George 進行中：** T01 ChatGPT 介面採樣、T02 Claude 介面採樣。雲端工作階段等待採樣檔，不要動這兩張。
+- **☁️ 雲端可做：** T04 ChatGPT 解析層、T05 Claude 解析層（T01、T02 的 A、B、C，Claude 另含 E，樣本已提交，欄位見 `extension/fixtures/*/NOTES.md`；缺的手機對話 D 不影響解析層）。也可做 T20 寫入路徑對齊 AiMemory（之後 T21、T23、T22），不依賴 T01、T02。
+- **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
 
+- **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T01 ChatGPT 介面採樣、T02 Claude 介面採樣（🟡 缺手機對話 D）
+- 完成：這次對話連結了 George 的電腦，在 Claude 桌面 App 內建瀏覽器（George 自行登入）建立測試對話 ChatGPT A–C、Claude A–C 與 E，以採樣腳本相同邏輯（只發 GET、瀏覽器內先遮蔽）取樣，經 `import_sample.py` 遮罩後提交 fixtures 與兩份 NOTES.md。所有請求最終皆 200，社群觀察的介面路徑正確。
+- 學到：
+  - ChatGPT 以 1.5 秒間隔連發三個請求，第三個就回 429；≥3 秒間隔與退避不能放寬。
+  - ChatGPT 清單時間是 ISO 字串、單篇是 epoch 秒浮點數；清單 `total` 不是總數，只是「已看到 + 1」。
+  - 兩個平台的專案對話都在主清單中，不需要另外巡專案清單。
+  - 兩個平台都以「目前葉節點沿 parent 回溯」取得目前分支（ChatGPT `current_node`、Claude `current_leaf_message_uuid`）；ChatGPT 有 `reasoning_recap` 節點要略過。
+  - Claude 附件的 `extracted_content` 是檔案全文，adapter 只取檔名。
+  - 回應中有與對話無關的個人設定（ChatGPT `safe_urls`、Claude `enabled_mcp_tools`），已在 fixture 中遮蔽，adapter 也不應轉送。
+- 剩餘：兩張工單的 D（手機 App 對話）與 NOTES 第 3 題。
 
 ### 2026-10-15 · 資料存放改為 AiMemory
 - 決定（George）：本 repo 只做工具開發；資料寫到私人 repo `pcpcchen-coder/AiMemory`，當資料庫用。AiMemory 已有人工維護的個人記憶（profile、decisions、memory-pack、projects、inbox）。
