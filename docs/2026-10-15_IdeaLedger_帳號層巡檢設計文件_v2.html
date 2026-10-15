@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Idea Ledger 設計 v2</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mute:#6b6a65;--line:#e3e0d8;--card:#ffffff;--acc:#b4532a;--ok:#2f6f4f;--warn:#9a6a00;--bad:#a33a2a;--code:#f3f1ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161614;--fg:#ecebe6;--mute:#a19f97;--line:#33322e;--card:#1f1f1c;--acc:#e08a5c;--ok:#7cc3a0;--warn:#e0b85c;--bad:#e58a7a;--code:#262622}}
+:root[data-theme="dark"]{--bg:#161614;--fg:#ecebe6;--mute:#a19f97;--line:#33322e;--card:#1f1f1c;--acc:#e08a5c;--ok:#7cc3a0;--warn:#e0b85c;--bad:#e58a7a;--code:#262622}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:40px 16px 80px}
+h1{font-size:28px;margin:0 0 4px}
+h2{font-size:20px;margin:40px 0 12px;padding-top:12px;border-top:1px solid var(--line)}
+h3{font-size:16px;margin:24px 0 8px}
+.sub{color:var(--mute);margin:0 0 24px}
+.tldr{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:16px 20px;border-radius:6px}
+.tldr ul{margin:8px 0 0;padding-left:20px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:600}
+pre{background:var(--code);border:1px solid var(--line);border-radius:6px;padding:14px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:14px}
+.box small{color:var(--mute)}
+.arr{color:var(--mute)}
+.ok{color:var(--ok);font-weight:600}.warn{color:var(--warn);font-weight:600}.bad{color:var(--bad);font-weight:600}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:10px;border:1px solid var(--line);color:var(--mute)}
+ol li,ul li{margin:4px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Idea Ledger v2：帳號層巡檢設計</h1>
+<p class="sub">設計文件 v2 · 2026-10-15 · 取代 v1 的「各瀏覽器即時擷取」為主線</p>
+
+<div class="tldr">
+<strong>一句話：</strong>一台常開的電腦（建議 Mac Mini）上，用一個專用 Chrome 設定檔登入 ChatGPT、Claude、Kimi；擴充每 30 分鐘以你的登入狀態讀取各平台的對話歷史，把新增或有更新的對話送給本機 collector，由本地模型摘要成想法卡。
+<ul>
+<li>網頁、桌面 App、手機 App 的對話都會同步到帳號，所以<strong>全部涵蓋</strong>。</li>
+<li>只讀取，不對平台做任何寫入；對話中零痕跡。</li>
+<li>公司電腦不用裝任何東西，collector 只聽本機，不必對外開放。</li>
+</ul>
+</div>
+
+<h2>1. 與 v1 的差異</h2>
+<table>
+<tr><th>項目</th><th>v1 即時擷取</th><th>v2 帳號層巡檢</th></tr>
+<tr><td>觸發</td><td>你正在看的頁面變動</td><td>定時巡檢歷史清單</td></tr>
+<tr><td>App 對話</td><td class="bad">抓不到</td><td class="ok">抓得到（已同步到帳號者）</td></tr>
+<tr><td>資料形式</td><td>頁面純文字，含介面雜訊</td><td>結構化訊息：角色、時間、分支</td></tr>
+<tr><td>部署點</td><td>每台你用的電腦</td><td>一台常開的電腦</td></tr>
+<tr><td>對外網路</td><td>需 Cloudflare Tunnel</td><td>不需要</td></tr>
+<tr><td>延遲</td><td>約 20 分鐘</td><td>30–60 分鐘</td></tr>
+<tr><td>主要風險</td><td>DOM 改版</td><td>非官方介面改版、登入過期</td></tr>
+</table>
+<p>v1 的即時擷取保留為<strong>選用模式</strong>（預設關閉），不再是主線。</p>
+
+<h2>2. 架構</h2>
+<div class="flow">
+<span class="box">Chrome 專用設定檔<br><small>已登入 3 個平台</small></span><span class="arr">→</span>
+<span class="box">背景排程 bg.js<br><small>chrome.alarms 每 30 分</small></span><span class="arr">→</span>
+<span class="box">平台分頁中的 sweeper<br><small>同源讀取歷史</small></span><span class="arr">→</span>
+<span class="box">Collector<br><small>127.0.0.1:8787</small></span><span class="arr">→</span>
+<span class="box">Summarizer<br><small>LiteLLM → Ollama</small></span><span class="arr">→</span>
+<span class="box">Obsidian vault</span>
+</div>
+
+<h3>2.1 為什麼讀取要在平台分頁裡執行</h3>
+<p>讀取請求由該平台網域上的 content script 發出（同源請求），而不是由擴充背景直接打。原因：</p>
+<ul>
+<li>同源請求自然帶上登入 cookie，不受 SameSite 限制。</li>
+<li>行為與你正常瀏覽一致，較不易觸發 Cloudflare 等機器人防護。</li>
+<li>需要的權杖（例如 ChatGPT 的 access token）可在同源下取得。</li>
+</ul>
+<p>背景若找不到某平台的分頁，就開一個<strong>釘選、非作用中</strong>的分頁並保持開著。</p>
+
+<h2>3. 平台 Adapter</h2>
+<p>平台差異全部封裝在 <code>extension/adapters/&lt;platform&gt;.js</code>，對外介面固定：</p>
+<pre>// 每個 adapter 都實作這 3 個函式，在該平台網域的分頁內執行
+async function checkLogin()                 // → { ok: true } | { ok: false, reason }
+async function listUpdated(sinceIso, limit) // → [{ id, title, updated_at }]，依 updated_at 由新到舊
+async function getConversation(id)          // → NormalizedConversation（見 4.1）</pre>
+
+<table>
+<tr><th>平台</th><th>讀取方式（非官方，實作時以 DevTools Network 驗證）</th><th>待驗證</th></tr>
+<tr><td>ChatGPT</td><td>先取 session 的 access token，再讀對話清單與單篇對話；單篇是樹狀結構，從目前節點往回走取得使用中的分支</td><td>專案（Projects）裡的對話可能不在主清單，需另外列舉</td></tr>
+<tr><td>Claude</td><td>先取組織 ID，再讀該組織的對話清單與單篇對話；依目前葉節點取使用中的分支</td><td>Projects 內對話是否在同一清單</td></tr>
+<tr><td>Kimi</td><td class="warn">介面未知，實作第一步就是在 DevTools 觀察歷史清單如何載入</td><td>App 對話是否同步到網頁歷史；若無可用介面，退回 v1 的頁面文字擷取</td></tr>
+</table>
+
+<h2>4. 資料規格</h2>
+<h3>4.1 擴充送往 collector 的格式</h3>
+<pre>POST http://127.0.0.1:8787/v2/conversations
+Authorization: Bearer &lt;token&gt;
+
+{
+  "platform": "chatgpt",              // chatgpt | claude | kimi
+  "conv_id": "6710c2e4-...",
+  "title": "換電站排程想法",
+  "url": "https://chatgpt.com/c/6710c2e4-...",
+  "project": "換電站EMS系統",           // 平台上的專案名稱，沒有則 null
+  "created_at": "2026-10-15T01:12:00Z",
+  "updated_at": "2026-10-15T02:40:00Z",
+  "messages": [
+    { "role": "user",      "text": "...", "at": "2026-10-15T01:12:00Z" },
+    { "role": "assistant", "text": "...", "at": "2026-10-15T01:12:30Z" }
+  ],
+  "swept_at": "2026-10-15T03:00:00Z",
+  "sweeper": "mac-mini"                // 哪個節點抓的，方便除錯
+}</pre>
+<p>只保留使用中的分支；圖片、檔案只記檔名，不傳內容。</p>
+
+<h3>4.2 Collector 資料表</h3>
+<pre>conv(platform, conv_id, title, url, project, created_at, updated_at,
+     messages_json, message_count,
+     summarized_count,      -- 已摘要到第幾則，供增量摘要
+     dirty,                 -- updated_at 變大時設 1
+     PRIMARY KEY(platform, conv_id))
+
+sweep_run(platform, started_at, finished_at, status, listed, fetched, error)
+          -- 每輪巡檢一筆，供健康監控</pre>
+<p>冪等：同一 <code>(platform, conv_id, updated_at)</code> 重送不會重複處理，所以多台電腦同時巡檢也不會出錯。</p>
+
+<h2>5. 巡檢演算法</h2>
+<ol>
+<li><strong>排程：</strong><code>chrome.alarms</code> 每 30 分鐘觸發，加 0–5 分鐘隨機延遲。</li>
+<li><strong>逐平台依序處理</strong>，不平行：
+  <ol>
+  <li>確認平台分頁存在且未被休眠（被 Chrome 省記憶體機制丟棄就重新載入）。</li>
+  <li><code>checkLogin()</code>；失敗則標記該平台為「需重新登入」，跳過。</li>
+  <li><code>listUpdated(watermark)</code>，分頁往下讀，直到遇到 <code>updated_at ≤ watermark</code> 為止。</li>
+  <li>略過 10 分鐘內仍在更新的對話（可能還在聊），留給下一輪。</li>
+  <li>逐篇 <code>getConversation()</code>，送 collector；成功才前移 watermark。</li>
+  </ol>
+</li>
+<li><strong>寫入 <code>sweep_run</code></strong>，更新擴充圖示狀態。</li>
+</ol>
+
+<h3>5.1 節流規則</h3>
+<table>
+<tr><th>規則</th><th>值</th><th>理由</th></tr>
+<tr><td>巡檢間隔</td><td>30 分鐘（可調 15–120）</td><td>延遲與負載的平衡</td></tr>
+<tr><td>請求間隔</td><td>每次請求間隔至少 3 秒</td><td>接近人工翻閱的頻率</td></tr>
+<tr><td>每輪單篇讀取上限</td><td>每平台 30 篇</td><td>回填時不暴衝，下一輪接續</td></tr>
+<tr><td>遇到 429／403</td><td>該平台暫停，退避 1→2→4→8 小時</td><td>避免被封鎖</td></tr>
+<tr><td>只用讀取請求</td><td>僅 GET，絕不寫入</td><td>不改動任何平台資料</td></tr>
+</table>
+
+<h3>5.2 首次回填</h3>
+<p>watermark 初始為空，巡檢會沿用上述上限一路往回讀完全部歷史。以每輪 30 篇、每 30 分鐘計算，1,000 篇約需 17 小時，可接受。想更快就改用官方匯出（ChatGPT、Claude 皆有）一次匯入，再把 watermark 設為匯出時間。</p>
+
+<h2>6. 排除規則</h2>
+<ul>
+<li><strong>臨時對話：</strong>ChatGPT 臨時對話、Claude 無痕對話本來就不進歷史，自然不會被抓。</li>
+<li><strong><code>#nolog</code>：</strong>第一則使用者訊息含 <code>#nolog</code> 的對話，collector 直接丟棄、不落地。</li>
+<li><strong>專案黑名單：</strong>設定頁可列出不想記錄的平台專案名稱（例如特定公司專案），整個略過。</li>
+</ul>
+
+<h2>7. 健康監控（無人看管必備）</h2>
+<table>
+<tr><th>狀態</th><th>條件</th><th>呈現</th></tr>
+<tr><td class="ok">正常</td><td>最近一輪成功</td><td>擴充圖示綠點</td></tr>
+<tr><td class="warn">退避中</td><td>遇到 429／403</td><td>黃點，顯示恢復時間</td></tr>
+<tr><td class="bad">需重新登入</td><td>登入檢查失敗</td><td>紅點；每日日誌頂端列出</td></tr>
+<tr><td class="bad">介面失效</td><td>回應格式不符 adapter 預期</td><td>紅點；需更新 adapter</td></tr>
+</table>
+<p>每日日誌 <code>Ideas/_log/YYYY-MM-DD.md</code> 第一行固定寫各平台巡檢狀態，你翻日誌就知道系統是否健康。任一平台連續 24 小時失敗，collector 發一則 macOS 通知。</p>
+
+<h2>8. 產出（與 v1 相同，資訊更完整）</h2>
+<ul>
+<li><strong>想法卡：</strong><code>Ideas/YYYY/MM/YYYY-MM-DD_&lt;platform&gt;_&lt;標題&gt;.md</code>，frontmatter 新增 <code>project</code>（平台上的專案名稱）。</li>
+<li><strong>每日平台互動日誌：</strong>依對話的實際更新時間（不是巡檢時間）歸到當天，所以補抓的舊對話會出現在正確日期。</li>
+<li><strong>可回答的問題：</strong>哪天跟哪個平台聊了什麼、某個想法最早在哪個平台出現。</li>
+<li><strong>無法回答：</strong>是在網頁還是 App 上聊的，各平台歷史介面通常不提供這項資訊。</li>
+</ul>
+
+<h2>9. 部署（Mac Mini）</h2>
+<ol>
+<li>建立 Chrome 專用設定檔「IdeaLedger」，登入三個平台。</li>
+<li>載入擴充（未封裝），設定 collector 位址與 token；巡檢模式開啟。</li>
+<li>Chrome 設定把三個平台網域加入「一律保持作用中的網站」，避免分頁被休眠。</li>
+<li>系統設定：禁止睡眠；登入項目加入以該設定檔啟動 Chrome。</li>
+<li><code>docker compose up -d</code> 啟動 collector（只綁 127.0.0.1）；launchd 註冊 summarizer。</li>
+<li>驗收：三個平台各在手機 App 聊一段，1 小時內應出現想法卡。</li>
+</ol>
+<p>也可以裝在你日常用的瀏覽器上，但電腦闔上就停擺，因此建議 Mac Mini 當主節點。</p>
+
+<h2>10. 風險</h2>
+<table>
+<tr><th>風險</th><th>影響</th><th>對策</th></tr>
+<tr><td>非官方介面改版</td><td>該平台停止收集</td><td>adapter 隔離，只改一個檔；格式檢查失敗立即紅燈；Kimi 保留頁面文字退路</td></tr>
+<tr><td>服務條款灰色地帶</td><td>理論上帳號受限</td><td>只讀自己的資料、低頻、僅 GET、遇 429 立即退避</td></tr>
+<tr><td>登入過期</td><td>收集中斷</td><td>紅燈 + 日誌 + 24 小時通知，手動重登一次</td></tr>
+<tr><td>專用設定檔握有三個帳號的登入</td><td>Mac Mini 被入侵即外洩</td><td>Mac Mini 設登入密碼、FileVault；collector 只綁本機</td></tr>
+<tr><td>多台同時巡檢</td><td>重複請求</td><td>collector 冪等；建議只開一個主節點</td></tr>
+</table>
+
+<h2>11. 里程碑</h2>
+<table>
+<tr><th>階段</th><th>內容</th><th>完成條件</th></tr>
+<tr><td>M1</td><td>ChatGPT、Claude adapter + collector v2 端點</td><td>手機 App 的對話出現在 SQLite</td></tr>
+<tr><td>M2</td><td>Summarizer worker + Obsidian 寫入 + 每日日誌</td><td>想法卡與日誌自動產生</td></tr>
+<tr><td>M3</td><td>Kimi adapter（先做介面探查）</td><td>Kimi 對話進入流程</td></tr>
+<tr><td>M4</td><td>健康監控、首次回填、專案黑名單</td><td>連續一週無人看管正常運作</td></tr>
+</table>
+</main>
+</body>
+</html>

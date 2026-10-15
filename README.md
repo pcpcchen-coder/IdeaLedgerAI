@@ -1,50 +1,45 @@
 # Idea Ledger AI
 
-跨平台 AI 對話自動記錄系統：在 ChatGPT、Claude、Kimi 等網頁聊天時，自動擷取對話、用本地模型摘要成「想法卡」，並記錄每天跟哪個平台互動。
+跨平台 AI 對話自動記錄系統：自動收集你在 ChatGPT、Claude、Kimi 上的對話（網頁、桌面 App、手機 App 都算），用本地模型摘要成「想法卡」，並記錄每天跟哪個平台互動。
 
-**設計原則：無痕、一次設定。** 對話中不需任何操作，也不在對話裡留下額外文字或工具呼叫。
+**設計原則：無痕、一次設定、只讀。** 對話中不需任何操作，也不在對話裡留下任何痕跡。
+
+## 運作方式
+
+一台常開的電腦（建議 Mac Mini）上，用 Chrome 專用設定檔登入三個平台。擴充每 30 分鐘以你的登入狀態讀取各平台的對話歷史；因為 App 上的對話都會同步到帳號，所以全部涵蓋。
+
+```
+Chrome 專用設定檔（已登入 3 個平台）
+  → extension/bg.js               chrome.alarms 每 30 分鐘排程
+  → extension/adapters/*.js       在平台分頁內同源讀取歷史（只讀、節流）
+  → collector/  127.0.0.1:8787    FastAPI + SQLite，冪等
+  → summarizer/                   LiteLLM → Ollama 本地摘要
+  → Obsidian vault                Ideas/ 想法卡 + Ideas/_log/ 每日平台互動日誌
+```
+
+## 文件
+
+| 文件 | 內容 |
+|---|---|
+| [設計文件 v2](docs/2026-10-15_IdeaLedger_帳號層巡檢設計文件_v2.html) | **現行設計**：帳號層巡檢 |
+| [設計文件 v1](docs/2026-10-15_IdeaLedger_設計文件_v1.html) | 舊版：各瀏覽器即時擷取（已降為選用模式） |
+| [工具評估](docs/00_工具評估_2026-10-07.md) | 為什麼自建而不用現成工具 |
 
 ## 狀態
 
-| 項目 | 狀態 |
-|---|---|
-| 設計文件 v1 | ✅ 完成 |
-| 擴充、Collector、Summarizer | 🟡 骨架程式碼（來自設計文件，尚未實測） |
-| Summarizer worker 主程式 | ⬜ 未實作 |
-| docker-compose、Cloudflare Tunnel 設定 | ⬜ 未實作 |
-| 歷史匯出回填腳本 | ⬜ 未實作 |
+| 里程碑 | 內容 | 狀態 |
+|---|---|---|
+| — | 設計文件 v2 | ✅ |
+| M1 | ChatGPT、Claude adapter + collector v2 端點 | ⬜ |
+| M2 | Summarizer worker + Obsidian 寫入 + 每日日誌 | ⬜ |
+| M3 | Kimi adapter（先做介面探查） | ⬜ |
+| M4 | 健康監控、首次回填、專案黑名單 | ⬜ |
 
-## 架構
-
-```
-ChatGPT / Claude / Kimi 網頁
-  → extension/capture.js   對話靜止 20 秒時擷取 main 純文字
-  → extension/bg.js        離線佇列，HTTPS + Bearer Token 送出
-  → collector/             Mac Mini 上的 FastAPI + SQLite
-  → summarizer/            LiteLLM → Ollama 本地摘要（對話靜止 15 分鐘後）
-  → Obsidian vault         Ideas/ 想法卡 + Ideas/_log/ 每日平台互動日誌
-```
-
-## 為什麼不用各平台的預設 prompt／skill
-
-- 模型要記錄就得呼叫寫入工具，每次呼叫在對話裡都看得到，不是無痕。
-- Kimi 網頁版查不到可設定的寫入管道；ChatGPT 自訂連接器需開發者模式，且連不到 localhost。
-- 依賴模型遵從率，漏記無法察覺。
-
-詳見 [設計文件](docs/2026-10-15_IdeaLedger_設計文件_v1.html) 第 1 節。
-
-## 目錄
-
-| 路徑 | 內容 |
-|---|---|
-| `docs/` | 設計文件、工具評估 |
-| `extension/` | Chrome／Edge MV3 擴充 |
-| `collector/` | FastAPI 接收服務 |
-| `summarizer/` | 摘要提示詞（worker 待實作） |
-| `prompts/` | 手機補強用的「記一下」指令（選用，非無痕） |
+目前 `extension/` 與 `collector/` 內是 v1 即時擷取的骨架，M1 會改寫為 v2 巡檢架構。
 
 ## 已知限制
 
-- 手機 App、桌面 App 的對話抓不到，要在電腦瀏覽器打開一次才會被補抓。
-- 公司 Windows 可能禁止載入未封裝擴充。
-- Kimi 網址規則（`/chat/<id>`）尚未驗證。
+- 各平台讀取用的是非官方介面，平台改版時對應 adapter 需更新。
+- 登入過期需手動在主節點重新登入（擴充圖示與每日日誌會提示）。
+- 無法區分對話是在網頁還是 App 上進行。
+- Kimi 的 App 對話是否同步到網頁歷史尚待驗證。
