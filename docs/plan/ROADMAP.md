@@ -38,7 +38,7 @@
 | [T01](tickets/T01_ChatGPT介面採樣.md) | ChatGPT 介面採樣 | 🖥 | 30 分 | T00 | ⬜ |
 | [T02](tickets/T02_Claude介面採樣.md) | Claude 介面採樣 | 🖥 | 30 分 | T00 | ⬜ |
 | **Phase 1 收得到（M1）** |||||
-| [T03](tickets/T03_Collector_v2端點.md) | Collector v2 端點 | ☁️ | 60 分 | T00 | ⬜ |
+| [T03](tickets/T03_Collector_v2端點.md) | Collector v2 端點 | ☁️ | 60 分 | T00 | ✅ |
 | [T04](tickets/T04_ChatGPT解析層.md) | ChatGPT 解析層 | ☁️ | 60 分 | T01 | ⬜ |
 | [T05](tickets/T05_Claude解析層.md) | Claude 解析層 | ☁️ | 45 分 | T02 | ⬜ |
 | [T06](tickets/T06_巡檢核心.md) | 巡檢核心（排程、分頁、節流、水位線） | ☁️ | 90 分 | T00 | ⬜ |

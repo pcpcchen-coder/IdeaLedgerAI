@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| ⬜ 待辦 | ☁️ 雲端 | 60 分 | T00 |
+| ✅ 完成（2026-10-15） | ☁️ 雲端 | 60 分 | T00 |
 
 ## 目標
 
@@ -32,14 +32,14 @@
 
 ## 驗收（pytest）
 
-- [ ] 無 token／錯誤 token → 401
-- [ ] 新增、更新、相同 `updated_at` 重送、較舊 `updated_at` 送入，四種情況回應與 `dirty` 都正確
-- [ ] `#nolog` 對話不落地；先存一般版本再送含 `#nolog` 的版本 → 被刪除
-- [ ] 格式錯誤（缺欄位、role 不合法、platform 格式不符）→ 422
-- [ ] 未曾出現過的平台 id（例如 `gemini`、`grok`）可直接寫入，`health` 也會列出它
-- [ ] `capture="page"` 帶 `page_text` 可寫入；缺 `page_text` → 422
-- [ ] `health`、`watermark` 回傳符合寫入的資料
-- [ ] `make test` 全過
+- [x] 無 token／錯誤 token → 401
+- [x] 新增、更新、相同 `updated_at` 重送、較舊 `updated_at` 送入，四種情況回應與 `dirty` 都正確
+- [x] `#nolog` 對話不落地；先存一般版本再送含 `#nolog` 的版本 → 被刪除
+- [x] 格式錯誤（缺欄位、role 不合法、platform 格式不符）→ 422
+- [x] 未曾出現過的平台 id（例如 `gemini`、`grok`）可直接寫入，`health` 也會列出它
+- [x] `capture="page"` 帶 `page_text` 可寫入；缺 `page_text` → 422
+- [x] `health`、`watermark` 回傳符合寫入的資料
+- [x] `make test` 全過
 
 ## 不做
 
@@ -49,3 +49,11 @@
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T03:` 開頭。
+
+## 完成紀錄
+
+- 結構：`app/models.py`（Pydantic）、`app/db.py`（SQLite，WAL，寫入加鎖）、`app/server.py`（`create_app` 工廠）、`app/main.py`（uvicorn 進入點）。v1 的 `/ingest` 與舊資料表已移除。
+- 時間一律存成固定寬度的 `YYYY-MM-DDTHH:MM:SS.mmmZ`，字串比較即可判斷先後；帶 `+08:00` 的輸入會轉成 UTC，與等值的 UTC 時間視為相同。沒有時區的時間 → 422。
+- 追加：已摘要的前段訊息若被改寫（編輯、切換分支），`summarized_count` 歸零，讓 T09 從頭重新摘要；只是新增訊息則保留。
+- `sweep_run.status` 限定 `ok`、`rate_limited`、`needs_login`、`format_error`、`error`，T06 沿用。
+- 測試 26 個；另以實際 uvicorn 啟動確認：無 token 回 401、缺 `IDEA_TOKEN` 拒絕啟動、超過 10 MB 回 413。

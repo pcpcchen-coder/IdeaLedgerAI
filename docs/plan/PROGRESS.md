@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T03 Collector v2 端點（或 T06 巡檢核心；兩張都只依賴 T00，互不相依）
+- **☁️ 雲端可做：** T06 巡檢核心（只依賴 T00）
 - **🖥 等 George：** T01 ChatGPT 介面採樣、T02 Claude 介面採樣（各約 30 分鐘，依賴已滿足）。T04、T05 要等這兩張的樣本。
 
 ## 卡住／待決定
@@ -12,6 +12,10 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T03 Collector v2 端點
+- 完成：`/v2/conversations`（冪等寫入、`#nolog` 排除、平台開放、`capture=api|page`）、`/v2/sweep-runs`、`/v2/health`、`/v2/watermark`；26 個 pytest 全過，並實際啟動 uvicorn 驗證。
+- 學到：時間要存成固定寬度的 UTC 字串，才能直接用字串比較判斷新舊；同一時刻用 `+08:00` 與 `Z` 表示要視為相同。已摘要的前段若被編輯或切換分支，增量摘要會失準，所以 collector 偵測到前段改寫就把 `summarized_count` 歸零（T09 要依此從頭摘要）。
 
 ### 2026-10-15 · 平台開放架構（George 提出的需求，T00 追加）
 - 需求：日後使用者要能自行加入 Gemini、Grok 等平台。
