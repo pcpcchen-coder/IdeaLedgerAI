@@ -8,7 +8,7 @@
 | `conversation_branched.json` | B 對第 2 則回覆「重試」一次，再編輯第 2 則使用者訊息重送 |
 | `conversation_project.json` | C 專案（跨AI平台記憶管理專案）內，2 輪 |
 | `conversation_attachment.json` | E 上傳文字檔 `idealedger_test_E.txt` 後提問 |
-| （無） | D 手機 App 對話：本次略過，見問題 3 |
+| （無） | D 手機 App 對話：不另採，見問題 3 |
 
 遮罩：組織 ID 換成 `ORG_1`／`ORG_2`；非測試對話的標題、摘要、專案名稱換成「（其他對話，已遮蔽）」；各對話 `settings.enabled_mcp_tools`（使用者連接的工具清單）只保留數量；非測試對話的 `settings` 改為 `"<omitted>"`；組織的 `settings` 只保留結構。
 
@@ -26,7 +26,7 @@
 
 ## 3. 手機 App 對話 D 是否出現
 
-**未驗證（本次略過 D）。** 清單項目有 `platform` 欄位（本次網頁建立的都是 `CLAUDE_AI`），補採 D 時要一併記錄手機建立的對話這個欄位的值。已記在 PROGRESS「卡住／待決定」。
+**會出現（George 確認，2026-10-15）。** 手機 App 的對話一定會同步到帳號，網頁歷史清單看得到，不另採樣。清單項目的 `platform` 欄位在手機建立的對話可能不是 `CLAUDE_AI`，adapter 不要依此欄位過濾。
 
 ## 4. 分支表示與目前分支
 

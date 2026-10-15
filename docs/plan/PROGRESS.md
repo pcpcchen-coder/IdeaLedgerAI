@@ -6,7 +6,6 @@
 
 - **🖥 等 George（關鍵路徑）：** T08 M1 本機首測（約 30 分鐘，依賴 T03 ✅、T07 ✅）：`make build` 後在 Chrome 載入 `extension/dist/`、啟動 collector、在設定頁填 token 後按「立即巡檢」。
 - **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘）；完成後雲端做 T25。
-- **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）。
 - **🖥 等 George：** T19 免程式平台實測（約 20 分鐘，依賴 T18 ✅）：在設定頁新增 Gemini 或 Grok，聊一段後確認 collector 收到 `capture="page"` 的資料。
 - **☁️ 雲端可做：** 依賴都已滿足的 ☁️ 工單已做完（T14、T15 等 T11；T11 等 T08；T13 等 T12；T25 等 T24）。可預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
 
@@ -14,7 +13,6 @@
 
 - **Claude 回填時的專案名稱（T07）。** 單篇回應只有 `project_uuid`，名稱來自清單；回填佇列跨輪保存時只記 id，所以回填中、且本輪沒列過清單的對話，想法卡上的平台專案會是 UUID。一般模式不受影響。要補的話需確認是否有取得 Claude 專案名稱的端點（需採樣）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
-- **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
@@ -70,6 +68,9 @@
 ### 2026-10-15 · T20 寫入路徑對齊 AiMemory `ledger/`
 - 完成：想法卡寫到 `ledger/conversations/YYYY/MM/`、日誌寫到 `ledger/daily/YYYY/MM/`；`IDEA_VAULT` 改名 `IDEA_MEMORY_REPO`；所有寫入與刪除經 `ensure_in_ledger` 檢查。summarizer 測試 31 個全過（新增 10）。CLAUDE.md 慣例與設計文件第 7、8 節同步改為新路徑。
 - 學到：`card` 表可能殘留 T10 時期的 `Ideas/` 路徑；改為「ledger/ 外的舊路徑視為沒有舊檔、不讀不刪」，避免搬檔時刪到 `ledger/` 以外。目前尚未部署，沒有實際舊資料需要遷移。
+
+### 2026-10-15 · T01、T02 結案
+- 決定（George）：手機 App 對話一定會同步到網頁歷史，D 不另測。T01、T02 改為 ✅，NOTES 第 3 題依此回答。
 
 ### 2026-10-15 · T01 ChatGPT 介面採樣、T02 Claude 介面採樣（🟡 缺手機對話 D）
 - 完成：這次對話連結了 George 的電腦，在 Claude 桌面 App 內建瀏覽器（George 自行登入）建立測試對話 ChatGPT A–C、Claude A–C 與 E，以採樣腳本相同邏輯（只發 GET、瀏覽器內先遮蔽）取樣，經 `import_sample.py` 遮罩後提交 fixtures 與兩份 NOTES.md。所有請求最終皆 200，社群觀察的介面路徑正確。

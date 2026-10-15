@@ -35,8 +35,8 @@
 |---|---|---|---|---|---|
 | **Phase 0 地基** |||||
 | [T00](tickets/T00_repo骨架與開發環境.md) | Repo 骨架與開發環境 | ☁️ | 60 分 | — | ✅ |
-| [T01](tickets/T01_ChatGPT介面採樣.md) | ChatGPT 介面採樣 | 🖥 | 30 分 | T00 | 🟡 |
-| [T02](tickets/T02_Claude介面採樣.md) | Claude 介面採樣 | 🖥 | 30 分 | T00 | 🟡 |
+| [T01](tickets/T01_ChatGPT介面採樣.md) | ChatGPT 介面採樣 | 🖥 | 30 分 | T00 | ✅ |
+| [T02](tickets/T02_Claude介面採樣.md) | Claude 介面採樣 | 🖥 | 30 分 | T00 | ✅ |
 | **Phase 1 收得到（M1）** |||||
 | [T03](tickets/T03_Collector_v2端點.md) | Collector v2 端點 | ☁️ | 60 分 | T00 | ✅ |
 | [T04](tickets/T04_ChatGPT解析層.md) | ChatGPT 解析層 | ☁️ | 60 分 | T01 | ✅ |
