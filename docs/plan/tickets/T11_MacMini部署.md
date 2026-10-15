@@ -41,12 +41,12 @@
 ## 驗收
 
 ☁️（pytest，暫存資料夾當 HOME、假 `launchctl`，不真的安裝）：
-- [ ] `install.sh` 產生 `.env`（含隨機 token）與兩個 launchd 設定；設定檔可被解析，路徑都是絕對路徑，指向 `run-*.sh`
-- [ ] 重複執行不覆寫 `.env`、token 不變；launchd 工作先卸載再載入
-- [ ] 資料庫或 AiMemory 路徑在 iCloud 同步資料夾時拒絕安裝
-- [ ] `run-*.sh` 讀 `.env` 並帶正確參數啟動（collector 只綁 `127.0.0.1:8787`）
-- [ ] `uninstall.sh` 卸載工作、保留資料
-- [ ] `make test` 全過
+- [x] `install.sh` 產生 `.env`（含隨機 token）與兩個 launchd 設定；設定檔可被解析，路徑都是絕對路徑，指向 `run-*.sh`
+- [x] 重複執行不覆寫 `.env`、token 不變；launchd 工作先卸載再載入
+- [x] 資料庫或 AiMemory 路徑在 iCloud 同步資料夾時拒絕安裝
+- [x] `run-*.sh` 讀 `.env` 並帶正確參數啟動（collector 只綁 `127.0.0.1:8787`）
+- [x] `uninstall.sh` 卸載工作、保留資料
+- [x] `make test` 全過
 
 🖥（George）：
 - [ ] `deploy/doctor.sh` 全部通過
@@ -60,3 +60,14 @@
 ## 收工時
 
 ☁️ 部分完成時：ROADMAP 維持 🟡，在 PROGRESS「下一步」寫明 🖥 部分等 George。🖥 驗收通過後改 ✅，commit 訊息以 `T11:` 開頭。
+
+## ☁️ 完成紀錄（2026-10-15）
+
+- `deploy/`：`install.sh`、`uninstall.sh`、`run-collector.sh`、`run-summarizer.sh`、`doctor.sh`、`lib.sh`、`env.example`、`launchd/*.plist.in`；bash 3.2 相容（macOS 內建）。
+- `.env` 由 shell 讀取，預設路徑含空白（Application Support），自動產生的值一律加引號。
+- 測試 10 個（`deploy/tests/`，暫存 HOME＋假 `launchctl`），已加入 `make test`。
+- 文件：`docs/DEPLOY_MAC.md`；CLAUDE.md、設計文件第 9 節、ROADMAP 的 T11、T14 摘要改為本機執行。
+
+## 剩餘
+
+- 🖥 George 在 Mac Mini 照 `docs/DEPLOY_MAC.md` 部署、`deploy/doctor.sh` 全過、手機對話 1 小時內出現想法卡（等 T08 完成）。

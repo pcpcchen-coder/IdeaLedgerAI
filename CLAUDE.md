@@ -37,16 +37,17 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 ## 開發指令
 
 - `make setup`：安裝擴充（npm）與 collector（pip）依賴，第一次使用時執行。
-- `make test`：擴充 node:test + collector pytest + summarizer pytest + 遮罩工具 pytest，每張工單收工前必須全過。
+- `make test`：擴充 node:test + collector pytest + summarizer pytest + 遮罩工具 pytest + 部署腳本 pytest，每張工單收工前必須全過。
 - `make build`：產出 `extension/dist/`，Chrome 以「載入未封裝項目」載入這個資料夾。
 - `npm run gen`（build、test 前自動執行）：掃描 `src/adapters/*/platform.json` 產生 `registry.generated.js`（不進 repo）。
 - manifest 由 `manifest.base.json` 加上各平台網域於建置時產生，路徑以 `dist/` 為根；新增入口或複製檔時改 `extension/build.config.mjs`，測試會檢查 manifest 引用的檔案都有產出。
 
 ## 執行環境
 
-- 主節點：Mac Mini M4 24GB，已有 Ollama、LiteLLM Gateway、Docker；需禁止睡眠、開機自動啟動 Chrome 專用設定檔。
+- 主節點：Mac Mini M4 24GB，已有 Ollama、LiteLLM Gateway；需禁止睡眠、開機自動啟動 Chrome 專用設定檔。部署步驟見 `docs/DEPLOY_MAC.md`（`deploy/install.sh`）。
 - Collector 只綁 `127.0.0.1:8787`，Bearer Token 驗證；不對外開放。
-- 技術棧偏好：Python／FastAPI／Docker；擴充為 Chrome MV3。
+- 技術棧偏好：Python／FastAPI；擴充為 Chrome MV3。collector 與 summarizer 都在 macOS 本機以 launchd 執行，**不用 Docker**（SQLite WAL 不能跨 Docker 虛擬機與主機共用，T11 決定）。
+- 資料庫與 AiMemory clone 放 `~/Library/Application Support/IdeaLedger/`，不可放在 iCloud 同步的資料夾（文件、桌面、iCloud Drive）。
 
 ## 慣例
 

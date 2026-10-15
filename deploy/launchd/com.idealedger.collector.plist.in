@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.idealedger.collector</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>@REPO@/deploy/run-collector.sh</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>IDEALEDGER_HOME</key>
+    <string>@HOME_DIR@</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ThrottleInterval</key>
+  <integer>30</integer>
+  <key>StandardOutPath</key>
+  <string>@HOME_DIR@/logs/collector.log</string>
+  <key>StandardErrorPath</key>
+  <string>@HOME_DIR@/logs/collector.log</string>
+</dict>
+</plist>

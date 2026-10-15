@@ -185,7 +185,7 @@ sweep_run(platform, started_at, finished_at, status, listed, fetched, error)
 <li>載入擴充（未封裝），設定 collector 位址與 token；巡檢模式開啟。</li>
 <li>Chrome 設定把三個平台網域加入「一律保持作用中的網站」，避免分頁被休眠。</li>
 <li>系統設定：禁止睡眠；登入項目加入以該設定檔啟動 Chrome。</li>
-<li><code>docker compose up -d</code> 啟動 collector（只綁 127.0.0.1）；launchd 註冊 summarizer。</li>
+<li><code>deploy/install.sh</code>：collector（只綁 127.0.0.1）與 summarizer 都以 launchd 在本機執行，不用 Docker（SQLite WAL 不能跨 Docker 虛擬機與主機共用）；資料放 <code>~/Library/Application Support/IdeaLedger/</code>，不放 iCloud 同步資料夾。步驟見 <code>docs/DEPLOY_MAC.md</code>。</li>
 <li>驗收：三個平台各在手機 App 聊一段，1 小時內應出現想法卡。</li>
 </ol>
 <p>也可以裝在你日常用的瀏覽器上，但電腦闔上就停擺，因此建議 Mac Mini 當主節點。</p>

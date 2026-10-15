@@ -7,7 +7,8 @@
 - **🖥 等 George（關鍵路徑）：** T08 M1 本機首測（約 30 分鐘，依賴 T03 ✅、T07 ✅）：`make build` 後在 Chrome 載入 `extension/dist/`、啟動 collector、在設定頁填 token 後按「立即巡檢」。
 - **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘）；完成後雲端做 T25。
 - **🖥 等 George：** T19 免程式平台實測（約 20 分鐘，依賴 T18 ✅）：在設定頁新增 Gemini 或 Grok，聊一段後確認 collector 收到 `capture="page"` 的資料。
-- **☁️ 雲端可做：** 依賴都已滿足的 ☁️ 工單已做完（T14、T15 等 T11；T11 等 T08；T13 等 T12；T25 等 T24）。可預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
+- **🖥 等 George：** T11 Mac Mini 部署的本機部分（約 30 分鐘，T08 完成後）：照 `docs/DEPLOY_MAC.md` 執行 `deploy/install.sh`、`deploy/doctor.sh`。
+- **☁️ 雲端可做：** 無（T11 的雲端部分已完成；T14、T15 等 T11；T13 等 T12；T25 等 T24）。
 
 ## 卡住／待決定
 
@@ -17,6 +18,12 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T11 Mac Mini 部署（☁️ 部分完成，🖥 待 George）
+- 決定（George）：collector 與 summarizer 都在 macOS 本機以 launchd 執行，不用 Docker。原因：資料庫是 SQLite WAL，Docker 容器與主機同時讀寫同一個 bind mount 檔案時鎖不可靠。
+- 完成：`deploy/`（安裝、卸載、啟動、檢查腳本，`.env` 範本，launchd 範本）與 `docs/DEPLOY_MAC.md`；資料放 `~/Library/Application Support/IdeaLedger/`，iCloud 同步資料夾內的路徑會被拒絕。部署腳本測試 10 個，`make test` 全過。CLAUDE.md、設計文件、ROADMAP 同步改為本機執行。
+- 學到：`.env` 會被 shell 讀取，預設路徑含空白，值要加引號。
+- 剩餘：🖥 本機部署與驗收（等 T08）。
 
 ### 2026-10-15 · T08 M1 本機首測（🟡 進行中）
 - 完成：在 George 的 Mac（現用 Chrome 設定檔）裝好擴充與 collector；Claude 端到端打通（292 篇列出、首輪讀 30 篇寫入）。修正隨機延遲鎖住「立即巡檢」的問題。
