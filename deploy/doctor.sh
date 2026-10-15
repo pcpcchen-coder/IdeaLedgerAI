@@ -10,18 +10,18 @@ bad() { printf '❌ %s\n' "$*"; failed=1; }
 load_env || exit 1
 
 # 設定
-[ -n "${IDEA_TOKEN:-}" ] && ok "collector token 已設定" || bad "IDEA_TOKEN 未設定（$ENV_FILE）"
+[ -n "${IDEA_TOKEN:-}" ] && ok "collector token 已設定" || bad "IDEA_TOKEN 未設定（${ENV_FILE}）"
 [ -n "${LLM_MODEL:-}" ] && ok "模型摘要：$LLM_MODEL" || ok "使用者輸入模式（LLM_MODEL 未設定，不做模型摘要，T26）"
 for var in IDEA_DB IDEA_MEMORY_REPO; do
   value="${!var:-}"
   if [ -z "$value" ]; then bad "$var 未設定"
   elif in_icloud "$value"; then bad "$var 在 iCloud 同步的資料夾內：$value"
-  else ok "$var：$value"; fi
+  else ok "${var}：$value"; fi
 done
 
 # launchd 工作
 for label in $LABELS; do
-  "$LAUNCHCTL" print "$DOMAIN/$label" >/dev/null 2>&1 && ok "launchd 已載入：$label" || bad "launchd 未載入：$label（執行 deploy/install.sh）"
+  "$LAUNCHCTL" print "$DOMAIN/$label" >/dev/null 2>&1 && ok "launchd 已載入：$label" || bad "launchd 未載入：${label}（執行 deploy/install.sh）"
 done
 
 # collector
@@ -53,11 +53,11 @@ if [ -n "$repo" ] && git -C "$repo" rev-parse --git-dir >/dev/null 2>&1; then
     ok "IDEA_GIT_PUBLISH 未開啟：只寫本機、不推送"
   fi
 else
-  bad "AiMemory clone 不存在：$repo（見 docs/DEPLOY_MAC.md）"
+  bad "AiMemory clone 不存在：${repo}（見 docs/DEPLOY_MAC.md）"
 fi
 
 # 最近一次摘要
 log="$IDEALEDGER_HOME/logs/summarizer.log"
-[ -f "$log" ] && ok "summarizer 最後輸出：$(tail -n 1 "$log")" || bad "還沒有 summarizer 記錄（$log）"
+[ -f "$log" ] && ok "summarizer 最後輸出：$(tail -n 1 "$log")" || bad "還沒有 summarizer 記錄（${log}）"
 
 exit "$failed"

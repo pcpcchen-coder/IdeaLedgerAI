@@ -159,3 +159,15 @@ def test_doctor_reports_missing_settings(env):
     assert "✅ collector token 已設定" in proc.stdout
     assert "✅ 使用者輸入模式" in proc.stdout and "LiteLLM" not in proc.stdout
     assert "❌ AiMemory clone 不存在" in proc.stdout
+
+
+def test_no_bare_variable_before_non_ascii():
+    """macOS 內建 bash 3.2 會把 $VAR 後面緊接的中文位元組當成變數名稱的一部分（T11 實機發現），一律寫成 ${VAR}。"""
+    import re as _re
+    root = Path(__file__).resolve().parents[1]
+    bad = []
+    for f in sorted(root.glob("*.sh")):
+        for n, line in enumerate(f.read_text(encoding="utf-8").splitlines(), 1):
+            if _re.search(r"\$[A-Za-z_][A-Za-z0-9_]*[^\x00-\x7F]", line):
+                bad.append(f"{f.name}:{n}")
+    assert bad == []

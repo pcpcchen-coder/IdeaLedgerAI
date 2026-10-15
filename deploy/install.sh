@@ -28,17 +28,17 @@ if [ ! -f "$ENV_FILE" ]; then
       -e "s|^IDEA_MEMORY_REPO=.*|IDEA_MEMORY_REPO=\"$IDEALEDGER_HOME/AiMemory\"|" \
       "$REPO_ROOT/deploy/env.example" > "$ENV_FILE"
   chmod 600 "$ENV_FILE"
-  say "已建立設定檔：$ENV_FILE（token 已自動產生；LLM_MODEL 選填，不填則以使用者輸入當想法卡內容）"
+  say "已建立設定檔：${ENV_FILE}（token 已自動產生；LLM_MODEL 選填，不填則以使用者輸入當想法卡內容）"
 fi
 load_env
 
 # 3. 路徑檢查
 for var in IDEA_DB IDEA_MEMORY_REPO; do
   value="${!var:-}"
-  [ -n "$value" ] || fail "$var 未設定（$ENV_FILE）"
+  [ -n "$value" ] || fail "$var 未設定（${ENV_FILE}）"
   case "$value" in /*) ;; *) fail "$var 必須是絕對路徑：$value" ;; esac
   if in_icloud "$value"; then
-    fail "$var 在 iCloud 同步的資料夾內（$value）。對話全文不能進 iCloud，請改到 $IDEALEDGER_HOME 底下"
+    fail "$var 在 iCloud 同步的資料夾內（${value}）。對話全文不能進 iCloud，請改到 $IDEALEDGER_HOME 底下"
   fi
 done
 

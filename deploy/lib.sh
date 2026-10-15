@@ -20,7 +20,7 @@ in_icloud() {
 
 load_env() {
   if [ ! -f "$ENV_FILE" ]; then
-    echo "找不到設定檔：$ENV_FILE（請先執行 deploy/install.sh）" >&2
+    echo "找不到設定檔：${ENV_FILE}（請先執行 deploy/install.sh）" >&2
     return 1
   fi
   set -a
