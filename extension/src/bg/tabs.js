@@ -25,6 +25,18 @@ export function createTabManager(tabsApi, { loadTimeoutMs = 60000 } = {}) {
 
   return {
     /**
+     * 重新載入分頁並等它載完。擴充重新載入或更新後，原本開著的分頁裡沒有新的 content script，
+     * RPC 會得到 NoReceiver；重新載入一次就會注入（T08 首測發現）。
+     * @param {number} tabId
+     */
+    async reloadTab(tabId) {
+      const done = waitComplete(tabId);
+      await tabsApi.reload(tabId);
+      await done;
+      return tabId;
+    },
+
+    /**
      * @param {{ id: string, hosts: string[] }} platform
      * @returns {Promise<number>} tabId
      */

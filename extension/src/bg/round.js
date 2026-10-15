@@ -83,7 +83,15 @@ export async function runPlatformRound(ctx, platform) {
 
   try {
     const tabId = await tabs.ensureTab(platform);
-    const login = await call(tabId, "checkLogin");
+    let login;
+    try {
+      login = await call(tabId, "checkLogin");
+    } catch (e) {
+      // 分頁裡沒有 content script（擴充剛重新載入／更新）：重新載入分頁一次再試
+      if (e?.name !== "NoReceiver" || !tabs.reloadTab) throw e;
+      await tabs.reloadTab(tabId);
+      login = await call(tabId, "checkLogin");
+    }
     if (!login?.ok) return finish("needs_login", login?.reason ?? "未登入");
 
     let s = await state.get(id);

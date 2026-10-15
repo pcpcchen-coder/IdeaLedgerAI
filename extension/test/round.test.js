@@ -54,6 +54,27 @@ test("回填：舊版存下的由舊到新佇列，也改依新到舊取", async
   assert.equal((await state(env)).backfillQueue.length, 10);
 });
 
+test("分頁沒有 content script（擴充剛重新載入）：重新載入分頁一次再試", async () => {
+  const env = makeEnv({ history: makeHistory(1) });
+  const reloaded = [];
+  env.ctx.tabs = { ensureTab: async () => 3, reloadTab: async (id) => reloaded.push(id) };
+  const call = env.ctx.rpc.call;
+  let first = true;
+  env.ctx.rpc.call = async (...a) => {
+    if (first) {
+      first = false;
+      const e = new Error("Receiving end does not exist");
+      e.name = "NoReceiver";
+      throw e;
+    }
+    return call(...a);
+  };
+  const r = await runPlatformRound(env.ctx, PLATFORM);
+  assert.equal(r.status, "ok");
+  assert.deepEqual(reloaded, [3]);
+  assert.equal(env.posted.length, 1);
+});
+
 test("一般模式：每輪上限 30，由舊到新，下一輪接續", async () => {
   const env = makeEnv({ history: makeHistory(50) });
   await env.ctx.state.patch("chatgpt", { watermark: "2026-01-01T00:00:00Z" });

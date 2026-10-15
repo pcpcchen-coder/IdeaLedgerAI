@@ -101,6 +101,12 @@ test("分頁：被休眠的分頁會重新載入", async () => {
   assert.deepEqual(api.reloaded, [5]);
 });
 
+test("分頁：reloadTab 重新載入並等載完", async () => {
+  const api = fakeTabs([{ id: 7, status: "complete", discarded: false }]);
+  assert.equal(await createTabManager(api).reloadTab(7), 7);
+  assert.deepEqual(api.reloaded, [7]);
+});
+
 test("分頁：沒有分頁就開一個釘選、非作用中的", async () => {
   const api = fakeTabs([]);
   assert.equal(await createTabManager(api).ensureTab(PLATFORM), 99);
