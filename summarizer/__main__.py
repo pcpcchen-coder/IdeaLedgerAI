@@ -36,12 +36,13 @@ def main() -> int:
     store = SummaryStore(os.environ.get("IDEA_DB", "./ledger.db"))
     repo = os.environ.get("IDEA_MEMORY_REPO")
     try:
+        projects = load_projects(repo)
         report = run_once(store, client.complete, client.model, batch=int(os.environ.get("SUMMARY_BATCH", "20")),
-                          projects=load_projects(repo))
+                          projects=projects)
         written = published = None
         if repo:
             tz = os.environ.get("IDEA_TZ", "Asia/Taipei")
-            writer = LedgerWriter(store.conn, repo, tz)
+            writer = LedgerWriter(store.conn, repo, tz, projects)
             if os.environ.get("IDEA_GIT_PUBLISH") == "1":
                 published = publish(repo, writer, email=os.environ.get("IDEA_GIT_EMAIL") or BOT_EMAIL, tz=tz)
                 written = published.written
@@ -53,7 +54,8 @@ def main() -> int:
     for key in report.failed:
         print(f"  失敗：{key}", file=sys.stderr)
     if written:
-        print(f"想法卡寫入 {len(written.written)}、移除舊檔 {len(written.removed)}、日誌更新 {len(written.logs)}")
+        print(f"想法卡寫入 {len(written.written)}、移除舊檔 {len(written.removed)}、日誌更新 {len(written.logs)}、"
+              f"索引更新 {len(written.indexes)}")
     if published:
         print(f"發佈：{published.status}" + (f"（{published.detail}）" if published.detail else ""))
         if published.outside:

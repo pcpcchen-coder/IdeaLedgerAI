@@ -93,16 +93,19 @@ class WriteReport:
     written: list[str] = field(default_factory=list)
     removed: list[str] = field(default_factory=list)
     logs: list[str] = field(default_factory=list)
+    indexes: list[str] = field(default_factory=list)   # T22 衍生索引
 
 
 class LedgerWriter:
-    def __init__(self, conn: sqlite3.Connection, repo: str | Path, tz: str = "Asia/Taipei"):
-        """repo：AiMemory 本機 clone 的根目錄。"""
+    def __init__(self, conn: sqlite3.Connection, repo: str | Path, tz: str = "Asia/Taipei",
+                 projects: dict[str, str] | None = None):
+        """repo：AiMemory 本機 clone 的根目錄；projects：{代號: 名稱}（T21），給衍生索引顯示專案名稱。"""
         self.conn = conn
         self.conn.row_factory = sqlite3.Row
         self.conn.executescript(SCHEMA)
         self.repo = Path(repo)
         self.tz = ZoneInfo(tz)
+        self.projects = projects or {}
 
     def path(self, rel: str) -> Path:
         return ensure_in_ledger(self.repo, rel)
@@ -246,4 +249,8 @@ class LedgerWriter:
         for day in sorted(days):
             if rel := self.write_log(day):
                 report.logs.append(rel)
+        from .indexes import IndexWriter  # 延遲載入：indexes 依賴本模組
+        written, removed = IndexWriter(self, self.projects).run()
+        report.indexes += written
+        report.removed += removed
         return report

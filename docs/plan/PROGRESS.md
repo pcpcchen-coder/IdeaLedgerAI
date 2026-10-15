@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T22 衍生索引（依賴 T21 ✅）。T04、T05 解析層也可做（樣本已提交）。T11 的依賴 T23 已完成，仍等 T08。
+- **☁️ 雲端可做：** T04 ChatGPT 解析層、T05 Claude 解析層（依賴 T01、T02 的樣本已提交；缺的手機對話 D 不影響解析層）。Phase 2b（T20–T23）已全部完成；T11 還等 T08。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
@@ -14,6 +14,10 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T22 衍生索引
+- 完成：`ledger/platforms.md`、`ledger/monthly/YYYY-MM.md`、`ledger/ideas/index.md`、`ledger/ideas/by-project/<代號>.md`，每次寫入後重新產生、內容相同不寫；`status` 從想法卡檔案讀，封存的想法不進索引但保留在月彙總；過期的 by-project 檔會刪除。summarizer 測試 47 個全過。
+- 學到：by-project 檔與 `projects/` 同名，Obsidian 的 `[[代號]]` 會連到自己，改用相對路徑連結。
 
 ### 2026-10-15 · T23 Git 發佈器
 - 完成：`summarizer/publisher.py`，每輪 pull --rebase --autostash → 寫入 → 只 commit `ledger/`（作者 `Idea Ledger Bot`）→ push，被拒重新 pull 再推一次，仍失敗留到下一輪；`ledger/` 外有變動時寫入前、commit 前都會中止。以本機 bare repo 測 9 種情境，summarizer 測試 42 個全過；沒有推送到真正的 AiMemory。

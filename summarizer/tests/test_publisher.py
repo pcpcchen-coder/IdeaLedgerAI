@@ -117,7 +117,7 @@ def test_publish_pushes_cards_and_logs(env):
     report = publish(remote.bot, writer, now=NOW)
     assert report.status == "pushed"
     assert CARD in remote.files() and "ledger/daily/2026/10/2026-10-15.md" in remote.files()
-    assert remote.log()[0] == f"{BOT_NAME}|ledger: 想法卡 1、日誌 1（2026-10-15 20:00）"
+    assert remote.log()[0] == f"{BOT_NAME}|ledger: 想法卡 1、日誌 1、索引 5（2026-10-15 20:00）"
     assert git(remote.bare, "log", "-1", "--format=%cn", "main").strip() == BOT_NAME
 
 
@@ -138,7 +138,7 @@ def test_rebases_onto_new_remote_commit(env):
     put(collector)
     summarize(summary)
     assert publish(remote.bot, writer, now=NOW).status == "pushed"
-    assert [l.split("|")[1] for l in remote.log()][:2] == ["ledger: 想法卡 1、日誌 1（2026-10-15 20:00）", "更新 profile"]
+    assert [l.split("|")[1] for l in remote.log()][:2] == ["ledger: 想法卡 1、日誌 1、索引 5（2026-10-15 20:00）", "更新 profile"]
     assert git(remote.bare, "rev-list", "--merges", "main") == ""     # 線性歷史
     assert "新的一行" in remote.show("profile.md")
 
@@ -194,7 +194,7 @@ def test_push_rejected_then_pull_and_retry(env):
     race = lambda: remote.user_commit(lambda d: (d / "profile.md").write_text("# 同時改\n", encoding="utf-8"), "同時提交")
     report = publish(remote.bot, HookWriter(writer, race), now=NOW)
     assert report.status == "pushed"
-    assert [l.split("|")[1] for l in remote.log()][:2] == ["ledger: 想法卡 1、日誌 1（2026-10-15 20:00）", "同時提交"]
+    assert [l.split("|")[1] for l in remote.log()][:2] == ["ledger: 想法卡 1、日誌 1、索引 5（2026-10-15 20:00）", "同時提交"]
 
 
 def test_offline_commit_kept_and_pushed_next_round(env):

@@ -111,7 +111,7 @@ def commit_message(names: list[tuple[str, str]], now: datetime, tz: str) -> str:
     cards = sum(1 for s, p in names if p.startswith(CARDS) and s != "D")
     logs = sum(1 for s, p in names if p.startswith(DAILY) and s != "D")
     others = sum(1 for s, p in names if not p.startswith((CARDS, DAILY)) and s != "D")
-    parts = [f"想法卡 {cards}", f"日誌 {logs}"] + ([f"其他 {others}"] if others else [])
+    parts = [f"想法卡 {cards}", f"日誌 {logs}"] + ([f"索引 {others}"] if others else [])
     return f"ledger: {'、'.join(parts)}（{now.astimezone(ZoneInfo(tz)):%Y-%m-%d %H:%M}）"
 
 

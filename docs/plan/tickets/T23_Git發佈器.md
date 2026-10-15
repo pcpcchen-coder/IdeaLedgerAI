@@ -23,7 +23,7 @@
    - **rebase 衝突**（上一輪沒推出去的 bot commit 與遠端使用者修改衝突）→ `rebase --abort`；確認未推出的 commit 都是 bot 的、且只動 `ledger/`，才丟棄它們並回到遠端版本，同時讓這些想法卡下一次重寫（重寫時會讀到使用者的 `status` 與筆記）。否則中止這輪。不這樣處理的話，同一個衝突會每輪重複。
 3. **寫入：** `writer.run()`（T20 的 `LedgerWriter`）。
 4. **commit 前再檢查：** 變更只在 `ledger/` 內，否則中止且不 commit。只 `git add ledger/`。
-5. **commit：** 有變動才 commit。作者與 committer 都是 `Idea Ledger Bot`，訊息 `ledger: 想法卡 N、日誌 M（YYYY-MM-DD HH:MM）`（台北時間；有其他 `ledger/` 檔變動時加「、其他 K」）。
+5. **commit：** 有變動才 commit。作者與 committer 都是 `Idea Ledger Bot`，訊息 `ledger: 想法卡 N、日誌 M（YYYY-MM-DD HH:MM）`（台北時間；有其他 `ledger/` 檔（T22 索引）變動時加「、索引 K」）。
 6. **push：** 被拒 → 重新 `pull --rebase` 再推一次；仍失敗 → 留在本機，下一輪再推。不使用 force。
 
 設定（`python -m summarizer`）：`IDEA_GIT_PUBLISH=1` 才走發佈器（預設關閉，部署時在 T11 開啟）；`IDEA_GIT_EMAIL` 可覆寫 bot 的 email。
