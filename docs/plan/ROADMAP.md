@@ -62,7 +62,7 @@
 | **Phase 2b 寫入 AiMemory** |||||
 | [T20](tickets/T20_寫入路徑對齊AiMemory.md) | 寫入路徑對齊 AiMemory `ledger/` | ☁️ | 30 分 | T10 | ✅ |
 | [T21](tickets/T21_專案清單改讀AiMemory.md) | 專案清單改讀 AiMemory `projects/` | ☁️ | 30 分 | T20 | ✅ |
-| T22 | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ⬜ |
+| [T22](tickets/T22_衍生索引.md) | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | 🟡 |
 | [T23](tickets/T23_Git發佈器.md) | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ✅ |
 
 狀態符號：⬜ 待辦 · 🟡 進行中 · ✅ 完成 · ⛔ 卡住
