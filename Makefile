@@ -1,7 +1,7 @@
 # 開發指令。第一次使用先 make setup。
 PYTHON ?= python3
 
-.PHONY: setup build test test-ext test-collector test-summarizer test-scripts test-deploy
+.PHONY: setup build test test-ext test-collector test-summarizer test-scripts test-deploy test-statusbar
 
 setup:
 	cd extension && npm install --no-audit --no-fund
@@ -10,7 +10,7 @@ setup:
 build:
 	cd extension && npm run build
 
-test: test-ext test-collector test-summarizer test-scripts test-deploy
+test: test-ext test-collector test-summarizer test-scripts test-deploy test-statusbar
 
 test-ext:
 	cd extension && npm test
@@ -26,3 +26,6 @@ test-scripts:
 
 test-deploy:
 	$(PYTHON) -m pytest -q deploy/tests
+
+test-statusbar:
+	$(PYTHON) -m pytest -q statusbar/tests

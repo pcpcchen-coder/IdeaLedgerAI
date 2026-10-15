@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.idealedger.statusbar</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>@REPO@/deploy/run-statusbar.sh</string>
+  </array>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>IDEALEDGER_HOME</key>
+    <string>@HOME_DIR@</string>
+  </dict>
+  <!-- 登入後啟動；當機自動重開，使用者從選單「結束」則不重開 -->
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+  </dict>
+  <key>ThrottleInterval</key>
+  <integer>30</integer>
+  <key>LimitLoadToSessionType</key>
+  <string>Aqua</string>
+  <key>ProcessType</key>
+  <string>Interactive</string>
+  <key>StandardOutPath</key>
+  <string>@HOME_DIR@/logs/statusbar.log</string>
+  <key>StandardErrorPath</key>
+  <string>@HOME_DIR@/logs/statusbar.log</string>
+</dict>
+</plist>

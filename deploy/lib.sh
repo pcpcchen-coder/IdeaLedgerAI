@@ -7,7 +7,9 @@ LAUNCH_AGENTS_DIR="${LAUNCH_AGENTS_DIR:-$HOME/Library/LaunchAgents}"
 LAUNCHCTL="${LAUNCHCTL:-launchctl}"
 ENV_FILE="$IDEALEDGER_HOME/.env"
 VENV="$IDEALEDGER_HOME/venv"
-LABELS="com.idealedger.collector com.idealedger.summarizer"
+LABELS="com.idealedger.collector com.idealedger.summarizer com.idealedger.statusbar"
+# summarizer 每次執行後寫結果，選單列狀態圖示讀它（T27）
+STATUS_FILE="$IDEALEDGER_HOME/summarizer_status.json"
 DOMAIN="gui/$(id -u)"
 
 # 對話全文與 AiMemory clone 都不能放在 iCloud 同步的資料夾（T08 學到的）

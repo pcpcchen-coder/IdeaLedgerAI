@@ -56,6 +56,11 @@ else
   bad "AiMemory clone 不存在：${repo}（見 docs/DEPLOY_MAC.md）"
 fi
 
+# 選單列狀態圖示的套件（T27）
+if [ "$(uname)" = Darwin ]; then
+  "$VENV/bin/python" -c 'import rumps' >/dev/null 2>&1 && ok "選單列狀態圖示套件已安裝" || bad "缺 rumps（重新執行 deploy/install.sh）"
+fi
+
 # 最近一次摘要
 log="$IDEALEDGER_HOME/logs/summarizer.log"
 [ -f "$log" ] && ok "summarizer 最後輸出：$(tail -n 1 "$log")" || bad "還沒有 summarizer 記錄（${log}）"

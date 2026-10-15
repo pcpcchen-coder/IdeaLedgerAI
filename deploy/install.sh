@@ -46,7 +46,8 @@ done
 if [ "${SKIP_PIP:-0}" != "1" ]; then
   [ -x "$VENV/bin/python" ] || "$PYTHON" -m venv "$VENV"
   "$VENV/bin/python" -m pip install --quiet --upgrade pip
-  "$VENV/bin/python" -m pip install --quiet -r "$REPO_ROOT/collector/requirements.txt" -r "$REPO_ROOT/summarizer/requirements.txt"
+  "$VENV/bin/python" -m pip install --quiet -r "$REPO_ROOT/collector/requirements.txt" -r "$REPO_ROOT/summarizer/requirements.txt" \
+    -r "$REPO_ROOT/statusbar/requirements.txt"
   say "Python 套件已安裝：$VENV"
 fi
 

@@ -3,5 +3,6 @@
 set -euo pipefail
 . "$(dirname "$0")/lib.sh"
 load_env
+export IDEA_STATUS_FILE="${IDEA_STATUS_FILE:-$STATUS_FILE}"
 cd "$REPO_ROOT"
 exec "${IDEALEDGER_PYTHON:-$VENV/bin/python}" -m summarizer

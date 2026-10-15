@@ -18,6 +18,11 @@
 
 ## 工作紀錄
 
+### 2026-10-15 · T27 選單列狀態圖示
+- 起因（George）：服務在背景跑，看不出正常與否。
+- 完成：`statusbar/`（檢查邏輯 + rumps 選單列 UI）、summarizer 寫狀態檔、launchd `com.idealedger.statusbar`、`install.sh`／`doctor.sh` 更新。新增 13 個測試，`make test` 全過。
+- 剩餘：🖥 在 Mac Mini 執行 `deploy/install.sh` 安裝並確認圖示出現。
+
 ### 2026-10-15 · T11 Mac Mini 部署（本機部分）
 - 完成：在 George 的 Mac Mini 安裝 launchd 服務（collector、summarizer 使用者輸入模式）、clone AiMemory，`doctor.sh` 全綠，第一次推送成功（想法卡 40）。
 - 學到：部署腳本要相容 macOS bash 3.2；summarizer 會在 AiMemory clone 完成前就啟動，安全檢查擋下了那一輪。

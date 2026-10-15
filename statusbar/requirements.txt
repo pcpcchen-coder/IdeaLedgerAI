@@ -1,0 +1,2 @@
+# 只有 macOS 需要（選單列 UI）；status.py 的檢查邏輯只用標準函式庫，測試不需要 rumps。
+rumps>=0.4; sys_platform == "darwin"

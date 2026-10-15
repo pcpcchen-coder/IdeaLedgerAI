@@ -81,3 +81,35 @@ def test_main_without_llm_model_writes_user_input_card(monkeypatch, tmp_path):
     text = cards[0].read_text(encoding="utf-8")
     assert "## 使用者輸入" in text and "1. 第一則：想做換電站排程" in text
     assert "## 摘要" not in text and "## 想法" not in text and "第二則" not in text
+
+
+def test_main_writes_status_file(monkeypatch, tmp_path):
+    """T27：每次執行後寫狀態檔，給選單列狀態圖示讀。"""
+    db_path = str(tmp_path / "ledger.db")
+    collector = Store(db_path)
+    put(collector, updated_at="2026-10-01T00:00:00Z", created_at="2026-10-01T00:00:00Z")
+    collector.close()
+    status = tmp_path / "summarizer_status.json"
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("IDEA_DB", db_path)
+    monkeypatch.setenv("IDEA_STATUS_FILE", str(status))
+    for var in ("LLM_MODEL", "IDEA_GIT_PUBLISH", "IDEA_MEMORY_REPO"):
+        monkeypatch.delenv(var, raising=False)
+    assert main() == 0
+    data = json.loads(status.read_text(encoding="utf-8"))
+    assert data["exit_code"] == 0 and data["summarized"] == 1 and data["failed"] == 0
+    assert data["mode"] == "使用者輸入" and data["finished_at"].endswith("Z")
+    assert not (tmp_path / "summarizer_status.json.tmp").exists()
+
+
+def test_main_records_crash_in_status_file(monkeypatch, tmp_path):
+    status = tmp_path / "s.json"
+    monkeypatch.setenv("IDEA_STATUS_FILE", str(status))
+    monkeypatch.delenv("LLM_MODEL", raising=False)
+    monkeypatch.setenv("IDEA_DB", str(tmp_path / "no-such-dir" / "ledger.db"))
+    try:
+        main()
+    except Exception:
+        pass
+    data = json.loads(status.read_text(encoding="utf-8"))
+    assert data["exit_code"] == 1 and data["error"]

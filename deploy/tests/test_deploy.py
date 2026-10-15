@@ -10,7 +10,9 @@ import pytest
 
 DEPLOY = Path(__file__).resolve().parents[1]
 REPO = DEPLOY.parent
-LABELS = ["com.idealedger.collector", "com.idealedger.summarizer"]
+LABELS = ["com.idealedger.collector", "com.idealedger.summarizer", "com.idealedger.statusbar"]
+SCRIPTS = {"com.idealedger.collector": "run-collector.sh", "com.idealedger.summarizer": "run-summarizer.sh",
+           "com.idealedger.statusbar": "run-statusbar.sh"}
 
 
 @pytest.fixture
@@ -66,13 +68,16 @@ def test_install_creates_env_and_plists(env):
         assert plist["Label"] == label
         script = plist["ProgramArguments"][1]
         assert Path(script).is_absolute() and Path(script).exists()
-        assert script.endswith("run-collector.sh" if "collector" in label else "run-summarizer.sh")
+        assert script.endswith(SCRIPTS[label])
         assert plist["EnvironmentVariables"]["IDEALEDGER_HOME"] == str(data_dir(env))
         assert plist["StandardOutPath"].startswith(str(data_dir(env)))
     collector = plistlib.loads((env["home"] / "Library/LaunchAgents/com.idealedger.collector.plist").read_bytes())
     summarizer = plistlib.loads((env["home"] / "Library/LaunchAgents/com.idealedger.summarizer.plist").read_bytes())
     assert collector["KeepAlive"] is True
     assert summarizer["StartInterval"] == 300
+    statusbar = plistlib.loads((env["home"] / "Library/LaunchAgents/com.idealedger.statusbar.plist").read_bytes())
+    assert statusbar["KeepAlive"] == {"SuccessfulExit": False}  # 當機重開；從選單結束則不重開
+    assert statusbar["LimitLoadToSessionType"] == "Aqua"        # 只在登入的桌面工作階段執行
 
     calls = env["log"].read_text().splitlines()
     uid = os.getuid()
@@ -112,19 +117,26 @@ def test_run_scripts_load_env_and_bind_localhost(env):
     run("install.sh", env)
     stub = env["tmp"] / "python-stub"
     out = env["tmp"] / "stub.out"
-    stub.write_text(f'#!/bin/bash\n{{ echo "PWD=$PWD"; echo "ARGS=$*"; echo "TOKEN=$IDEA_TOKEN"; echo "DB=$IDEA_DB"; }} >> "{out}"\n')
+    stub.write_text(f'#!/bin/bash\n{{ echo "PWD=$PWD"; echo "ARGS=$*"; echo "TOKEN=$IDEA_TOKEN"; echo "DB=$IDEA_DB"; '
+                    f'echo "STATUS=$IDEA_STATUS_FILE"; echo "REPO=$IDEALEDGER_REPO"; }} >> "{out}"\n')
     stub.chmod(0o755)
     extra = {"IDEALEDGER_PYTHON": str(stub)}
     run("run-collector.sh", env, extra)
     run("run-summarizer.sh", env, extra)
+    run("run-statusbar.sh", env, extra)
     lines = out.read_text().splitlines()
     token = re.search(r"^IDEA_TOKEN=(\w+)$", read_env(env), re.M).group(1)
     assert lines[0] == f"PWD={REPO / 'collector'}"
     assert lines[1] == "ARGS=-m uvicorn app.main:app --host 127.0.0.1 --port 8787"
     assert lines[2] == f"TOKEN={token}"
     assert lines[3] == f"DB={data_dir(env)}/ledger.db"  # 路徑含空白也正確讀取
-    assert lines[4] == f"PWD={REPO}"
-    assert lines[5] == "ARGS=-m summarizer"
+    assert lines[6] == f"PWD={REPO}"
+    assert lines[7] == "ARGS=-m summarizer"
+    status_file = f"STATUS={data_dir(env)}/summarizer_status.json"
+    assert lines[10] == status_file
+    assert lines[12:16] == [f"PWD={REPO}", "ARGS=-m statusbar", lines[2], lines[3]]
+    assert lines[16] == status_file  # 兩邊讀寫同一個狀態檔
+    assert lines[17] == f"REPO={REPO}"
 
 
 def test_run_script_without_env_fails_clearly(env):
