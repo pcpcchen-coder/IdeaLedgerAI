@@ -4,14 +4,71 @@
 <meta charset="utf-8">
 <title>Idea Ledger 設定</title>
 <style>
-  body { font: 14px/1.6 system-ui, "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 24px; max-width: 560px; }
-  h1 { font-size: 18px; }
+  body { font: 14px/1.6 system-ui, "PingFang TC", "Microsoft JhengHei", sans-serif; margin: 24px; max-width: 760px; color: #1f1e1c; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 28px 0 8px; }
   .muted { color: #6b6a65; }
+  label { display: block; margin: 10px 0 2px; font-weight: 600; }
+  input[type=text], input[type=password], input[type=number] { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #c9c7c0; border-radius: 6px; font: inherit; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 14px; }
+  button { padding: 6px 14px; border-radius: 6px; border: 1px solid #c9c7c0; background: #fff; font: inherit; cursor: pointer; }
+  button.primary { background: #1f1e1c; color: #fff; border-color: #1f1e1c; }
+  button:disabled { opacity: .5; cursor: default; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #e6e4de; vertical-align: top; }
+  th { font-weight: 600; color: #6b6a65; font-size: 12px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+  .green { background: #1e8e3e; } .yellow { background: #f2a600; } .red { background: #d93025; } .gray { background: #b9b7b0; }
+  .error { color: #b3261e; font-size: 12px; }
 </style>
 </head>
 <body>
 <h1>Idea Ledger 設定</h1>
-<p class="muted" id="status">設定頁尚未實作（見 T07）。</p>
+<p class="muted">定時巡檢各 AI 平台的對話歷史（只讀），送往本機 collector。</p>
+
+<form id="form" novalidate>
+  <label for="collectorUrl">collector 網址</label>
+  <input type="text" id="collectorUrl" placeholder="http://127.0.0.1:8787">
+  <label for="token">collector token</label>
+  <input type="password" id="token" autocomplete="off">
+  <label for="intervalMinutes">巡檢間隔（分鐘，15–120）</label>
+  <input type="number" id="intervalMinutes" min="15" max="120" step="5">
+  <label for="sweeper">節點名稱</label>
+  <input type="text" id="sweeper" placeholder="mac-mini">
+  <div class="row">
+    <label style="margin:0;font-weight:400"><input type="checkbox" id="sweepEnabled"> 定時巡檢</label>
+  </div>
+
+  <h2>不記錄的專案</h2>
+  <p class="muted" style="margin:0 0 6px">一行一個，填平台上的專案名稱或專案 ID（不分大小寫）。這些專案的對話不會被讀取，也不會送到 collector。<br>不想記錄單一對話時，在第一則訊息加上 <code>#nolog</code>。</p>
+  <textarea id="projectBlacklist" rows="4" style="width:100%;box-sizing:border-box;padding:6px 8px;border:1px solid #c9c7c0;border-radius:6px;font:inherit"></textarea>
+
+  <h2>平台</h2>
+  <table>
+    <thead><tr><th>巡檢</th><th>平台</th><th>狀態</th><th>最後成功</th><th>上輪抓取</th></tr></thead>
+    <tbody id="platforms"></tbody>
+  </table>
+
+  <h2>自訂平台（頁面擷取）</h2>
+  <p class="muted" style="margin:0 0 6px">不用寫程式就能加入其他 AI 平台。只會收集在這個瀏覽器打開過的對話（頁面靜止 20 秒後擷取文字）；手機 App 的對話要在電腦上打開一次才會收到。</p>
+  <table>
+    <thead><tr><th>平台</th><th>網域</th><th>對話網址規則</th><th>最後擷取</th><th></th></tr></thead>
+    <tbody id="customPlatforms"></tbody>
+  </table>
+  <div class="row" style="align-items:flex-end">
+    <div style="flex:1 1 140px"><label for="customName" style="margin-top:0">顯示名稱</label><input type="text" id="customName" placeholder="Grok"></div>
+    <div style="flex:1 1 160px"><label for="customHost" style="margin-top:0">網域</label><input type="text" id="customHost" placeholder="grok.com"></div>
+    <div style="flex:1 1 160px"><label for="customPattern" style="margin-top:0">對話網址規則</label><input type="text" id="customPattern" placeholder="/c/([\w-]+)"></div>
+    <button type="button" id="addCustom">新增平台</button>
+  </div>
+  <p id="customMessage" class="muted"></p>
+
+  <div class="row">
+    <button type="submit" class="primary">儲存</button>
+    <button type="button" id="sweepNow">立即巡檢</button>
+    <span id="message" class="muted"></span>
+  </div>
+</form>
 <script src="options.js"></script>
 </body>
 </html>

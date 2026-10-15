@@ -39,10 +39,10 @@
 | [T02](tickets/T02_Claude介面採樣.md) | Claude 介面採樣 | 🖥 | 30 分 | T00 | ✅ |
 | **Phase 1 收得到（M1）** |||||
 | [T03](tickets/T03_Collector_v2端點.md) | Collector v2 端點 | ☁️ | 60 分 | T00 | ✅ |
-| [T04](tickets/T04_ChatGPT解析層.md) | ChatGPT 解析層 | ☁️ | 60 分 | T01 | ⬜ |
-| [T05](tickets/T05_Claude解析層.md) | Claude 解析層 | ☁️ | 45 分 | T02 | ⬜ |
+| [T04](tickets/T04_ChatGPT解析層.md) | ChatGPT 解析層 | ☁️ | 60 分 | T01 | ✅ |
+| [T05](tickets/T05_Claude解析層.md) | Claude 解析層 | ☁️ | 45 分 | T02 | ✅ |
 | [T06](tickets/T06_巡檢核心.md) | 巡檢核心（排程、分頁、節流、水位線） | ☁️ | 90 分 | T00 | ✅ |
-| [T07](tickets/T07_取資料層與設定頁.md) | 取資料層與設定頁 | ☁️ | 60 分 | T04, T05, T06 | ⬜ |
+| [T07](tickets/T07_取資料層與設定頁.md) | 取資料層與設定頁 | ☁️ | 60 分 | T04, T05, T06 | ✅ |
 | [T08](tickets/T08_M1本機首測.md) | M1 本機首測 | 🖥 | 30 分 | T03, T07 | ⬜ |
 | **Phase 2 有想法卡（M2）** |||||
 | [T09](tickets/T09_Summarizer_worker.md) | Summarizer worker | ☁️ | 90 分 | T03 | ✅ |
@@ -54,16 +54,19 @@
 | **Phase 4 無人看管（M4）** |||||
 | T14 | 健康監控 | ☁️ | 60 分 | T11 | ⬜ |
 | T15 | 首次回填與官方匯出匯入 | ☁️ | 60 分 | T11 | ⬜ |
-| T16 | 排除規則 UI（`#nolog`、專案黑名單） | ☁️ | 45 分 | T07 | ⬜ |
+| [T16](tickets/T16_排除規則UI.md) | 排除規則 UI（`#nolog`、專案黑名單） | ☁️ | 45 分 | T07 | ✅ |
 | T17 | 一週無人看管驗收 | 🖥 | 每天 5 分 × 7 | T14, T15, T16 | ⬜ |
 | **Phase 5 開放擴充** |||||
-| T18 | 設定頁免程式新增平台（頁面文字擷取） | ☁️ | 90 分 | T03, T07 | ⬜ |
+| [T18](tickets/T18_設定頁免程式新增平台.md) | 設定頁免程式新增平台（頁面文字擷取） | ☁️ | 90 分 | T03, T07 | ✅ |
 | T19 | 免程式平台實測（以 Gemini 或 Grok 驗證） | 🖥 | 20 分 | T18 | ⬜ |
 | **Phase 2b 寫入 AiMemory** |||||
-| T20 | 寫入路徑對齊 AiMemory `ledger/` | ☁️ | 30 分 | T10 | ⬜ |
-| T21 | 專案清單改讀 AiMemory `projects/` | ☁️ | 30 分 | T20 | ⬜ |
-| T22 | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ⬜ |
-| T23 | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ⬜ |
+| [T20](tickets/T20_寫入路徑對齊AiMemory.md) | 寫入路徑對齊 AiMemory `ledger/` | ☁️ | 30 分 | T10 | ✅ |
+| [T21](tickets/T21_專案清單改讀AiMemory.md) | 專案清單改讀 AiMemory `projects/` | ☁️ | 30 分 | T20 | ✅ |
+| [T22](tickets/T22_衍生索引.md) | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ✅ |
+| [T23](tickets/T23_Git發佈器.md) | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ✅ |
+| **Phase 1b ChatGPT 專案名稱** |||||
+| [T24](tickets/T24_ChatGPT專案名稱採樣.md) | ChatGPT 專案名稱採樣 | 🖥 | 15 分 | T01 | ⬜ |
+| [T25](tickets/T25_ChatGPT專案名稱.md) | ChatGPT 專案名稱（以名稱取代 `g-p-` ID） | ☁️ | 45 分 | T24, T07 | ⬜ |
 
 狀態符號：⬜ 待辦 · 🟡 進行中 · ✅ 完成 · ⛔ 卡住
 
@@ -102,3 +105,11 @@
 **T22 衍生索引** — 產生 `ledger/platforms.md`、`ledger/monthly/YYYY-MM.md`、`ledger/ideas/index.md`、`ledger/ideas/by-project/<代號>.md`，格式依 ledger 規格。內容相同不重寫。驗收：快照測試；新平台、新專案自動出現。
 
 **T23 Git 發佈器** — 每輪：`git pull --rebase` → 寫入 → 若有變動則以 `Idea Ledger Bot` commit → push；push 被拒則重新 pull 再試一次，仍失敗留到下一輪。commit 前檢查變更只在 `ledger/` 內，否則中止且不 commit。驗收：以本機假遠端（bare repo）測試正常發佈、無變動不 commit、遠端有新 commit 時正確 rebase、使用者在遠端改了 `status` 後重寫仍保留、`ledger/` 外有變動時中止。
+
+## Phase 1b：ChatGPT 專案名稱（2026-10-15 新增）
+
+George 要求想法卡顯示 ChatGPT 的專案名稱。T01 樣本只有專案 ID（`g-p-…`），名稱需另一個請求。
+
+**T24 ChatGPT 專案名稱採樣** — 🖥 在 DevTools 搜尋回應內容，找出同時含專案名稱與 `g-p-` ID 的 GET 請求，取樣、遮罩（測試專案以外的名稱全部遮蔽）後提交 `fixtures/chatgpt/projects.json` 與 NOTES。
+
+**T25 ChatGPT 專案名稱** — ☁️ `parseProjects()` ＋ `fetch.js` 快取名稱表，清單與單篇的 `project` 換成名稱；新 ID 才重取一次，失敗時保留 ID，不影響收取。只改 `adapters/chatgpt/`。

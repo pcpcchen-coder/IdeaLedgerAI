@@ -13,6 +13,7 @@ export const ADAPTERS_DIR = join(ROOT, "src", "adapters");
 export const ENTRIES = {
   "src/bg/index.js": "bg.js",
   "src/content/sweeper.js": "content.js",
+  "src/content/page-capture.js": "page-capture.js", // 自訂平台（T18）以 chrome.scripting 動態注入
   "src/options/options.js": "options.js",
 };
 

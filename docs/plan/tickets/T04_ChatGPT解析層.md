@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| ⬜ 待辦 | ☁️ 雲端 | 60 分 | T01 |
+| ✅ 完成（2026-10-15） | ☁️ 雲端 | 60 分 | T01 |
 
 ## 目標
 
@@ -31,12 +31,12 @@ parseConversation(json)  // → NormalizedConversation（platform="chatgpt"）
 
 ## 驗收（node:test）
 
-- [ ] `conversation_simple.json` → 訊息數、順序、角色正確
-- [ ] `conversation_branched.json` → 只含使用中分支：重新生成後的回覆、編輯後的訊息；被取代的版本不出現
-- [ ] `conversation_project.json` → `project` 有值
-- [ ] `list_page1.json` → 項目數正確、`next` 有值；最後一頁 `next` 為 null
-- [ ] 刪掉必要欄位的變造樣本 → 丟 `AdapterFormatError`
-- [ ] `make test` 全過
+- [x] `conversation_simple.json` → 訊息數、順序、角色正確
+- [x] `conversation_branched.json` → 只含使用中分支：重新生成後的回覆、編輯後的訊息；被取代的版本不出現
+- [x] `conversation_project.json` → `project` 有值
+- [x] `list_page1.json` → 項目數正確、`next` 有值；最後一頁 `next` 為 null
+- [x] 刪掉必要欄位的變造樣本 → 丟 `AdapterFormatError`
+- [x] `make test` 全過
 
 ## 不做
 
@@ -45,3 +45,12 @@ parseConversation(json)  // → NormalizedConversation（platform="chatgpt"）
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T04:` 開頭。若 fixtures 不足以判斷某行為，在 PROGRESS「卡住／待決定」列出需要 George 補採的樣本。
+
+## 完成紀錄
+
+- `parse.js`：`parseSession`、`parseList`、`parseConversation`；測試 9 個（`test/chatgpt-parse.test.js`）。
+- 與工單原文不同之處（依 NOTES）：
+  - `parseSession` 在回應沒有 `accessToken` 時丟 `NeedsLogin`（NOTES 第 4 題：未登入時只有 `WARNING_BANNER`），回應不是物件才丟 `AdapterFormatError`。
+  - `project` 是專案的 `gizmo_id`（`g-p-…`）：清單與單篇都不含專案名稱，名稱需另一個端點（本次未採）。
+  - `next` 為 `{ offset }`；判斷最後一頁看 `items.length < limit`（`total` 不是總數）。
+- 略過：`reasoning_recap` 等非 `text`／`multimodal_text` 節點、system／tool 角色、`is_visually_hidden_from_conversation`、空白訊息。附件以 `metadata.attachments[].name` 表示，沒有紀錄的圖片 part 記為 `[附件: 圖片]`（樣本中沒有附件，以變造節點測試）。

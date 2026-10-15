@@ -9,7 +9,7 @@ from typing import Callable, Literal
 
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
-from .prompt import OTHER_PROJECT, build_user_prompt, load_projects, system_prompt
+from .prompt import OTHER_PROJECT, build_user_prompt, system_prompt
 from .store import SummaryStore
 
 SETTLE = timedelta(minutes=15)
@@ -34,14 +34,18 @@ class SummaryResult(BaseModel):
         return v.strip()
 
 
-def parse_result(text: str, allowed_projects: list[str]) -> dict:
-    """從模型輸出取出 JSON 並驗證；容忍 ```json 包裹與前後多餘文字。"""
+def parse_result(text: str, projects: dict[str, str]) -> dict:
+    """從模型輸出取出 JSON 並驗證；容忍 ```json 包裹與前後多餘文字。
+
+    projects：{代號: 名稱}。模型填代號或名稱都轉成代號，清單外的丟掉，都沒有就填 other。
+    """
     fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", text, re.S)
     raw = fenced.group(1) if fenced else text[text.find("{"): text.rfind("}") + 1]
     if not raw:
         raise ValueError("輸出中找不到 JSON 物件")
     data = SummaryResult.model_validate(json.loads(raw)).model_dump()
-    kept = [p for p in data["projects"] if p in allowed_projects]
+    by_name = {name: code for code, name in projects.items()}
+    kept = [p if p in projects else by_name[p] for p in data["projects"] if p in projects or p in by_name]
     data["projects"] = list(dict.fromkeys(kept)) or [OTHER_PROJECT]
     return data
 
@@ -54,11 +58,10 @@ class RunReport:
 
 
 def run_once(store: SummaryStore, complete: Callable[[str, str], str], model: str, *,
-             now: datetime | None = None, batch: int = 20, projects: list[str] | None = None) -> RunReport:
-    """complete(system, user) -> 模型輸出文字。"""
+             now: datetime | None = None, batch: int = 20, projects: dict[str, str] | None = None) -> RunReport:
+    """complete(system, user) -> 模型輸出文字。projects：{代號: 名稱}，來自 AiMemory 的 projects/。"""
     now = now or datetime.now(timezone.utc)
-    projects = load_projects() if projects is None else projects
-    allowed = [*projects, OTHER_PROJECT]
+    projects = projects or {}
     system = system_prompt(projects)
     report = RunReport()
 
@@ -69,10 +72,10 @@ def run_once(store: SummaryStore, complete: Callable[[str, str], str], model: st
         try:
             output = complete(system, user)
             try:
-                result = parse_result(output, allowed)
+                result = parse_result(output, projects)
             except (ValueError, ValidationError) as first:
                 retry_user = f"{user}\n\n上一次的輸出無法使用（{str(first)[:200]}）。請只輸出符合格式的 JSON 物件。"
-                result = parse_result(complete(system, retry_user), allowed)
+                result = parse_result(complete(system, retry_user), projects)
         except Exception as e:  # noqa: BLE001 — 單段失敗不影響其他對話
             store.record_failure(conv, f"{type(e).__name__}: {e}")
             report.failed.append(key)
