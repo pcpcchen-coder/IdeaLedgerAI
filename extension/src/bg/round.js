@@ -2,7 +2,7 @@
 // 平台是開放的：這裡只用平台描述（id、name、hosts），不認得任何特定平台。
 import { isBackingOff, onRateLimited, onSuccess } from "../lib/backoff.js";
 import { isExcludedProject } from "../lib/exclude.js";
-import { advanceWatermark, buildBackfillQueue, planNormal, reachedWatermark, DEFAULTS } from "../lib/planner.js";
+import { advanceWatermark, buildBackfillQueue, planNormal, reachedWatermark, sortNewestFirst, DEFAULTS } from "../lib/planner.js";
 
 export const ROUND_DEFAULTS = {
   cap: DEFAULTS.cap,
@@ -95,7 +95,8 @@ export async function runPlatformRound(ctx, platform) {
       s = await state.patch(id, { backfillQueue: queue.length ? queue : null });
       toFetch = queue.slice(0, config.cap);
     } else if (s.backfillQueue) {
-      toFetch = s.backfillQueue.slice(0, config.cap);
+      // 依新到舊取（舊版擴充存下的佇列是由舊到新，這裡一併重排）
+      toFetch = sortNewestFirst(s.backfillQueue).slice(0, config.cap);
     } else {
       const items = await listPages(tabId, s.watermark, config.maxListPages);
       toFetch = planNormal(items, s.watermark, clock.now(), { cap: config.cap, settleMs: config.settleMs });

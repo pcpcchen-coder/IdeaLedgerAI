@@ -12,14 +12,16 @@ test("回填：空水位線時建立佇列，分多輪取完後轉一般模式",
   let r = await runPlatformRound(env.ctx, PLATFORM);
   assert.equal(r.status, "ok");
   assert.equal(r.listed, 75);
-  assert.deepEqual(env.posted.map((c) => c.conv_id), makeHistory(75).slice(0, 30).map((i) => i.id));
+  // 由新到舊：最近的對話先進資料庫
+  assert.deepEqual(env.posted.map((c) => c.conv_id), makeHistory(75).slice(45).reverse().map((i) => i.id));
   let s = await state(env);
   assert.equal(s.backfillQueue.length, 45);
-  assert.equal(s.watermark, env.history[29].updated_at);
+  assert.equal(s.watermark, env.history[74].updated_at);
 
   await runPlatformRound(env.ctx, PLATFORM);
   r = await runPlatformRound(env.ctx, PLATFORM);
   assert.equal(r.fetched, 15);
+  assert.equal(env.posted.at(-1).conv_id, env.history[0].id); // 最舊的最後
   assert.equal(r.listed, 0); // 回填中不重新列清單
   s = await state(env);
   assert.equal(s.backfillQueue, null);
@@ -41,6 +43,15 @@ test("回填：空水位線時建立佇列，分多輪取完後轉一般模式",
   env.clock.advance(30 * MIN);
   await runPlatformRound(env.ctx, PLATFORM);
   assert.equal(env.posted.at(-1).conv_id, "live");
+});
+
+test("回填：舊版存下的由舊到新佇列，也改依新到舊取", async () => {
+  const env = makeEnv({ history: makeHistory(40) });
+  const old = makeHistory(40).map(({ id, updated_at }) => ({ id, updated_at, project: null }));
+  await env.ctx.state.patch("chatgpt", { watermark: old[0].updated_at, backfillQueue: old });
+  await runPlatformRound(env.ctx, PLATFORM);
+  assert.deepEqual(env.posted.map((c) => c.conv_id), old.slice(10).reverse().map((i) => i.id));
+  assert.equal((await state(env)).backfillQueue.length, 10);
 });
 
 test("一般模式：每輪上限 30，由舊到新，下一輪接續", async () => {

@@ -13,6 +13,11 @@ export function sortOldestFirst(items) {
   return [...items].sort((a, b) => ts(a.updated_at) - ts(b.updated_at));
 }
 
+/** 依 updated_at 由新到舊排序（不改動原陣列） */
+export function sortNewestFirst(items) {
+  return [...items].sort((a, b) => ts(b.updated_at) - ts(a.updated_at));
+}
+
 /** 已靜止（最後更新超過 settleMs）的項目 */
 export function isSettled(item, now, settleMs = DEFAULTS.settleMs) {
   return ts(item.updated_at) <= now - settleMs;
@@ -32,11 +37,12 @@ export function planNormal(items, watermark, now, { cap = DEFAULTS.cap, settleMs
 }
 
 /**
- * 回填模式：由完整歷史建立佇列（只留已靜止的，由舊到新，只存必要欄位；project 供專案黑名單判斷）。
- * 未靜止的對話不放進佇列；它們比佇列裡最新的還新，回填結束後會由一般模式接手。
+ * 回填模式：由完整歷史建立佇列（只留已靜止的，由新到舊，只存必要欄位；project 供專案黑名單判斷）。
+ * 由新到舊：最近的想法先進資料庫（George 決定，T08）。水位線取最大值，第一篇處理完就到佇列最新，
+ * 回填結束後一般模式從那裡接手。未靜止的對話不放進佇列；它們比佇列裡最新的還新，會由一般模式接手。
  */
 export function buildBackfillQueue(items, now, { settleMs = DEFAULTS.settleMs } = {}) {
-  return sortOldestFirst(items.filter((i) => isSettled(i, now, settleMs))).map(({ id, updated_at, project = null }) => ({ id, updated_at, project }));
+  return sortNewestFirst(items.filter((i) => isSettled(i, now, settleMs))).map(({ id, updated_at, project = null }) => ({ id, updated_at, project }));
 }
 
 /** 水位線只往前：取兩者較新者 */

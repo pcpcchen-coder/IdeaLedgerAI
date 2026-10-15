@@ -49,7 +49,7 @@ test("回填：佇列帶 project；讀回後才發現在黑名單的不送出；
   const r = await runPlatformRound(env.ctx, { id: "chatgpt", name: "ChatGPT", hosts: [] });
   assert.equal(r.status, "ok");
   assert.deepEqual(env.posted.map((c) => c.conv_id), ["c0"]);
-  assert.deepEqual(env.calls.filter((c) => c.op === "getConversation").map((c) => c.args[0]), ["c0", "c2"]);
+  assert.deepEqual(env.calls.filter((c) => c.op === "getConversation").map((c) => c.args[0]), ["c2", "c0"]); // 回填由新到舊
   const s = await env.ctx.state.get("chatgpt");
   assert.equal(s.backfillQueue, null);
   assert.equal(s.watermark, env.history[2].updated_at);

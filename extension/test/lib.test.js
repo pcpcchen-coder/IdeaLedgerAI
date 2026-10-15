@@ -24,10 +24,10 @@ test("planner：只取比水位線新的；不同小數位數的時間也能正�
   assert.deepEqual(planNormal(items, "2026-10-15T01:00:00.000Z", NOW).map((i) => i.id), ["b", "c"]);
 });
 
-test("planner：回填佇列只放已靜止的，由舊到新，只存 id、updated_at 與 project（供專案黑名單）", () => {
+test("planner：回填佇列只放已靜止的，由新到舊，只存 id、updated_at 與 project（供專案黑名單）", () => {
   const items = [...makeHistory(3), { id: "fresh", title: "x", updated_at: new Date(NOW - MIN).toISOString() }];
   const q = buildBackfillQueue(items.reverse(), NOW);
-  assert.deepEqual(q.map((i) => i.id), ["c0", "c1", "c2"]);
+  assert.deepEqual(q.map((i) => i.id), ["c2", "c1", "c0"]);
   assert.deepEqual(Object.keys(q[0]), ["id", "updated_at", "project"]);
 });
 

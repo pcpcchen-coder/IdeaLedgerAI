@@ -12,7 +12,6 @@
 ## 卡住／待決定
 
 - **ChatGPT 清單端點 429（T08）**：George 帳號的 `/backend-api/conversations` 暫時被限流，連 ChatGPT 網頁自己的側欄請求也 429；單篇正常。等退避後自動重試。若長期如此，再評估降低清單請求頻率（例如每輪只讀第 1 頁）。
-- **首次回填順序（待 George 決定）**：目前由舊到新，292 篇的帳號要約 10 輪（預設 30 分鐘一輪，約 5 小時）才輪到最近的對話。建議改為由新到舊，先看到最近的想法。
 - **Claude 回填時的專案名稱（T07）。** 單篇回應只有 `project_uuid`，名稱來自清單；回填佇列跨輪保存時只記 id，所以回填中、且本輪沒列過清單的對話，想法卡上的平台專案會是 UUID。一般模式不受影響。要補的話需確認是否有取得 Claude 專案名稱的端點（需採樣）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
@@ -21,6 +20,7 @@
 
 ### 2026-10-15 · T08 M1 本機首測（🟡 進行中）
 - 完成：在 George 的 Mac（現用 Chrome 設定檔）裝好擴充與 collector；Claude 端到端打通（292 篇列出、首輪讀 30 篇寫入）。修正隨機延遲鎖住「立即巡檢」的問題。
+- 決定（George）：首次回填改為由新到舊；已存下的舊佇列也依新到舊取。
 - 學到：MV3 背景程式不能用長 setTimeout 等待；ChatGPT 清單端點有帳號層限流，被限流時連網頁本身的側欄也拿不到，單篇端點不受影響。
 - 剩餘：Claude 回填完成後驗 A–C、E 與分支；ChatGPT 429。
 
