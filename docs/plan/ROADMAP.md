@@ -42,7 +42,7 @@
 | [T04](tickets/T04_ChatGPT解析層.md) | ChatGPT 解析層 | ☁️ | 60 分 | T01 | ✅ |
 | [T05](tickets/T05_Claude解析層.md) | Claude 解析層 | ☁️ | 45 分 | T02 | ✅ |
 | [T06](tickets/T06_巡檢核心.md) | 巡檢核心（排程、分頁、節流、水位線） | ☁️ | 90 分 | T00 | ✅ |
-| [T07](tickets/T07_取資料層與設定頁.md) | 取資料層與設定頁 | ☁️ | 60 分 | T04, T05, T06 | ⬜ |
+| [T07](tickets/T07_取資料層與設定頁.md) | 取資料層與設定頁 | ☁️ | 60 分 | T04, T05, T06 | ✅ |
 | [T08](tickets/T08_M1本機首測.md) | M1 本機首測 | 🖥 | 30 分 | T03, T07 | ⬜ |
 | **Phase 2 有想法卡（M2）** |||||
 | [T09](tickets/T09_Summarizer_worker.md) | Summarizer worker | ☁️ | 90 分 | T03 | ✅ |

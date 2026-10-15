@@ -7,5 +7,6 @@
   "host_permissions": ["http://127.0.0.1:8787/*"],
   "background": { "service_worker": "bg.js" },
   "content_scripts": [],
+  "action": { "default_title": "Idea Ledger" },
   "options_page": "options.html"
 }

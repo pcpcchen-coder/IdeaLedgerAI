@@ -4,17 +4,26 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T07 取資料層與設定頁（依賴 T04 ✅、T05 ✅、T06 ✅）。T11 還等 T08。
-- **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
-- **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘，見工單檔）；完成後雲端做 T25，想法卡就會顯示 ChatGPT 專案名稱。
+- **🖥 等 George（關鍵路徑）：** T08 M1 本機首測（約 30 分鐘，依賴 T03 ✅、T07 ✅）：`make build` 後在 Chrome 載入 `extension/dist/`、啟動 collector、在設定頁填 token 後按「立即巡檢」。
+- **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘）；完成後雲端做 T25。
+- **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）。
+- **☁️ 雲端可做：** T16 排除規則 UI（依賴 T07 ✅）、T18 設定頁免程式新增平台（依賴 T03 ✅、T07 ✅）；或預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
 
 ## 卡住／待決定
 
+- **Claude 回填時的專案名稱（T07）。** 單篇回應只有 `project_uuid`，名稱來自清單；回填佇列跨輪保存時只記 id，所以回填中、且本輪沒列過清單的對話，想法卡上的平台專案會是 UUID。一般模式不受影響。要補的話需確認是否有取得 Claude 專案名稱的端點（需採樣）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T07 取資料層與設定頁
+- 完成：ChatGPT、Claude 的 `fetch.js`（同源 GET、權杖／組織 ID 快取、401 重取一次、錯誤類型對應），共用的 `lib/http.js`；設定頁、各平台燈號、圖示徽章、巡檢總開關。擴充測試 77 個全過；以 Playwright＋Chromium 實際載入 `dist/` 開設定頁並儲存。
+- 學到：
+  - Claude 的 `/api/organizations` 未登入時回 403，與「403 = 限流」的通則相反，所以 `http.js` 允許個別端點覆寫狀態碼解讀。
+  - 同一個 RPC 操作內可能有兩次請求（取權杖＋清單、401 重取），巡檢核心的節流管不到，所以 `http.js` 在分頁內再保證一次 ≥3 秒。
+  - 數字輸入框的 `min` 會讓瀏覽器靜默擋下送出（實測發現），改用 `novalidate` 由程式修正範圍。
 
 ### 2026-10-15 · 規劃：ChatGPT 專案名稱（T24、T25）
 - 決定（George）：想法卡要顯示 ChatGPT 的專案名稱，不是 `g-p-` ID。

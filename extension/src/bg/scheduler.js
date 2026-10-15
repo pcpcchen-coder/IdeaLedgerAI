@@ -6,7 +6,7 @@ export const ALARM_NAME = "idealedger-sweep";
  * @param {object} opts
  * @param {{ create(name, info): void, clear?(name): Promise<boolean> }} opts.alarms chrome.alarms 或相容物件
  * @param {{ sleep(ms): Promise<void>, random(): number }} opts.clock
- * @param {() => Promise<any>} opts.runAll
+ * @param {(source: "alarm"|"manual") => Promise<any>} opts.runAll
  * @param {number} [opts.jitterMaxMs]
  */
 export function createScheduler({ alarms, clock, runAll, jitterMaxMs = 5 * 60 * 1000 }) {
@@ -30,7 +30,7 @@ export function createScheduler({ alarms, clock, runAll, jitterMaxMs = 5 * 60 * 
       running = (async () => {
         try {
           if (source === "alarm" && jitterMaxMs > 0) await clock.sleep(Math.floor(clock.random() * jitterMaxMs));
-          return await runAll();
+          return await runAll(source);
         } finally {
           running = null;
         }
