@@ -32,11 +32,11 @@ export function planNormal(items, watermark, now, { cap = DEFAULTS.cap, settleMs
 }
 
 /**
- * 回填模式：由完整歷史建立佇列（只留已靜止的，由舊到新，只存必要欄位）。
+ * 回填模式：由完整歷史建立佇列（只留已靜止的，由舊到新，只存必要欄位；project 供專案黑名單判斷）。
  * 未靜止的對話不放進佇列；它們比佇列裡最新的還新，回填結束後會由一般模式接手。
  */
 export function buildBackfillQueue(items, now, { settleMs = DEFAULTS.settleMs } = {}) {
-  return sortOldestFirst(items.filter((i) => isSettled(i, now, settleMs))).map(({ id, updated_at }) => ({ id, updated_at }));
+  return sortOldestFirst(items.filter((i) => isSettled(i, now, settleMs))).map(({ id, updated_at, project = null }) => ({ id, updated_at, project }));
 }
 
 /** 水位線只往前：取兩者較新者 */

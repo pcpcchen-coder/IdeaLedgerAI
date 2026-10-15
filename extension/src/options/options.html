@@ -39,6 +39,10 @@
     <label style="margin:0;font-weight:400"><input type="checkbox" id="sweepEnabled"> 定時巡檢</label>
   </div>
 
+  <h2>不記錄的專案</h2>
+  <p class="muted" style="margin:0 0 6px">一行一個，填平台上的專案名稱或專案 ID（不分大小寫）。這些專案的對話不會被讀取，也不會送到 collector。<br>不想記錄單一對話時，在第一則訊息加上 <code>#nolog</code>。</p>
+  <textarea id="projectBlacklist" rows="4" style="width:100%;box-sizing:border-box;padding:6px 8px;border:1px solid #c9c7c0;border-radius:6px;font:inherit"></textarea>
+
   <h2>平台</h2>
   <table>
     <thead><tr><th>巡檢</th><th>平台</th><th>狀態</th><th>最後成功</th><th>上輪抓取</th></tr></thead>

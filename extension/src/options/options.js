@@ -55,6 +55,7 @@ async function load() {
   const config = await loadConfig(storage);
   for (const f of FIELDS) $(f).value = config[f];
   $("sweepEnabled").checked = config.sweepEnabled;
+  $("projectBlacklist").value = config.projectBlacklist.join("\n");
   await refresh();
 }
 
@@ -64,9 +65,10 @@ $("form").addEventListener("submit", async (e) => {
     [...document.querySelectorAll("input[data-platform]")].map((b) => [b.dataset.platform, b.checked]),
   );
   const form = Object.fromEntries(FIELDS.map((f) => [f, $(f).value]));
-  const config = formToConfig({ ...form, sweepEnabled: $("sweepEnabled").checked, platforms });
+  const config = formToConfig({ ...form, sweepEnabled: $("sweepEnabled").checked, platforms, projectBlacklist: $("projectBlacklist").value });
   await storage.set({ config });
   for (const f of FIELDS) $(f).value = config[f];
+  $("projectBlacklist").value = config.projectBlacklist.join("\n");
   message(config.token ? "已儲存。" : "已儲存；尚未設定 token，巡檢不會執行。");
   await refresh();
 });

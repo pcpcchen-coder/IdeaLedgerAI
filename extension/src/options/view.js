@@ -30,7 +30,7 @@ export function platformRows(platforms, states, config, now = Date.now()) {
       light: view.light,
       label: view.label + backoff,
       lastSuccess: shortTime(s.lastSuccessAt),
-      fetched: s.lastRun ? `${s.lastRun.fetched}／列出 ${s.lastRun.listed}` : "—",
+      fetched: s.lastRun ? `${s.lastRun.fetched}／列出 ${s.lastRun.listed}` + (s.lastRun.excluded ? `（略過 ${s.lastRun.excluded}）` : "") : "—",
       error: s.lastRun?.error ?? "",
     };
   });
@@ -39,7 +39,7 @@ export function platformRows(platforms, states, config, now = Date.now()) {
 /**
  * 表單值 → 要儲存的設定。平台開關只記「停用」的平台（未列出的預設啟用，新平台自動啟用）。
  * @param {{ collectorUrl: string, token: string, intervalMinutes: string|number, sweeper: string, sweepEnabled: boolean,
- *           platforms: Record<string, boolean> }} form
+ *           platforms: Record<string, boolean>, projectBlacklist?: string }} form  projectBlacklist 為多行文字
  */
 export function formToConfig(form) {
   const enabled = Object.fromEntries(Object.entries(form.platforms ?? {}).filter(([, on]) => !on).map(([id]) => [id, false]));

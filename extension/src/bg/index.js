@@ -36,7 +36,7 @@ async function runAll(source) {
     collector: createCollectorClient({ baseUrl: config.collectorUrl, token: config.token }),
     clock: realClock,
     newThrottle: () => createThrottle(),
-    config: { ...ROUND_DEFAULTS, sweeper: config.sweeper },
+    config: { ...ROUND_DEFAULTS, sweeper: config.sweeper, projectBlacklist: config.projectBlacklist },
   };
   try {
     const results = await runAllPlatforms(ctx, registeredPlatforms(), (id) => isPlatformEnabled(config, id));

@@ -1,6 +1,7 @@
 // 單一平台一輪巡檢（T06）。背景程式負責所有決策；平台分頁只透過 rpc 執行 adapter。
 // 平台是開放的：這裡只用平台描述（id、name、hosts），不認得任何特定平台。
 import { isBackingOff, onRateLimited, onSuccess } from "../lib/backoff.js";
+import { isExcludedProject } from "../lib/exclude.js";
 import { advanceWatermark, buildBackfillQueue, planNormal, reachedWatermark, DEFAULTS } from "../lib/planner.js";
 
 export const ROUND_DEFAULTS = {
@@ -9,6 +10,7 @@ export const ROUND_DEFAULTS = {
   maxListPages: 20, // 一般模式最多翻幾頁
   maxBackfillPages: 500, // 回填列清單最多翻幾頁
   sweeper: "mac-mini",
+  projectBlacklist: [], // 專案黑名單（T16）：這些專案的對話不讀單篇、不送 collector
 };
 
 const iso = (ms) => new Date(ms).toISOString();
@@ -44,6 +46,7 @@ export async function runPlatformRound(ctx, platform) {
   const throttle = ctx.newThrottle();
   let listed = 0;
   let fetched = 0;
+  let excluded = 0;
 
   const call = async (tabId, op, args = []) => {
     await throttle.wait();
@@ -65,7 +68,7 @@ export async function runPlatformRound(ctx, platform) {
 
   async function finish(status, error = null) {
     const finishedAt = clock.now();
-    const run = { started_at: iso(startedAt), finished_at: iso(finishedAt), listed, fetched, error };
+    const run = { started_at: iso(startedAt), finished_at: iso(finishedAt), listed, fetched, excluded, error };
     const current = await state.get(id);
     const patch = { status, lastRun: run };
     if (status === "ok") Object.assign(patch, onSuccess(), { lastSuccessAt: run.finished_at });
@@ -98,18 +101,25 @@ export async function runPlatformRound(ctx, platform) {
       toFetch = planNormal(items, s.watermark, clock.now(), { cap: config.cap, settleMs: config.settleMs });
     }
 
+    const blacklist = config.projectBlacklist ?? [];
     for (const item of toFetch) {
-      const conv = await call(tabId, "getConversation", [item.id]);
-      await collector.postConversation({
-        ...conv,
-        platform: id,
-        platform_name: platform.name,
-        capture: "api",
-        swept_at: iso(clock.now()),
-        sweeper: config.sweeper,
-      });
-      fetched++;
-      // 每成功一篇就存水位線：服務程式可能隨時被終止，下一輪要能接續
+      // 黑名單專案：清單上就看得出來的不讀單篇；讀回後才知道專案的（例如回填佇列早於黑名單）不送出。
+      // 兩種都照常推進水位線、移出佇列，避免每輪重複處理。
+      const conv = isExcludedProject(item.project, blacklist) ? null : await call(tabId, "getConversation", [item.id]);
+      if (conv && !isExcludedProject(conv.project, blacklist)) {
+        await collector.postConversation({
+          ...conv,
+          platform: id,
+          platform_name: platform.name,
+          capture: "api",
+          swept_at: iso(clock.now()),
+          sweeper: config.sweeper,
+        });
+        fetched++;
+      } else {
+        excluded++;
+      }
+      // 每處理完一篇就存水位線：服務程式可能隨時被終止，下一輪要能接續
       const cur = await state.get(id);
       const patch = { watermark: advanceWatermark(cur.watermark, item.updated_at) };
       if (cur.backfillQueue) {

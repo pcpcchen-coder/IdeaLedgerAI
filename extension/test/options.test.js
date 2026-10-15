@@ -35,6 +35,8 @@ test("設定頁平台列表：由平台描述動態產生（含新平台），�
     ["some-new-ai", "Some New AI", true, "gray"],
   ]);
   assert.equal(rows[0].fetched, "3／列出 28");
+  const excl = platformRows(PLATFORMS.slice(0, 1), { chatgpt: { status: "ok", lastRun: { fetched: 1, listed: 5, excluded: 2 } } }, {}, NOW);
+  assert.equal(excl[0].fetched, "1／列出 5（略過 2）");
   assert.match(rows[1].label, /^退避中，.+ 後重試$/);
   assert.equal(rows[1].error, "HTTP 429");
   assert.equal(rows[2].lastSuccess, "—");
@@ -48,8 +50,10 @@ test("設定表單：整理成合法設定；平台開關只記停用的平台",
   });
   assert.deepEqual(c, {
     collectorUrl: "http://127.0.0.1:8787", token: "abc", intervalMinutes: 15, sweeper: "mac-mini",
-    sweepEnabled: false, enabled: { claude: false },
+    sweepEnabled: false, enabled: { claude: false }, projectBlacklist: [],
   });
+  const withList = formToConfig({ platforms: {}, projectBlacklist: "  公司專案A \n\ng-p-123\n公司專案a\n" });
+  assert.deepEqual(withList.projectBlacklist, ["公司專案A", "g-p-123"]); // 去空白、略過空行、不分大小寫去重複
   assert.equal(normalizeConfig({ intervalMinutes: "abc" }).intervalMinutes, 30);
   assert.equal(normalizeConfig({}).sweepEnabled, true);
 });

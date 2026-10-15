@@ -7,7 +7,7 @@
 - **🖥 等 George（關鍵路徑）：** T08 M1 本機首測（約 30 分鐘，依賴 T03 ✅、T07 ✅）：`make build` 後在 Chrome 載入 `extension/dist/`、啟動 collector、在設定頁填 token 後按「立即巡檢」。
 - **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘）；完成後雲端做 T25。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）。
-- **☁️ 雲端可做：** T16 排除規則 UI（依賴 T07 ✅）、T18 設定頁免程式新增平台（依賴 T03 ✅、T07 ✅）；或預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
+- **☁️ 雲端可做：** T18 設定頁免程式新增平台（依賴 T03 ✅、T07 ✅）；或預做 T11 的雲端部分（docker-compose、launchd、部署步驟）。
 
 ## 卡住／待決定
 
@@ -17,6 +17,11 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T16 排除規則 UI
+- 完成：專案黑名單（設定頁多行文字框；巡檢時不讀單篇、不送 collector；略過數顯示在設定頁）。`#nolog` 確認由 collector 既有測試涵蓋。擴充測試 82 個全過，並以 Playwright 實測設定頁。
+- 學到：黑名單項目若在規劃階段直接濾掉，水位線可能停在它們之前，或越過還沒處理的對話；改為保留在計畫中、處理時跳過請求，水位線順序才正確。ChatGPT 在 T25 之前只能以 `g-p-` ID 列入黑名單。
+- 剩餘：黑名單不追溯已收進 collector 的對話（工單「不做」）。
 
 ### 2026-10-15 · T07 取資料層與設定頁
 - 完成：ChatGPT、Claude 的 `fetch.js`（同源 GET、權杖／組織 ID 快取、401 重取一次、錯誤類型對應），共用的 `lib/http.js`；設定頁、各平台燈號、圖示徽章、巡檢總開關。擴充測試 77 個全過；以 Playwright＋Chromium 實際載入 `dist/` 開設定頁並儲存。
