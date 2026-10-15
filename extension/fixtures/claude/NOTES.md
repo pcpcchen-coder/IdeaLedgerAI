@@ -53,3 +53,9 @@
 ## 時間格式
 
 全部是 ISO 字串，6 位小數，`Z` 結尾（`"2026-10-15T02:58:44.728797Z"`）。
+
+## 專案名稱（T08 補充）
+
+- 單篇回應只有 `project_uuid`。專案名稱用 `GET /api/organizations/{org}/projects/{project_uuid}` 取 `name`（2026-10-15 在 George 帳號驗證 200）。
+- 另有 `GET /api/organizations/{org}/projects?limit=…` 回陣列（`uuid`、`name`…），可一次取全部；adapter 目前用單一專案端點並在分頁內快取。
+- 查不到（404 等）時退回 `project_uuid`；限流與未登入照常拋出。

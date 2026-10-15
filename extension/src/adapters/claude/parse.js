@@ -26,6 +26,19 @@ function projectOf(c) {
 }
 
 /**
+ * GET /api/organizations/{org}/projects/{project_uuid}：只取專案名稱（NOTES「專案名稱」）。
+ * @returns {string|null} 沒有名稱時回 null，由呼叫端退回 project_uuid
+ */
+export function parseProject(json) {
+  return isObj(json) && typeof json.name === "string" && json.name.trim() ? json.name : null;
+}
+
+/** 單篇回應的 project_uuid（沒有則 null） */
+export function projectUuidOf(json) {
+  return isObj(json) && typeof json.project_uuid === "string" && json.project_uuid ? json.project_uuid : null;
+}
+
+/**
  * GET /api/organizations：取 capabilities 含 "chat" 的組織（NOTES 第 6 題）。
  * @returns {{ orgId: string }}
  */

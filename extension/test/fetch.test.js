@@ -140,9 +140,39 @@ test("Claude：取 chat 組織、清單與單篇輸出正確；專案名稱由�
   for (const c of fetch.calls) assert.ok(c.init.method === "GET" && c.init.credentials === "include" && !c.init.headers.Authorization);
 });
 
-test("Claude：沒在清單看過的對話，project 退回 project_uuid", async () => {
-  const { client } = claude([[isOrgs, ORGS[1]], ["/api/organizations/ORG_1/chat_conversations/", { body: fixture("claude", "conversation_project.json") }]]);
+const PROJECT_URL = "/api/organizations/ORG_1/projects/01a13d2c-ba34-737e-9f8d-b4b555f7a468";
+
+test("Claude：沒在清單看過的對話，查專案取名稱；同一專案只查一次", async () => {
+  const { client, fetch } = claude([
+    [isOrgs, ORGS[1]],
+    ["/api/organizations/ORG_1/chat_conversations/", { body: fixture("claude", "conversation_project.json") }],
+    [PROJECT_URL, { body: { uuid: "01a13d2c-ba34-737e-9f8d-b4b555f7a468", name: "測試專案" } }],
+  ]);
+  assert.equal((await client.getConversation("3791b027-8d83-4e71-9598-60cedf1126fc")).project, "測試專案");
+  assert.equal((await client.getConversation("3791b027-8d83-4e71-9598-60cedf1126fc")).project, "測試專案");
+  assert.equal(fetch.calls.filter((c) => c.url === PROJECT_URL).length, 1);
+  for (const c of fetch.calls) assert.equal(c.init.method, "GET");
+});
+
+test("Claude：專案查不到（404）退回 project_uuid；沒有專案的對話不查", async () => {
+  const { client, fetch } = claude([
+    [isOrgs, ORGS[1]],
+    ["/api/organizations/ORG_1/chat_conversations/3791", { body: fixture("claude", "conversation_project.json") }],
+    ["/api/organizations/ORG_1/chat_conversations/0c9a", { body: fixture("claude", "conversation_simple.json") }],
+    [PROJECT_URL, { status: 404, body: {} }],
+  ]);
   assert.equal((await client.getConversation("3791b027-8d83-4e71-9598-60cedf1126fc")).project, "01a13d2c-ba34-737e-9f8d-b4b555f7a468");
+  assert.equal((await client.getConversation("0c9aaaff-0eaa-4de1-b593-1ccaac18b464")).project, null);
+  assert.equal(fetch.calls.filter((c) => c.url.includes("/projects/")).length, 1);
+});
+
+test("Claude：查專案遇到限流照常拋出（交給退避）", async () => {
+  const { client } = claude([
+    [isOrgs, ORGS[1]],
+    ["/api/organizations/ORG_1/chat_conversations/", { body: fixture("claude", "conversation_project.json") }],
+    [PROJECT_URL, { status: 429, body: {} }],
+  ]);
+  await assert.rejects(client.getConversation("3791b027-8d83-4e71-9598-60cedf1126fc"), RateLimited);
 });
 
 test("Claude：/api/organizations 回 403 代表未登入（不是限流）；沒有 chat 組織也是未登入", async () => {

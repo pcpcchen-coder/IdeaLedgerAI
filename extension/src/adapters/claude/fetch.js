@@ -1,8 +1,8 @@
 // Claude 取資料層：在 claude.ai 分頁內以同源 GET 讀取（只帶 cookie），回應交給 parse.js。
 // 請求路徑、分頁以 fixtures/claude/NOTES.md 為準。
-import { NeedsLogin } from "../../lib/errors.js";
+import { NeedsLogin, RateLimited } from "../../lib/errors.js";
 import { createGetter } from "../../lib/http.js";
-import { parseConversation, parseList, parseOrganizations } from "./parse.js";
+import { parseConversation, parseList, parseOrganizations, parseProject, projectUuidOf } from "./parse.js";
 
 export const PAGE_SIZE = 30;
 
@@ -13,6 +13,24 @@ export function createClaudeClient(opts) {
   const http = createGetter(opts);
   let orgId = null; // 分頁存活期間快取
   const projectNames = new Map(); // 對話 id → 清單上的專案名稱（單篇回應只有 project_uuid）
+  const projectsByUuid = new Map(); // project_uuid → 專案名稱（null 代表查不到，不重查）
+
+  /**
+   * 單篇只有 project_uuid：查一次專案取名稱，分頁存活期間快取。
+   * 回填時不列清單、分頁也可能剛重新載入，不能只靠清單上的名稱（T08 首測發現）。
+   * 查不到（404、格式不符等）就退回 project_uuid，不讓整篇失敗；登入或限流錯誤照常往上拋。
+   */
+  async function projectName(uuid) {
+    if (!projectsByUuid.has(uuid)) {
+      try {
+        projectsByUuid.set(uuid, parseProject(await api(`/projects/${encodeURIComponent(uuid)}`)));
+      } catch (e) {
+        if (e instanceof NeedsLogin || e instanceof RateLimited) throw e;
+        projectsByUuid.set(uuid, null);
+      }
+    }
+    return projectsByUuid.get(uuid);
+  }
 
   async function getOrg() {
     if (!orgId) {
@@ -58,7 +76,9 @@ export function createClaudeClient(opts) {
     },
     async getConversation(id) {
       const json = await api(`/chat_conversations/${encodeURIComponent(id)}?tree=True&rendering_mode=messages&render_all_tools=true`);
-      return parseConversation(json, { project: projectNames.get(id) ?? null });
+      const uuid = projectUuidOf(json);
+      const name = projectNames.get(id) ?? (uuid ? await projectName(uuid) : null);
+      return parseConversation(json, { project: name });
     },
   };
 }
