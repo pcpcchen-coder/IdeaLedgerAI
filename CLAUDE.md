@@ -44,6 +44,7 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 ## 慣例
 
 - 文件與註解用繁體中文。
+- Summarizer 由 `python -m summarizer` 執行（環境變數見 `summarizer/prompt.md`）；設定 `IDEA_VAULT` 才會寫 Obsidian。想法卡中 `<!-- 以下為個人筆記，系統不會覆寫 -->` 之後的內容與 `status` 由使用者擁有，任何改動都不得覆寫。
 - 想法卡路徑：`Ideas/YYYY/MM/YYYY-MM-DD_<platform>_<標題>.md`；日誌：`Ideas/_log/YYYY-MM-DD.md`，第一行為各平台巡檢狀態。
 - 日誌依對話實際更新時間歸日，不依巡檢時間。
 - 各平台內部介面皆為非官方，實作前先以 DevTools Network 驗證，並在 adapter 內做回應格式檢查。
