@@ -12,7 +12,7 @@
 ## 卡住／待決定
 
 - **專案黑名單填 ID 的項目（T25）**：ChatGPT、Claude 對話的 `project` 現在都是名稱，設定頁黑名單若填的是 `g-p-…` 或 Claude 專案 UUID 就不會命中。要支援 ID，需讓對話同時帶專案 ID 與名稱（動到正規化格式、巡檢核心與 collector），先不做；設定頁說明可改成「填專案名稱」。
-- **ChatGPT 清單端點 429（T08）**：George 帳號的 `/backend-api/conversations` 暫時被限流，連 ChatGPT 網頁自己的側欄請求也 429；單篇正常。等退避後自動重試。若長期如此，再評估降低清單請求頻率（例如每輪只讀第 1 頁）。
+- **ChatGPT 清單端點 429（T08）**：George 帳號的 `/backend-api/conversations` 暫時被限流，連 ChatGPT 網頁自己的側欄請求也 429；單篇正常。06:02、07:28 兩次都 429，已退避到 2 小時（約 09:28 UTC 再試）。若長期如此，再評估降低清單請求頻率（例如每輪只讀第 1 頁）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
