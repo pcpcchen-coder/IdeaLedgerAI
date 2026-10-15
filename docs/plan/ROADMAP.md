@@ -47,7 +47,7 @@
 | **Phase 2 有想法卡（M2）** |||||
 | [T09](tickets/T09_Summarizer_worker.md) | Summarizer worker | ☁️ | 90 分 | T03 | ✅ |
 | [T10](tickets/T10_Obsidian寫入與每日日誌.md) | Obsidian 寫入與每日日誌 | ☁️ | 60 分 | T09 | ✅ |
-| T11 | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T23 | ⬜ |
+| [T11](tickets/T11_MacMini部署.md) | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T23 | 🟡 |
 | **Phase 3 Kimi（M3）** |||||
 | T12 | Kimi 探查 | 🖥 | 30 分 | T08 | ⬜ |
 | T13 | Kimi adapter | ☁️ | 60 分 | T12 | ⬜ |
