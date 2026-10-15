@@ -11,11 +11,15 @@
 
 ## 卡住／待決定
 
+- **專案黑名單填 ID 的項目（T25）**：ChatGPT、Claude 對話的 `project` 現在都是名稱，設定頁黑名單若填的是 `g-p-…` 或 Claude 專案 UUID 就不會命中。要支援 ID，需讓對話同時帶專案 ID 與名稱（動到正規化格式、巡檢核心與 collector），先不做；設定頁說明可改成「填專案名稱」。
 - **ChatGPT 清單端點 429（T08）**：George 帳號的 `/backend-api/conversations` 暫時被限流，連 ChatGPT 網頁自己的側欄請求也 429；單篇正常。等退避後自動重試。若長期如此，再評估降低清單請求頻率（例如每輪只讀第 1 頁）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T25 ChatGPT 專案名稱
+- 完成：adapter 讀 sidebar 專案名稱表（cursor 翻頁、分頁內快取、遇新 ID 超過 10 分鐘才重讀），清單與單篇的 `project` 改為名稱；失敗保留 ID，429 照常退避。新增 6 個測試，`make test` 全過。只改 `adapters/chatgpt/`、fixtures 與測試。
 
 ### 2026-10-15 · T24 ChatGPT 專案名稱採樣
 - 完成：在內建瀏覽器建立「IdeaLedger 測試專案」與測試對話 F，採樣 `/backend-api/gizmos/snorlax/sidebar`（cursor 分頁，每頁 20），遮蔽後提交兩頁 fixtures 與 NOTES「專案名稱」一節。

@@ -27,6 +27,25 @@ function projectOf(gizmoId) {
 }
 
 /**
+ * GET /backend-api/gizmos/snorlax/sidebar?conversations_per_gizmo=0&limit=20&owned_only=false[&cursor=…]
+ * 專案名稱表（NOTES「專案名稱」）：items[].gizmo.gizmo.id → display.name；cursor 為 null 表示最後一頁。
+ * @returns {{ names: Record<string, string>, cursor: string|null }}
+ */
+export function parseProjects(json) {
+  if (!isObj(json)) fail("專案清單不是物件");
+  if (!Array.isArray(json.items)) fail("專案清單缺少 items");
+  if (json.cursor != null && typeof json.cursor !== "string") fail("專案清單 cursor 不是字串");
+  const names = {};
+  json.items.forEach((it, i) => {
+    const g = isObj(it) && isObj(it.gizmo) ? it.gizmo.gizmo : null;
+    if (!isObj(g) || typeof g.id !== "string" || g.id === "") fail(`items[${i}].gizmo.gizmo.id 缺失`);
+    const name = isObj(g.display) && typeof g.display.name === "string" ? g.display.name.trim() : "";
+    if (g.id.startsWith(PROJECT_PREFIX) && name) names[g.id] = name;
+  });
+  return { names, cursor: json.cursor ?? null };
+}
+
+/**
  * GET /api/auth/session
  * @returns {{ accessToken: string }}
  */

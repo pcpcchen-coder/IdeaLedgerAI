@@ -64,6 +64,7 @@ test("ChatGPT：清單與單篇輸出正確；權杖只取一次並帶在 Author
   assert.deepEqual(fetch.calls.map((c) => c.url), [
     "/api/auth/session",
     "/backend-api/conversations?offset=0&limit=28&order=updated",
+    "/backend-api/gizmos/snorlax/sidebar?conversations_per_gizmo=0&limit=20&owned_only=false", // 專案名稱表（T25），只讀一次
     "/backend-api/conversations?offset=28&limit=28&order=updated",
     "/backend-api/conversation/6ad0425f-e738-83ec-967f-4dc358431e89",
   ]);
@@ -87,6 +88,7 @@ test("ChatGPT：401 時清掉權杖重取一次；再 401 就放棄（不無限�
   assert.equal((await client.listUpdated(null)).items.length, 28);
   assert.deepEqual(fetch.calls.map((c) => c.url.split("?")[0]), [
     "/api/auth/session", "/backend-api/conversations", "/api/auth/session", "/backend-api/conversations",
+    "/backend-api/gizmos/snorlax/sidebar", // 清單有專案對話時讀名稱表（T25）
   ]);
 
   const always = chatgpt([SESSION, ["/backend-api/conversations", { status: 401 }]]);
@@ -110,8 +112,8 @@ test("ChatGPT：403、429 → RateLimited；格式錯誤 → AdapterFormatError�
 
 test("同一個操作內的連續請求也間隔 ≥3 秒", async () => {
   const { client, clock } = chatgpt([SESSION, ["/backend-api/conversations", { body: fixture("chatgpt", "list_page1.json") }]]);
-  await client.listUpdated(null); // 取權杖 + 清單 = 兩次請求
-  assert.deepEqual(clock.sleeps, [MIN_GAP_MS]);
+  await client.listUpdated(null); // 取權杖 + 清單 + 專案名稱表（T25）= 三次請求
+  assert.deepEqual(clock.sleeps, [MIN_GAP_MS, MIN_GAP_MS]);
 });
 
 // ---- Claude ----
