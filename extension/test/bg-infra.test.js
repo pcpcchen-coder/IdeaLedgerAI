@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createScheduler, ALARM_NAME } from "../src/bg/scheduler.js";
+import { createScheduler, ALARM_NAME, RUN_ALARM_NAME } from "../src/bg/scheduler.js";
 import { createTabManager } from "../src/bg/tabs.js";
 import { createRpc } from "../src/bg/rpc.js";
 import { createCollectorClient } from "../src/bg/collector.js";
@@ -34,13 +34,23 @@ test("排程：同時觸發兩次只跑一輪；跑完可再觸發", async () =>
   release();
 });
 
-test("排程：鬧鐘觸發加 0–5 分鐘隨機延遲，手動觸發不加", async () => {
+test("排程：週期鬧鐘改排 0–5 分鐘隨機延遲的單次鬧鐘，等待期間不算執行中、手動可立即跑", async () => {
   const clock = fakeClock(0, 0.5);
-  const s = createScheduler({ alarms: { create() {} }, clock, runAll: async () => "ok" });
+  const created = [];
+  const sources = [];
+  const s = createScheduler({
+    alarms: { create: (n, info) => created.push([n, info]) },
+    clock,
+    runAll: async (src) => sources.push(src),
+  });
   await s.onAlarm({ name: ALARM_NAME });
-  assert.deepEqual(clock.sleeps, [150000]);
+  assert.deepEqual(created, [[RUN_ALARM_NAME, { delayInMinutes: 2.5 }]]);
+  assert.deepEqual(sources, []);
+  assert.equal(s.isRunning(), false); // 等待中「立即巡檢」不能被鎖住
   await s.trigger("manual");
-  assert.deepEqual(clock.sleeps, [150000]);
+  await s.onAlarm({ name: RUN_ALARM_NAME });
+  assert.deepEqual(sources, ["manual", "alarm"]);
+  assert.deepEqual(clock.sleeps, []); // 不用 setTimeout 等待（背景程式會被終止）
   assert.equal(s.onAlarm({ name: "other" }), null);
 });
 
