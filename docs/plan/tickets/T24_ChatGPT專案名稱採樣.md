@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| ⬜ 待辦 | 🖥 George | 15 分 | T01 |
+| ✅ 完成 | 🖥 George（由雲端工作階段在內建瀏覽器代做） | 15 分 | T01 |
 
 ## 目標
 
@@ -31,9 +31,9 @@
 
 ## 驗收
 
-- [ ] `extension/fixtures/chatgpt/projects.json` 已遮蔽並提交，含「IdeaLedger 測試專案」與其 `g-p-` ID
-- [ ] `NOTES.md` 記下請求路徑、參數、分頁、header 名稱，以及是否一次列出全部專案
-- [ ] `grep -ri "@" extension/fixtures/chatgpt/projects.json` 找不到 email
+- [x] 已遮蔽並提交（分兩頁：`projects_page1.json`、`projects_page2.json`），含「IdeaLedger 測試專案」與其 `g-p-` ID
+- [x] `NOTES.md` 記下請求路徑、參數、分頁、header 名稱，以及是否一次列出全部專案
+- [x] `grep -ri "@" extension/fixtures/chatgpt/projects_page*.json` 找不到 email
 
 ## 收工時
 

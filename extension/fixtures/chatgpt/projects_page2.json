@@ -1,0 +1,1414 @@
+{
+ "items": [
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-6a7fc8462cdc8191853df93c78118843",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-08-15T02:00:38.191513+00:00",
+     "updated_at": "2026-08-15T02:00:38.621975+00:00",
+     "last_interacted_at": "2026-08-15T02:03:47.863859+00:00",
+     "num_interactions": 2,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-08-15T02:00:38.195273+00:00",
+     "version_updated_at": "2026-08-15T02:00:38.613333+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": true,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-6a65724db12c81919d91419cd33d65ba",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-07-26T02:34:53.765942+00:00",
+     "updated_at": "2026-07-26T02:34:54.216808+00:00",
+     "last_interacted_at": "2026-08-13T07:13:32.045667+00:00",
+     "num_interactions": 3,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-07-26T02:34:53.769754+00:00",
+     "version_updated_at": "2026-07-26T02:34:54.217224+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": true,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-6a6ae7f0dfa08191a0c5deb89e09cb5c",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-07-30T05:58:08.893288+00:00",
+     "updated_at": "2026-07-30T05:58:09.348297+00:00",
+     "last_interacted_at": "2026-07-30T07:33:35.477970+00:00",
+     "num_interactions": 3,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-07-30T05:58:08.897621+00:00",
+     "version_updated_at": "2026-07-30T05:58:49.295240+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": true,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-6a656adfa4c4819190137d39859d8530",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-07-26T02:03:11.669021+00:00",
+     "updated_at": "2026-07-26T02:03:12.545103+00:00",
+     "last_interacted_at": "2026-07-26T02:09:40.823472+00:00",
+     "num_interactions": 2,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-07-26T02:03:11.676023+00:00",
+     "version_updated_at": "2026-07-26T02:03:12.547047+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": true,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69bba17676dc819180d83c7bb2b17ff5",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-19T07:10:46.464419+00:00",
+     "updated_at": "2026-03-19T07:10:48.316815+00:00",
+     "last_interacted_at": "2026-07-17T05:39:09.037634+00:00",
+     "num_interactions": 2,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-19T07:10:46.980608+00:00",
+     "version_updated_at": "2026-03-19T07:10:48.128298+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-6a48bcbc28948191867857e5081c1ecf",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-07-04T07:56:44.183311+00:00",
+     "updated_at": "2026-07-04T07:56:44.573741+00:00",
+     "last_interacted_at": "2026-07-04T13:11:51.878103+00:00",
+     "num_interactions": 2,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-07-04T07:56:44.190052+00:00",
+     "version_updated_at": "2026-07-04T08:25:31.377765+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": true,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a18ed188288191bef716ddf07b2012",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-02-27T12:32:17.531961+00:00",
+     "updated_at": "2026-02-27T12:32:20.504147+00:00",
+     "last_interacted_at": "2026-03-24T07:02:45.079832+00:00",
+     "num_interactions": 16,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-02-27T12:32:18.563012+00:00",
+     "version_updated_at": "2026-02-27T12:32:20.261725+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69b524a047688191b5bc5e2cf4021af8",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": null,
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-14T09:04:32.279011+00:00",
+     "updated_at": "2026-03-14T09:04:34.295442+00:00",
+     "last_interacted_at": "2026-03-14T09:07:25.124518+00:00",
+     "num_interactions": 1,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-14T09:04:32.903652+00:00",
+     "version_updated_at": "2026-03-14T09:04:34.102213+00:00",
+     "live_version": 1,
+     "training_disabled": null,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69b3c8431344819198574c69075d79ed",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-13T08:18:11.075410+00:00",
+     "updated_at": "2026-03-13T08:18:14.046124+00:00",
+     "last_interacted_at": "2026-03-13T08:18:16.404540+00:00",
+     "num_interactions": 0,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-13T08:18:11.955223+00:00",
+     "version_updated_at": "2026-03-13T08:18:13.784819+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a691e8a2248191be7b32fdab49f79c",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-03T07:46:48.633438+00:00",
+     "updated_at": "2026-03-13T02:23:07.024360+00:00",
+     "last_interacted_at": "2026-03-13T02:23:08.116889+00:00",
+     "num_interactions": 6,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 3,
+     "version_author": null,
+     "version_created_at": "2026-03-13T02:23:05.545776+00:00",
+     "version_updated_at": "2026-03-13T02:23:06.812192+00:00",
+     "live_version": 3,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a64716850c81919ae58b69d0fd18c0",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-03T02:27:34.519874+00:00",
+     "updated_at": "2026-03-03T02:27:37.352962+00:00",
+     "last_interacted_at": "2026-03-13T01:07:35.605344+00:00",
+     "num_interactions": 38,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-03T02:27:35.291144+00:00",
+     "version_updated_at": "2026-03-03T02:27:37.079290+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a946a16b248191970899d17ffb53a2",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "email",
+     "created_at": "2026-03-05T09:02:25.418617+00:00",
+     "updated_at": "2026-03-05T09:07:42.119746+00:00",
+     "last_interacted_at": "2026-03-05T09:02:28.288961+00:00",
+     "num_interactions": 0,
+     "tags": [],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-05T09:02:25.941021+00:00",
+     "version_updated_at": "2026-03-05T09:02:27.098836+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": false,
+     "memory_scope": "project_v2",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-697f545f4a4c8191b1735a74fd503d4a",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": null,
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-02-01T13:25:51.290366+00:00",
+     "updated_at": "2026-02-01T13:25:54.645022+00:00",
+     "last_interacted_at": "2026-03-05T07:32:02.097362+00:00",
+     "num_interactions": 4,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-02-01T13:25:52.024275+00:00",
+     "version_updated_at": "2026-02-01T13:25:54.425779+00:00",
+     "live_version": 1,
+     "training_disabled": null,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a6984512348191881023e1f482167e",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-03T08:13:57.071195+00:00",
+     "updated_at": "2026-03-03T08:13:57.769088+00:00",
+     "last_interacted_at": "2026-03-03T08:13:57.988013+00:00",
+     "num_interactions": 0,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-03T08:13:57.252907+00:00",
+     "version_updated_at": "2026-03-03T08:13:57.684785+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a697f19c8881918ea5d44711e8c515",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": "plane",
+      "theme": "#FFC300"
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-03T08:12:33.611541+00:00",
+     "updated_at": "2026-03-03T08:12:34.287594+00:00",
+     "last_interacted_at": "2026-03-03T08:12:34.544731+00:00",
+     "num_interactions": 0,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-03T08:12:33.819873+00:00",
+     "version_updated_at": "2026-03-03T08:12:34.204545+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a697e6bc148191af89e71d83cf204c",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": [],
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": "currency-dollar",
+      "theme": "#04B84C"
+     },
+     "share_recipient": "private",
+     "created_at": "2026-03-03T08:12:22.734888+00:00",
+     "updated_at": "2026-03-03T08:12:23.448921+00:00",
+     "last_interacted_at": "2026-03-03T08:12:23.698267+00:00",
+     "num_interactions": 0,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-03-03T08:12:22.926059+00:00",
+     "version_updated_at": "2026-03-03T08:12:23.373306+00:00",
+     "live_version": 1,
+     "training_disabled": false,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  },
+  {
+   "gizmo": {
+    "gizmo": {
+     "id": "g-p-69a2fe949e388191a2567053058c1b9b",
+     "organization_id": "ORG_1",
+     "short_url": "[REDACTED]",
+     "author": "[REDACTED]",
+     "voice": "[REDACTED]",
+     "workspace_id": null,
+     "model": null,
+     "default_model": null,
+     "instructions": "[REDACTED]",
+     "display": {
+      "name": "（其他專案，已遮蔽）",
+      "description": "（其他專案，已遮蔽）",
+      "prompt_starters": null,
+      "profile_pic_id": null,
+      "profile_picture_url": null,
+      "categories": [],
+      "emoji": null,
+      "theme": null
+     },
+     "share_recipient": "private",
+     "created_at": "2026-02-28T14:41:24.618119+00:00",
+     "updated_at": "2026-02-28T14:41:26.653493+00:00",
+     "last_interacted_at": "2026-03-01T13:10:03.495097+00:00",
+     "num_interactions": 3,
+     "tags": [
+      "private"
+     ],
+     "is_unassigned": false,
+     "version": 1,
+     "version_author": null,
+     "version_created_at": "2026-02-28T14:41:25.174934+00:00",
+     "version_updated_at": "2026-02-28T14:41:26.460590+00:00",
+     "live_version": 1,
+     "training_disabled": null,
+     "sharing_targets": [
+      {
+       "recipient": "private",
+       "allowed": true,
+       "moderated_fields": null
+      },
+      {
+       "recipient": "link",
+       "allowed": true,
+       "moderated_fields": null
+      }
+     ],
+     "appeal_info": null,
+     "vanity_metrics": {
+      "num_conversations": null,
+      "num_conversations_str": null,
+      "created_ago_str": null,
+      "review_stats": null
+     },
+     "workspace_approval_date": null,
+     "workspace_approved": null,
+     "sharing": "[REDACTED]",
+     "current_user_permission": "[REDACTED]",
+     "gizmo_type": "snorlax",
+     "context_stuffing_budget": 49152,
+     "use_injest_path": null,
+     "conversation_copy_in_progress": false,
+     "gizmo_snorlax_type": null,
+     "archived_at": null,
+     "is_archived": false,
+     "memory_enabled": true,
+     "memory_scope": "global",
+     "goal": null
+    },
+    "tools": "[REDACTED]",
+    "files": "[REDACTED]",
+    "product_features": "[REDACTED]",
+    "has_tpp_conversation": false,
+    "project_file_limits": null,
+    "project_connector_scope_limits": null
+   },
+   "conversations": {
+    "items": [],
+    "cursor": null
+   }
+  }
+ ],
+ "cursor": null
+}

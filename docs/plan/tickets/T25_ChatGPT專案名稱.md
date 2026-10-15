@@ -24,7 +24,7 @@
 
 ## 驗收（node:test）
 
-- [ ] `parseProjects(projects.json)` 取出「IdeaLedger 測試專案」與其 ID；變造樣本 → `AdapterFormatError`
+- [ ] `parseProjects(projects_page1.json)`（回傳名稱表與下一頁 cursor） 取出「IdeaLedger 測試專案」與其 ID；變造樣本 → `AdapterFormatError`
 - [ ] 假 `fetch` 下，清單與單篇的 `project` 為名稱；名稱表只請求一次並被快取
 - [ ] 出現新的專案 ID 時重取一次名稱表；仍沒有就保留 ID
 - [ ] 名稱表請求失敗時，對話照常輸出（`project` 為 ID）

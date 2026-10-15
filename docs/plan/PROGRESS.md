@@ -5,7 +5,6 @@
 ## 下一步
 
 - **🖥 等 George（關鍵路徑）：** T08 M1 本機首測（約 30 分鐘，依賴 T03 ✅、T07 ✅）：`make build` 後在 Chrome 載入 `extension/dist/`、啟動 collector、在設定頁填 token 後按「立即巡檢」。
-- **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘）；完成後雲端做 T25。
 - **🖥 等 George：** T19 免程式平台實測（約 20 分鐘，依賴 T18 ✅）：在設定頁新增 Gemini 或 Grok，聊一段後確認 collector 收到 `capture="page"` 的資料。
 - **🖥 等 George：** T11 Mac Mini 部署的本機部分（約 30 分鐘，T08 完成後）：照 `docs/DEPLOY_MAC.md` 執行 `deploy/install.sh`、`deploy/doctor.sh`。
 - **☁️ 雲端可做：** 無（T11 的雲端部分已完成；T14、T15 等 T11；T13 等 T12；T25 等 T24）。
@@ -13,11 +12,14 @@
 ## 卡住／待決定
 
 - **ChatGPT 清單端點 429（T08）**：George 帳號的 `/backend-api/conversations` 暫時被限流，連 ChatGPT 網頁自己的側欄請求也 429；單篇正常。等退避後自動重試。若長期如此，再評估降低清單請求頻率（例如每輪只讀第 1 頁）。
-- **Claude 回填時的專案名稱（T07）。** 單篇回應只有 `project_uuid`，名稱來自清單；回填佇列跨輪保存時只記 id，所以回填中、且本輪沒列過清單的對話，想法卡上的平台專案會是 UUID。一般模式不受影響。要補的話需確認是否有取得 Claude 專案名稱的端點（需採樣）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T24 ChatGPT 專案名稱採樣
+- 完成：在內建瀏覽器建立「IdeaLedger 測試專案」與測試對話 F，採樣 `/backend-api/gizmos/snorlax/sidebar`（cursor 分頁，每頁 20），遮蔽後提交兩頁 fixtures 與 NOTES「專案名稱」一節。
+- 學到：清單端點被限流時，這個專案端點仍可用。另：T07 記下的「Claude 回填時的專案名稱」已在 T08 修正（以 `project_uuid` 查專案名稱）。
 
 ### 2026-10-15 · T11 Mac Mini 部署（☁️ 部分完成，🖥 待 George）
 - 決定（George）：collector 與 summarizer 都在 macOS 本機以 launchd 執行，不用 Docker。原因：資料庫是 SQLite WAL，Docker 容器與主機同時讀寫同一個 bind mount 檔案時鎖不可靠。

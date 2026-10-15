@@ -54,3 +54,14 @@
 ## 節流觀察
 
 - 第一次採樣以 1.5 秒間隔連發 session → 清單第 1 頁 → 清單第 2 頁，**第 2 頁回 429**。間隔 5 秒後重送成功。擴充的 ≥3 秒間隔與 429 退避是必要的，不能放寬。
+
+## 專案名稱（T24）
+
+採樣日期：2026-10-15，在 Claude 桌面 App 內建瀏覽器以 George 帳號採樣。測試專案「IdeaLedger 測試專案」（`g-p-6ad07a98e7b881919efa7d794aa41eb9`），內有測試對話 F。
+
+- **請求**：`GET /backend-api/gizmos/snorlax/sidebar?conversations_per_gizmo=0&limit=20&owned_only=false`，第二頁起加 `&cursor=<上一頁的 cursor>`。網頁自己載入側欄也呼叫這個端點（`conversations_per_gizmo=5` 會順帶每個專案最近 5 篇對話；我們用 0 只取專案）。
+- **header**：`Authorization: Bearer <accessToken>`（同清單）。網頁另帶 `chatgpt-account-id`、`oai-did`、`oai-language`，實測不帶也是 200。
+- **回應**：`{ items: [...], cursor: string|null }`。`items[].gizmo.gizmo.id` 是專案 ID（`g-p-…`），`items[].gizmo.gizmo.display.name` 是專案名稱；`items[].conversations` 在 `conversations_per_gizmo=0` 時為 `{ items: [], cursor: null }`。
+- **分頁**：每頁最多 20 個專案；`cursor` 為 null 表示最後一頁。George 帳號 37 個專案，兩頁列完（`projects_page1.json` 20 個、`projects_page2.json` 17 個）。依最近使用排序，新建的測試專案在第 1 頁第 1 個。
+- **限流**：同一時間 `/backend-api/conversations` 被限流（429）時，這個端點仍正常 200。
+- **遮罩**：測試專案以外的名稱、描述換成「（其他專案，已遮蔽）」；作者、權限、分享、指令等欄位換成 `[REDACTED]`；`cursor` 換成 `[CURSOR]`。

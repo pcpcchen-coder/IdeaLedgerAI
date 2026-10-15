@@ -65,8 +65,8 @@
 | [T22](tickets/T22_衍生索引.md) | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ✅ |
 | [T23](tickets/T23_Git發佈器.md) | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ✅ |
 | **Phase 1b ChatGPT 專案名稱** |||||
-| [T24](tickets/T24_ChatGPT專案名稱採樣.md) | ChatGPT 專案名稱採樣 | 🖥 | 15 分 | T01 | ⬜ |
-| [T25](tickets/T25_ChatGPT專案名稱.md) | ChatGPT 專案名稱（以名稱取代 `g-p-` ID） | ☁️ | 45 分 | T24, T07 | ⬜ |
+| [T24](tickets/T24_ChatGPT專案名稱採樣.md) | ChatGPT 專案名稱採樣 | 🖥 | 15 分 | T01 | ✅ |
+| [T25](tickets/T25_ChatGPT專案名稱.md) | ChatGPT 專案名稱（以名稱取代 `g-p-` ID） | ☁️ | 45 分 | T24, T07 | 🟡 |
 
 狀態符號：⬜ 待辦 · 🟡 進行中 · ✅ 完成 · ⛔ 卡住
 
