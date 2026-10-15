@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Idea Ledger 設計</title>
+<style>
+:root{--bg:#fbfaf7;--fg:#1d1d1b;--mute:#6b6a65;--line:#e3e0d8;--card:#ffffff;--acc:#b4532a;--ok:#2f6f4f;--warn:#9a6a00;--code:#f3f1ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161614;--fg:#ecebe6;--mute:#a19f97;--line:#33322e;--card:#1f1f1c;--acc:#e08a5c;--ok:#7cc3a0;--warn:#e0b85c;--code:#262622}}
+:root[data-theme="dark"]{--bg:#161614;--fg:#ecebe6;--mute:#a19f97;--line:#33322e;--card:#1f1f1c;--acc:#e08a5c;--ok:#7cc3a0;--warn:#e0b85c;--code:#262622}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 "Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+main{max-width:920px;margin:0 auto;padding:40px 16px 80px}
+h1{font-size:28px;margin:0 0 4px}
+h2{font-size:20px;margin:40px 0 12px;padding-top:12px;border-top:1px solid var(--line)}
+h3{font-size:16px;margin:24px 0 8px}
+.sub{color:var(--mute);margin:0 0 24px}
+.tldr{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--acc);padding:16px 20px;border-radius:6px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{color:var(--mute);font-weight:600}
+pre{background:var(--code);border:1px solid var(--line);border-radius:6px;padding:14px;overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:16px 0}
+.box{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:14px}
+.arr{color:var(--mute)}
+.ok{color:var(--ok);font-weight:600}.warn{color:var(--warn);font-weight:600}
+ol li,ul li{margin:4px 0}
+</style>
+</head>
+<body>
+<main>
+<h1>Idea Ledger：跨平台 AI 對話自動記錄系統</h1>
+<p class="sub">設計文件 v1 · 2026-10-15 · 適用 ChatGPT / Claude / Kimi（可擴充）</p>
+
+<div class="tldr">
+<strong>結論：</strong>「寫進各平台預設 prompt／skill」做不到真正無痕，改在<strong>瀏覽器層被動擷取</strong>，由 Mac Mini 本地模型摘要後寫入 Obsidian。
+一次設定後，對話中不需任何操作、不留任何額外文字或工具呼叫，且每筆紀錄自帶「平台、時間、連結」。
+</div>
+
+<h2>1. 為什麼不用 prompt／skill 方案</h2>
+<table>
+<tr><th>需求</th><th>Prompt／Skill 方案</th><th>瀏覽器被動擷取</th></tr>
+<tr><td>無痕</td><td class="warn">✗ 寫入必須是可見的工具呼叫；ChatGPT 寫入動作還建議逐次確認</td><td class="ok">✓ 對話內容零改變</td></tr>
+<tr><td>全平台</td><td class="warn">✗ 模型要有寫入工具才能記錄；Kimi 網頁版查不到可設定的寫入管道；ChatGPT 自訂連接器需開發者模式，且連不到 localhost</td><td class="ok">✓ 只要是網頁就能抓</td></tr>
+<tr><td>可靠</td><td class="warn">✗ 依賴模型遵從率，漏記無法察覺</td><td class="ok">✓ 確定性程式，失敗可重試</td></tr>
+<tr><td>一次設定</td><td>✗ 3 個平台各設一次，平台改版要重設</td><td class="ok">✓ 一個擴充 + 一個服務</td></tr>
+</table>
+
+<h2>2. 架構</h2>
+<div class="flow">
+<span class="box">ChatGPT / Claude / Kimi 網頁</span><span class="arr">→</span>
+<span class="box">擴充 capture.js<br><small>對話靜止 20 秒時擷取</small></span><span class="arr">→</span>
+<span class="box">bg.js 離線佇列</span><span class="arr">→ HTTPS + Token →</span>
+<span class="box">Mac Mini Collector<br><small>FastAPI + SQLite</small></span><span class="arr">→</span>
+<span class="box">Summarizer<br><small>LiteLLM → Ollama</small></span><span class="arr">→</span>
+<span class="box">Obsidian vault<br><small>iCloud 同步</small></span>
+</div>
+<ul>
+<li><strong>擷取不解析訊息結構：</strong>只抓 <code>main</code> 的純文字，交給 LLM 理解。平台改版時只要網址規則沒變就不會壞，比逐一解析 DOM 穩定得多。</li>
+<li><strong>摘要在本機：</strong>EMS、電池等公司內容不經第三方雲端。</li>
+<li><strong>延遲摘要：</strong>對話 15 分鐘沒有新內容才摘要，避免聊到一半反覆重算。</li>
+</ul>
+
+<h2>3. 產出</h2>
+<h3>3.1 每段對話一張卡片</h3>
+<p>路徑：<code>Ideas/2026/10/2026-10-15_chatgpt_換電站排程想法.md</code>，同一段對話後續更新會覆寫同一檔案。</p>
+<pre>---
+platform: chatgpt
+conv_id: 6710c2e4-...
+url: https://chatgpt.com/c/6710c2e4-...
+first_seen: 2026-10-15T09:12:00+08:00
+last_seen: 2026-10-15T10:40:00+08:00
+projects: [換電站EMS, 電池]
+status: inbox        # inbox / 探索中 / 立項 / 封存（手動改）
+---
+## 摘要
+（3 句內）
+
+## 想法
+- [新想法] …… → 下一步：……
+- [待驗證] …… → 下一步：……
+
+## 決策
+- ……</pre>
+<h3>3.2 每日平台互動日誌</h3>
+<p>路徑：<code>Ideas/_log/2026-10-15.md</code>，回答「今天跟哪些平台聊了什麼」。</p>
+<pre>| 時間 | 平台 | 對話 | 專案 |
+|---|---|---|---|
+| 09:12 | ChatGPT | [[2026-10-15_chatgpt_換電站排程想法]] | 換電站EMS |
+| 14:30 | Kimi | [[2026-10-15_kimi_SOH修正論文]] | 電池 |</pre>
+
+<h2>4. 元件規格</h2>
+
+<h3>4.1 瀏覽器擴充（MV3，約 80 行）</h3>
+<pre>// manifest.json
+{
+  "manifest_version": 3,
+  "name": "Idea Ledger Capture",
+  "version": "0.1.0",
+  "permissions": ["storage", "alarms", "unlimitedStorage"],
+  "host_permissions": ["https://ideas.YOUR-DOMAIN/*"],
+  "background": { "service_worker": "bg.js" },
+  "content_scripts": [{
+    "matches": ["https://chatgpt.com/*", "https://claude.ai/*",
+                "https://www.kimi.com/*", "https://kimi.moonshot.cn/*"],
+    "js": ["capture.js"], "run_at": "document_idle"
+  }]
+}</pre>
+<pre>// capture.js — 新增平台只要加一行 adapter
+const ADAPTERS = {
+  "chatgpt.com":      { platform: "chatgpt", id: /\/c\/([\w-]+)/ },
+  "claude.ai":        { platform: "claude",  id: /\/chat\/([\w-]+)/ },
+  "www.kimi.com":     { platform: "kimi",    id: /\/chat\/([\w-]+)/ },
+  "kimi.moonshot.cn": { platform: "kimi",    id: /\/chat\/([\w-]+)/ },
+};
+const A = ADAPTERS[location.hostname];
+let timer, lastHash = "";
+
+async function sha(s) {
+  const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x =&gt; x.toString(16).padStart(2, "0")).join("");
+}
+
+async function flush() {
+  const m = location.pathname.match(A.id);
+  if (!m || location.search.includes("temporary")) return;   // 臨時對話不記
+  const text = (document.querySelector("main") || document.body).innerText.trim();
+  if (text.length &lt; 200 || text.includes("#nolog")) return;   // 太短或手動排除
+  const hash = await sha(text);
+  if (hash === lastHash) return;
+  lastHash = hash;
+  chrome.runtime.sendMessage({
+    platform: A.platform, conv_id: m[1], url: location.href,
+    title: document.title, text, hash, captured_at: new Date().toISOString()
+  });
+}
+
+new MutationObserver(() =&gt; { clearTimeout(timer); timer = setTimeout(flush, 20000); })
+  .observe(document.body, { childList: true, subtree: true, characterData: true });
+document.addEventListener("visibilitychange", () =&gt; { if (document.hidden) flush(); });</pre>
+<pre>// bg.js — 送不出去就排隊，每 5 分鐘重試
+const ENDPOINT = "https://ideas.YOUR-DOMAIN/ingest";
+const TOKEN = "長亂數字串";
+
+chrome.runtime.onMessage.addListener(p =&gt; enqueue(p));
+
+async function enqueue(p) {
+  const { q = [] } = await chrome.storage.local.get("q");
+  const rest = q.filter(x =&gt; !(x.platform === p.platform &amp;&amp; x.conv_id === p.conv_id));
+  rest.push(p);                       // 同一對話只留最新版
+  await chrome.storage.local.set({ q: rest });
+  drain();
+}
+
+async function drain() {
+  const { q = [] } = await chrome.storage.local.get("q");
+  const left = [];
+  for (const p of q) {
+    try {
+      const r = await fetch(ENDPOINT, { method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + TOKEN },
+        body: JSON.stringify(p) });
+      if (!r.ok) left.push(p);
+    } catch { left.push(p); }
+  }
+  await chrome.storage.local.set({ q: left });
+}
+
+chrome.alarms.create("drain", { periodInMinutes: 5 });
+chrome.alarms.onAlarm.addListener(drain);</pre>
+<p>Fetch 放在 background 而不是 content script，是為了避開各平台頁面的 CORS／CSP 限制。</p>
+
+<h3>4.2 Collector（Mac Mini，Docker）</h3>
+<pre># collector.py
+from fastapi import FastAPI, Header, HTTPException
+from pydantic import BaseModel
+import sqlite3, os, datetime as dt
+
+TOKEN = os.environ["IDEA_TOKEN"]
+db = sqlite3.connect("/data/ledger.db", check_same_thread=False)
+db.executescript("""
+CREATE TABLE IF NOT EXISTS conv(platform TEXT, conv_id TEXT, url TEXT, title TEXT,
+  text TEXT, hash TEXT, first_seen TEXT, last_capture TEXT, dirty INT,
+  PRIMARY KEY(platform, conv_id));
+CREATE TABLE IF NOT EXISTS visit(platform TEXT, conv_id TEXT, day TEXT, at TEXT,
+  PRIMARY KEY(platform, conv_id, day));
+""")
+
+class Capture(BaseModel):
+    platform: str; conv_id: str; url: str; title: str
+    text: str; hash: str; captured_at: str
+
+app = FastAPI()
+
+@app.post("/ingest")
+def ingest(c: Capture, authorization: str = Header("")):
+    if authorization != f"Bearer {TOKEN}":
+        raise HTTPException(401)
+    now = dt.datetime.now().isoformat(timespec="seconds")
+    db.execute("""INSERT INTO conv VALUES(?,?,?,?,?,?,?,?,1)
+      ON CONFLICT(platform, conv_id) DO UPDATE SET
+        url=excluded.url, title=excluded.title, text=excluded.text,
+        hash=excluded.hash, last_capture=excluded.last_capture, dirty=1
+      WHERE conv.hash != excluded.hash""",
+      (c.platform, c.conv_id, c.url, c.title, c.text, c.hash, now, now))
+    db.execute("INSERT OR IGNORE INTO visit VALUES(?,?,?,?)",
+      (c.platform, c.conv_id, now[:10], now))
+    db.commit()
+    return {"ok": True}</pre>
+
+<h3>4.3 Summarizer（launchd 每 5 分鐘）</h3>
+<ol>
+<li>取 <code>dirty=1</code> 且 <code>last_capture</code> 早於 15 分鐘前的對話。</li>
+<li>經 LiteLLM Gateway 呼叫本地模型（24GB 記憶體建議 14B 級、32K context）。</li>
+<li>長對話：沿用上一版摘要 + 只送新增部分（以 hash 前後差異切），避免超出 context。</li>
+<li>依 JSON 結果覆寫卡片、更新當日日誌，設 <code>dirty=0</code>。</li>
+</ol>
+<pre>系統提示：
+你是想法整理員。以下是一段 {platform} 對話的頁面文字（含介面雜訊，請忽略）。
+用繁體中文輸出 JSON，不要其他文字：
+{
+  "title": "15 字內標題",
+  "summary": "3 句內摘要",
+  "ideas": [{"type": "新想法|延伸|待驗證", "idea": "...", "next_step": "..."}],
+  "decisions": ["..."],
+  "projects": ["從清單選：換電站EMS, 微電網, 電池, 數位人類, AI OS,
+               InMoov, Amazing Hand, 可信任的控制, 本地LLM/CoPartner, 其他"]
+}
+若對話只是查資料、沒有任何想法或決策，ideas 與 decisions 給空陣列。</pre>
+
+<h2>5. 一次性設定步驟（約半天）</h2>
+<ol>
+<li><strong>Vault：</strong>在 iCloud Drive 建 Obsidian vault，內含 <code>Ideas/</code>，掛載進 collector 容器。</li>
+<li><strong>服務：</strong><code>docker compose up -d</code> 跑 collector；launchd 註冊 summarizer。</li>
+<li><strong>對外：</strong>用 Cloudflare Tunnel 把 collector 暴露成 <code>https://ideas.你的網域</code>（公司或外出都能送）；只在家用可直接打 <code>192.168.1.237</code>。</li>
+<li><strong>擴充：</strong>每台電腦的瀏覽器以「載入未封裝項目」安裝一次，填入 endpoint 與 token。</li>
+<li><strong>回填：</strong>ChatGPT、Claude 各匯出一次歷史資料，用同一個 summarizer 批次處理，建立過去的想法庫。</li>
+<li><strong>驗收：</strong>三個平台各開一段對話，20 分鐘內應出現卡片與日誌。</li>
+</ol>
+
+<h2>6. 已知限制與對策</h2>
+<table>
+<tr><th>限制</th><th>對策</th></tr>
+<tr><td>手機 App 的對話抓不到</td><td>之後在電腦打開那段對話即自動補抓；或用附錄的「記一下」指令先在手機產出卡片</td></tr>
+<tr><td>Claude／ChatGPT 桌面 App 抓不到</td><td>改用瀏覽器分頁</td></tr>
+<tr><td>公司 Windows 可能禁止開發者模式擴充</td><td>先試；被擋就只在 Mac 上用，公司機的對話靠回家後在 Mac 開一次</td></tr>
+<tr><td>Kimi 網址規則未驗證</td><td>驗收時確認 <code>/chat/&lt;id&gt;</code> 格式，不符就改 adapter 一行</td></tr>
+<tr><td>全量擷取會收到敏感內容</td><td>摘要在本機；臨時對話自動略過；訊息含 <code>#nolog</code> 即排除</td></tr>
+</table>
+
+<h2>附錄：手機補強指令（選用，非無痕）</h2>
+<p>貼到 ChatGPT「自訂指令」、Claude「個人偏好」、Kimi 對應設定。平常不觸發，只有你說「記一下」才輸出，所以不會干擾一般對話。</p>
+<pre>當我說「記一下」時，把目前對話整理成以下格式並只輸出這段：
+【想法卡】平台：{目前平台名稱}｜日期：{今天}
+標題：
+摘要（3 句內）：
+想法：- [新想法/延伸/待驗證] 內容 → 下一步
+決策：
+專案：</pre>
+<p>輸出的卡片會留在對話裡，之後在電腦打開時會被擴充一併抓走，摘要品質也會更好。</p>
+</main>
+</body>
+</html>
