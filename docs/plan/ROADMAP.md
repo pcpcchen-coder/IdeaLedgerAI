@@ -47,7 +47,7 @@
 | **Phase 2 有想法卡（M2）** |||||
 | [T09](tickets/T09_Summarizer_worker.md) | Summarizer worker | ☁️ | 90 分 | T03 | ✅ |
 | [T10](tickets/T10_Obsidian寫入與每日日誌.md) | Obsidian 寫入與每日日誌 | ☁️ | 60 分 | T09 | ✅ |
-| T11 | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T23 | ⬜ |
+| [T11](tickets/T11_MacMini部署.md) | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T23 | 🟡 |
 | **Phase 3 Kimi（M3）** |||||
 | T12 | Kimi 探查 | 🖥 | 30 分 | T08 | ⬜ |
 | T13 | Kimi adapter | ☁️ | 60 分 | T12 | ⬜ |
@@ -76,13 +76,13 @@
 
 **T10 Obsidian 寫入與每日日誌** — 依摘要結果寫想法卡（同一對話覆寫同檔）、更新 `Ideas/_log/YYYY-MM-DD.md`（依對話實際更新時間歸日，第一行為各平台巡檢狀態）。驗收：給定 SQLite 狀態，產出的 Markdown 與預期快照一致。
 
-**T11 Mac Mini 部署** — ☁️ 寫 `docker-compose.yml`、`.env.example`、summarizer 與發佈器的 launchd plist、部署步驟（含在 Mac Mini clone AiMemory 並設定 push 權限）；🖥 George 照步驟部署。驗收：手機 App 聊一段，1 小時內 AiMemory 出現想法卡。
+**T11 Mac Mini 部署** — ☁️ `deploy/`（`install.sh`、`.env` 範本、collector 與 summarizer 的 launchd 設定、`doctor.sh`）與 `docs/DEPLOY_MAC.md`（含 clone AiMemory 並設定 push 權限）；全部在 macOS 本機執行，不用 Docker（George 決定）；🖥 George 照步驟部署。驗收：手機 App 聊一段，1 小時內 AiMemory 出現想法卡。
 
 **T12 Kimi 探查** — 🖥 確認 Kimi App 的對話是否出現在網頁歷史；在 DevTools 採樣歷史清單與單篇對話的回應。產出：fixtures 與一頁探查筆記。若沒有可用介面，記錄改走頁面文字退路。
 
 **T13 Kimi adapter** — 依 T12 結果，以新增 `src/adapters/kimi/` 資料夾的方式實作解析層與取資料層；若沒有可用介面，改用 T18 的頁面文字擷取。驗收含：除了 kimi 資料夾與 fixtures，沒有修改任何其他檔案（驗證平台開放機制）。
 
-**T14 健康監控** — 擴充圖示紅黃綠燈、`sweep_run` 寫入、每日日誌狀態行、任一平台連續 24 小時失敗時通知（collector 在 Docker 內，通知需由主機端的 launchd 腳本發出）。
+**T14 健康監控** — 擴充圖示紅黃綠燈、`sweep_run` 寫入、每日日誌狀態行、任一平台連續 24 小時失敗時通知（collector 與 summarizer 都在本機 launchd 下執行，可直接發 macOS 通知）。
 
 **T15 首次回填與官方匯出匯入** — 驗證回填節流；寫 ChatGPT、Claude 官方匯出檔的匯入腳本，匯入後設定水位線。
 
