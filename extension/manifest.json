@@ -1,14 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "Idea Ledger Capture",
+  "name": "Idea Ledger Sweeper",
   "version": "0.1.0",
-  "permissions": ["storage", "alarms", "unlimitedStorage"],
-  "host_permissions": ["https://ideas.YOUR-DOMAIN/*"],
+  "description": "定時巡檢 ChatGPT、Claude、Kimi 的對話歷史，送往本機 collector。只讀。",
+  "permissions": ["storage", "alarms", "tabs"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://claude.ai/*",
+    "https://www.kimi.com/*",
+    "http://127.0.0.1:8787/*"
+  ],
   "background": { "service_worker": "bg.js" },
-  "content_scripts": [{
-    "matches": ["https://chatgpt.com/*", "https://claude.ai/*",
-                "https://www.kimi.com/*", "https://kimi.moonshot.cn/*"],
-    "js": ["capture.js"],
-    "run_at": "document_idle"
-  }]
+  "content_scripts": [
+    {
+      "matches": ["https://chatgpt.com/*", "https://claude.ai/*", "https://www.kimi.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options.html"
 }

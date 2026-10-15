@@ -3,5 +3,12 @@
 __pycache__/
 *.pyc
 .venv/
+.pytest_cache/
 node_modules/
 .DS_Store
+
+# 擴充建置產物
+extension/dist/
+
+# 平台回應原始樣本：含個資，永不提交（遮罩後放 extension/fixtures/<平台>/）
+extension/fixtures/raw/

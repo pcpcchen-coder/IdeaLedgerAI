@@ -26,6 +26,13 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入 ChatGPT�
 - fixtures 只能提交遮罩後的檔案；原始檔放 `extension/fixtures/raw/`（已 gitignore）。
 - 只做工單範圍內的事，範圍外的發現記到 PROGRESS「卡住／待決定」。
 
+## 開發指令
+
+- `make setup`：安裝擴充（npm）與 collector（pip）依賴，第一次使用時執行。
+- `make test`：擴充 node:test + collector pytest + 遮罩工具 pytest，每張工單收工前必須全過。
+- `make build`：產出 `extension/dist/`，Chrome 以「載入未封裝項目」載入這個資料夾。
+- manifest 路徑以 `dist/` 為根；新增入口或複製檔時改 `extension/build.config.mjs`，測試會檢查 manifest 引用的檔案都有產出。
+
 ## 執行環境
 
 - 主節點：Mac Mini M4 24GB，已有 Ollama、LiteLLM Gateway、Docker；需禁止睡眠、開機自動啟動 Chrome 專用設定檔。

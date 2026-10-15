@@ -1,0 +1,14 @@
+{
+  "name": "idealedger-extension",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Idea Ledger 帳號層巡檢 Chrome 擴充（MV3）",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

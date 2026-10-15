@@ -29,7 +29,7 @@
 | ID | 工單 | 執行 | 預估 | 依賴 | 狀態 |
 |---|---|---|---|---|---|
 | **Phase 0 地基** |||||
-| [T00](tickets/T00_repo骨架與開發環境.md) | Repo 骨架與開發環境 | ☁️ | 60 分 | — | ⬜ |
+| [T00](tickets/T00_repo骨架與開發環境.md) | Repo 骨架與開發環境 | ☁️ | 60 分 | — | ✅ |
 | [T01](tickets/T01_ChatGPT介面採樣.md) | ChatGPT 介面採樣 | 🖥 | 30 分 | T00 | ⬜ |
 | [T02](tickets/T02_Claude介面採樣.md) | Claude 介面採樣 | 🖥 | 30 分 | T00 | ⬜ |
 | **Phase 1 收得到（M1）** |||||

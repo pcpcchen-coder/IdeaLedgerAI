@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| ⬜ 待辦 | ☁️ 雲端 | 60 分 | — |
+| ✅ 完成（2026-10-15） | ☁️ 雲端 | 60 分 | — |
 
 ## 目標
 
@@ -46,9 +46,10 @@ Makefile                  # make test = 擴充測試 + collector 測試 + redact
 
 - `permissions`: `storage`、`alarms`、`tabs`
 - `host_permissions`: `https://chatgpt.com/*`、`https://claude.ai/*`、`https://www.kimi.com/*`、`http://127.0.0.1:8787/*`
-- `content_scripts`: 上述三個平台網域都注入 `dist/content.js`
-- `background.service_worker`: `dist/bg.js`
-- `options_page`: `dist/options.html`
+- `content_scripts`: 上述三個平台網域都注入 `content.js`
+- `background.service_worker`: `bg.js`
+- `options_page`: `options.html`
+- 路徑以 `dist/` 為根：建置時 manifest 會複製進 `dist/`，Chrome 載入的是 `extension/dist`。
 
 ## 遮罩工具 `scripts/redact_fixture.py`
 
@@ -61,10 +62,18 @@ Makefile                  # make test = 擴充測試 + collector 測試 + redact
 
 ## 驗收
 
-- [ ] `make build` 產出 `extension/dist/`，含 manifest 引用的所有檔案
-- [ ] `make test` 全過（至少各 1 個 smoke 測試；redact 測試涵蓋 token、email、ID 一致替換、JWT 偵測中止）
-- [ ] v1 程式碼完整移入 `extension/legacy/`
-- [ ] `extension/fixtures/README.md` 寫明：用測試對話採樣、原始檔放 `raw/`、遮罩後才提交
+- [x] `make build` 產出 `extension/dist/`，含 manifest 引用的所有檔案
+- [x] `make test` 全過（至少各 1 個 smoke 測試；redact 測試涵蓋 token、email、ID 一致替換、JWT 偵測中止）
+- [x] v1 程式碼完整移入 `extension/legacy/`
+- [x] `extension/fixtures/README.md` 寫明：用測試對話採樣、原始檔放 `raw/`、遮罩後才提交
+
+## 完成紀錄
+
+- 擴充：5 個 node:test（統一格式檢查、adapter 註冊、RPC 轉發、manifest 與建置產出一致）。
+- Collector：v1 `/ingest` 搬到 `collector/app/main.py`，2 個 pytest；`IDEA_DB` 預設改為 `./ledger.db`。
+- 遮罩工具：9 個 pytest；另支援 `--extra-value`（補工具認不出的識別碼）與 `--allow`（放行誤判）。
+- 額外先建立 `src/lib/errors.js`（`AdapterFormatError`、`NeedsLogin`、`RateLimited`）與 `src/content/rpc.js`，T04、T06、T07 直接沿用。
+- manifest 暫不含 `kimi.moonshot.cn`；Kimi 網域在 T12 探查後確認。
 
 ## 不做
 
