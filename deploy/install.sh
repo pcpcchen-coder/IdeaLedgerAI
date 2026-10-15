@@ -58,7 +58,13 @@ for label in $LABELS; do
   sed -e "s|@REPO@|$REPO_ROOT|g" -e "s|@HOME_DIR@|$IDEALEDGER_HOME|g" \
       "$REPO_ROOT/deploy/launchd/$label.plist.in" > "$plist"
   "$LAUNCHCTL" bootout "$DOMAIN/$label" >/dev/null 2>&1 || true
-  "$LAUNCHCTL" bootstrap "$DOMAIN" "$plist"
+  # bootout 是非同步的：舊工作還沒完全停掉時 bootstrap 會回「5: Input/output error」，等一下再試
+  tries=0
+  until "$LAUNCHCTL" bootstrap "$DOMAIN" "$plist"; do
+    tries=$((tries + 1))
+    [ "$tries" -lt 10 ] || fail "無法載入 ${label}（launchctl bootstrap 失敗）"
+    sleep 1
+  done
   say "已載入：$label"
 done
 

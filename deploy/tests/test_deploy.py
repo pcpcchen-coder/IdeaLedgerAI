@@ -86,6 +86,23 @@ def test_install_creates_env_and_plists(env):
         assert any(c.startswith(f"bootstrap gui/{uid} ") and c.endswith(f"{label}.plist") for c in calls)
 
 
+def test_install_retries_bootstrap_after_bootout(env):
+    """T27 實際遇到：bootout 後馬上 bootstrap 回 EIO，要重試而不是讓整個安裝失敗。"""
+    flaky = env["tmp"] / "bin/launchctl"
+    count = env["tmp"] / "count"
+    flaky.write_text(f'''#!/bin/bash
+echo "$@" >> "{env["log"]}"
+if [ "$1" = bootstrap ]; then
+  n=$(( $(cat "{count}" 2>/dev/null || echo 0) + 1 )); echo $n > "{count}"
+  [ $n -le 2 ] && {{ echo "Bootstrap failed: 5: Input/output error" >&2; exit 5; }}
+fi
+exit 0
+''')
+    proc = run("install.sh", env)
+    assert proc.stdout.count("已載入：") == len(LABELS)
+    assert sum(c.startswith("bootstrap") for c in env["log"].read_text().splitlines()) == len(LABELS) + 2
+
+
 def test_install_reuses_t08_token(env):
     data_dir(env).mkdir(parents=True, exist_ok=True)
     (data_dir(env) / "collector_token.txt").write_text("t08TestToken1234567890abcdefABCD\n")
