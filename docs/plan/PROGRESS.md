@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T06 巡檢核心（只依賴 T00）
+- **☁️ 雲端可做：** T09 Summarizer worker（只依賴 T03）
 - **🖥 等 George：** T01 ChatGPT 介面採樣、T02 Claude 介面採樣（各約 30 分鐘，依賴已滿足）。T04、T05 要等這兩張的樣本。
 
 ## 卡住／待決定
@@ -12,6 +12,10 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T06 巡檢核心
+- 完成：排程（單一執行、鬧鐘隨機延遲）、分頁管理（找現有 → 重新載入休眠分頁 → 開釘選分頁）、RPC 錯誤還原、節流、退避、水位線、回填佇列、collector 用戶端、設定；平台清單一律來自 `registeredPlatforms()`。擴充測試 39 個全過，並對真實 collector 做端到端驗證。
+- 學到：各平台時間字串小數位數不一致，比較時間必須先轉數值。回填佇列不放還在聊的對話也不會漏：它們比佇列最新的還新，回填結束後一般模式會接手。
 
 ### 2026-10-15 · T03 Collector v2 端點
 - 完成：`/v2/conversations`（冪等寫入、`#nolog` 排除、平台開放、`capture=api|page`）、`/v2/sweep-runs`、`/v2/health`、`/v2/watermark`；26 個 pytest 全過，並實際啟動 uvicorn 驗證。
