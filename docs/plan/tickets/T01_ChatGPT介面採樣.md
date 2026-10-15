@@ -8,6 +8,22 @@
 
 取得 ChatGPT 網頁載入歷史清單與單篇對話時的真實回應樣本，讓雲端工作階段能據此開發解析層（T04）。
 
+## 最快的做法：主控台採樣腳本（約 15 分鐘，含建立測試對話）
+
+1. 照下方「準備測試對話」建好 A–D。
+2. 用 Chrome 打開已登入的 chatgpt.com，按 F12 → Console 分頁。
+3. 打開 [`extension/tools/sampler/out/chatgpt.console.js`](../../../extension/tools/sampler/out/chatgpt.console.js)，在 GitHub 按「Raw」後全選複製，貼進 Console 按 Enter。
+   - Chrome 第一次貼程式碼時會要求先輸入 `allow pasting`，照做後再貼一次。
+4. 跳出的對話框依序貼上 A–D 的網址（空白或逗號分隔），按確定。
+5. 約 20 秒後會自動下載 `idealedger_chatgpt_sample.json`。Console 會列出每個請求的狀態碼。
+6. 開一個雲端工作階段，把檔案拖進對話並說「T01 採樣檔」，由雲端工作階段執行匯入、撰寫 NOTES.md 並提交。
+   - 本機有 clone 也可以自己跑：`python scripts/import_sample.py idealedger_chatgpt_sample.json`
+
+腳本做了什麼：
+- 只發 GET 請求，不改動任何資料。
+- 下載前就在你的瀏覽器內遮蔽：非測試對話的標題、token、email、JWT（以及 Claude 的組織名稱與組織 ID），所以你的真實對話標題不會離開你的電腦。
+- 介面路徑是社群觀察到的非官方路徑，未經驗證。**任何請求不是 200 時，該項改用下方的手動做法補採。**
+
 ## 準備測試對話（約 10 分鐘）
 
 全部用無敏感資訊的內容，開頭都打「IdeaLedger 測試」。
@@ -17,7 +33,7 @@
 3. **C 專案內的對話**（網頁）：在任一 Project 裡開一段，來回 2 輪。
 4. **D 手機 App 對話**：在手機 App 上開一段，來回 1 輪。
 
-## 採樣（約 15 分鐘）
+## 手動做法（腳本有請求失敗時）
 
 1. 用 Chrome 開 chatgpt.com，按 F12 → Network 分頁 → 篩選 `Fetch/XHR`，勾選 `Preserve log`。
 2. 重新整理頁面，捲動左側歷史清單到底一次，再依序點開 A、B、C、D。

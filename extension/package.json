@@ -9,7 +9,8 @@
     "prebuild": "npm run gen",
     "build": "node build.mjs",
     "pretest": "npm run gen",
-    "test": "node --test \"test/**/*.test.js\""
+    "test": "node --test \"test/**/*.test.js\"",
+    "sampler": "node tools/sampler/build-sampler.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.0"
