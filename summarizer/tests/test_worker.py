@@ -5,7 +5,7 @@ import pytest
 
 from conftest import NOW, PROJECTS, FakeLLM, good_output, put
 from summarizer.llm import LLMError, OpenAICompatClient
-from summarizer.prompt import load_projects
+from summarizer.prompt import load_projects, system_prompt
 from summarizer.worker import parse_result, run_once
 
 
@@ -29,10 +29,10 @@ def test_full_summary(db):
     prev = summary.previous("chatgpt", "abc")
     assert prev["title"] == "換電站排程"
     assert prev["ideas"][0]["idea"] == "依電價分時充電"
-    assert prev["projects"] == ["換電站EMS"]  # 清單外的專案被濾掉
+    assert prev["projects"] == ["swap-ems"]  # 名稱轉成代號；清單外的專案被濾掉
 
     system, user = llm.calls[0]
-    assert "換電站EMS、電池、其他" in system
+    assert "swap-ems（換電站EMS）；battery（電池）" in system and "「other」" in system
     assert "第一則" in user and "第二則" in user
 
 
@@ -159,16 +159,53 @@ def test_batch_limit_oldest_first(db):
 
 
 def test_parse_result_rules():
-    out = parse_result(good_output(projects=["外星專案"]), ["換電站EMS", "其他"])
-    assert out["projects"] == ["其他"]
+    out = parse_result(good_output(projects=["外星專案"]), PROJECTS)
+    assert out["projects"] == ["other"]
+    out = parse_result(good_output(projects=["battery", "換電站EMS", "battery", "other"]), PROJECTS)
+    assert out["projects"] == ["battery", "swap-ems"]   # 代號、名稱都接受，去重；有歸類時不加 other
+    assert parse_result(good_output(projects=[]), {})["projects"] == ["other"]
     with pytest.raises(ValueError):
-        parse_result("沒有大括號", ["其他"])
+        parse_result("沒有大括號", PROJECTS)
 
 
-def test_projects_file_loaded():
-    projects = load_projects()
-    assert "換電站EMS" in projects
-    assert not any(p.startswith("#") for p in projects)
+# ---- 專案清單（AiMemory projects/） ----
+
+def make_repo(tmp_path):
+    projects = tmp_path / "AiMemory" / "projects"
+    projects.mkdir(parents=True)
+    (projects / "README.md").write_text("# Projects — 索引\n", encoding="utf-8")
+    (projects / "swap-ems.md").write_text("# 換電站 EMS\n\n- **狀態**：進行中\n## 子標題\n", encoding="utf-8")
+    (projects / "no-heading.md").write_text("沒有標題\n## 只有二級\n", encoding="utf-8")
+    (projects / "other.md").write_text("# 保留字\n", encoding="utf-8")
+    (projects / ".draft.md").write_text("# 隱藏\n", encoding="utf-8")
+    (projects / "notes.txt").write_text("# 不是 md\n", encoding="utf-8")
+    return tmp_path / "AiMemory"
+
+
+def snapshot(folder):
+    return {p.name: (p.read_bytes(), p.stat().st_mtime_ns) for p in folder.iterdir()}
+
+
+def test_load_projects_from_memory_repo(tmp_path):
+    repo = make_repo(tmp_path)
+    before = snapshot(repo / "projects")
+    assert load_projects(repo) == {"no-heading": "no-heading", "swap-ems": "換電站 EMS"}
+    assert snapshot(repo / "projects") == before        # 只讀
+    assert load_projects(None) == {}
+    assert load_projects(tmp_path / "沒有這個資料夾") == {}
+    assert "目前沒有專案" in system_prompt({})
+
+
+def test_new_project_file_is_classified_without_code_change(db, tmp_path):
+    collector, summary = db
+    repo = make_repo(tmp_path)
+    (repo / "projects" / "solar-lab.md").write_text("# 太陽能實驗室\n", encoding="utf-8")
+    put(collector)
+    llm = FakeLLM(good_output(projects=["solar-lab"]))
+    report = run_once(summary, llm, "test-model", now=NOW, projects=load_projects(repo))
+    assert report.summarized == ["chatgpt/abc"]
+    assert "solar-lab（太陽能實驗室）" in llm.calls[0][0]
+    assert summary.previous("chatgpt", "abc")["projects"] == ["solar-lab"]
 
 
 # ---- LLM 用戶端 ----

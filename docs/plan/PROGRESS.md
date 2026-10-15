@@ -4,15 +4,20 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T21 專案清單改讀 AiMemory `projects/`（依賴 T20 ✅）；之後 T23、T22。T04、T05 解析層也可做（樣本已提交）。
+- **☁️ 雲端可做：** T23 Git 發佈器（依賴 T20 ✅）；之後 T22（依賴 T21 ✅）。T04、T05 解析層也可做（樣本已提交）。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
 
+- **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T21 專案清單改讀 AiMemory `projects/`
+- 完成：專案代號＝`projects/*.md` 檔名、名稱＝第一個 `# ` 標題（排除 README、隱藏檔、保留字 `other`）；模型填代號或名稱都轉成代號，歸不到填 `other`；刪除 `projects.txt`。summarizer 測試 32 個全過，另以 AiMemory 實際 clone 唯讀驗證。
+- 學到：模型容易照名稱回填，所以驗證時也接受名稱再轉成代號；代號是想法卡、日誌與之後 `ideas/by-project/` 共用的鍵。
 
 ### 2026-10-15 · T20 寫入路徑對齊 AiMemory `ledger/`
 - 完成：想法卡寫到 `ledger/conversations/YYYY/MM/`、日誌寫到 `ledger/daily/YYYY/MM/`；`IDEA_VAULT` 改名 `IDEA_MEMORY_REPO`；所有寫入與刪除經 `ensure_in_ledger` 檢查。summarizer 測試 31 個全過（新增 10）。CLAUDE.md 慣例與設計文件第 7、8 節同步改為新路徑。

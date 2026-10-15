@@ -14,7 +14,7 @@ from app.models import ConversationIn  # noqa: E402
 from summarizer.store import SummaryStore  # noqa: E402
 
 NOW = datetime(2026, 10, 15, 12, 0, tzinfo=timezone.utc)
-PROJECTS = ["換電站EMS", "電池"]
+PROJECTS = {"swap-ems": "換電站EMS", "battery": "電池"}   # {代號: 名稱}，同 AiMemory projects/
 
 
 def good_output(**overrides):

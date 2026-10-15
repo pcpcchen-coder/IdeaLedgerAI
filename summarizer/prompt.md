@@ -13,6 +13,8 @@ IDEA_DB=/path/to/ledger.db LLM_MODEL=<模型名稱> python -m summarizer
 | `LLM_MODEL` | 模型名稱，必填 |
 | `LLM_API_KEY` | 選填 |
 | `SUMMARY_BATCH` | 每次最多處理幾段，預設 20 |
+| `IDEA_MEMORY_REPO` | AiMemory 本機 clone 的根目錄：讀 `projects/*.md` 當專案清單，寫想法卡與日誌到 `ledger/` |
+| `IDEA_TZ` | 日期使用的時區，預設 `Asia/Taipei` |
 
 ## 行為
 
@@ -20,7 +22,7 @@ IDEA_DB=/path/to/ledger.db LLM_MODEL=<模型名稱> python -m summarizer
 - 已摘要過的對話只送新增訊息加上前一版摘要（增量）；前段被編輯或切換分支時，collector 會讓它從頭重新摘要。
 - 頁面擷取（`capture="page"`）的對話送頁面文字。
 - 模型輸出不符格式時重試一次；同一版本連續失敗 3 次就暫停，對話更新後恢復。
-- 可歸類的專案清單在 `projects.txt`，改檔即可，不需改程式。
+- 可歸類的專案清單讀 AiMemory 的 `projects/*.md`（只讀）：代號＝檔名，名稱＝第一個 `# ` 標題；排除 `README.md`。在 AiMemory 新增專案檔即可，不需改程式。未設定 `IDEA_MEMORY_REPO` 時清單為空，全部歸 `other`。
 
 ## 提示詞
 
@@ -32,6 +34,6 @@ IDEA_DB=/path/to/ledger.db LLM_MODEL=<模型名稱> python -m summarizer
   "summary": "3 句內摘要",
   "ideas": [{"type": "新想法|延伸|待驗證", "idea": "...", "next_step": "..."}],
   "decisions": ["..."],
-  "projects": ["從 projects.txt 中選，都不符合填「其他」"]
+  "projects": ["專案代號（AiMemory projects/ 的檔名），模型填名稱也會轉成代號；都不符合填 other"]
 }
 ```

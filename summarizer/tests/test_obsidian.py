@@ -14,7 +14,7 @@ url: https://chatgpt.com/c/abc
 platform_project: "換電站EMS系統"
 created: 2026-10-15T18:00+08:00
 updated: 2026-10-15T19:00+08:00
-projects: ["換電站EMS"]
+projects: ["swap-ems"]
 status: inbox
 ---
 
@@ -153,7 +153,7 @@ def test_daily_log(db, vault):
     assert lines[0] == "巡檢狀態：ChatGPT 正常（10-15 19:30）；Grok 需重新登入（10-15 19:30）"
     rows = [l for l in lines if l.startswith("| ") and not l.startswith("| 時間")]
     assert rows == [
-        "| 09:05 | ChatGPT | [[2026-10-15_chatgpt_換電站排程]] | 換電站EMS |",
+        "| 09:05 | ChatGPT | [[2026-10-15_chatgpt_換電站排程]] | swap-ems |",
         "| 19:55 | Grok | 換電站排程想法（摘要中） |  |",
     ]
 
