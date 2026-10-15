@@ -189,6 +189,15 @@ class LedgerWriter:
             days.add(f"{self.local(row['updated_at']):%Y-%m-%d}")
         return days
 
+    def reset_card(self, platform: str, conv_id: str, path: str | None = None) -> None:
+        """讓這張想法卡下一次重寫（發佈器丟棄未推出的 commit 後使用）；path 指定它目前在 repo 中的位置。"""
+        with self.conn:
+            if path:
+                self.conn.execute("UPDATE card SET version='', path=? WHERE platform=? AND conv_id=?",
+                                  (path, platform, conv_id))
+            else:
+                self.conn.execute("UPDATE card SET version='' WHERE platform=? AND conv_id=?", (platform, conv_id))
+
     # ---- 每日日誌 ----
 
     def status_line(self) -> str:

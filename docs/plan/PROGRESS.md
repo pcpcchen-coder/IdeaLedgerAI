@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T23 Git 發佈器（依賴 T20 ✅）；之後 T22（依賴 T21 ✅）。T04、T05 解析層也可做（樣本已提交）。
+- **☁️ 雲端可做：** T22 衍生索引（依賴 T21 ✅）。T04、T05 解析層也可做（樣本已提交）。T11 的依賴 T23 已完成，仍等 T08。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
@@ -14,6 +14,14 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T23 Git 發佈器
+- 完成：`summarizer/publisher.py`，每輪 pull --rebase --autostash → 寫入 → 只 commit `ledger/`（作者 `Idea Ledger Bot`）→ push，被拒重新 pull 再推一次，仍失敗留到下一輪；`ledger/` 外有變動時寫入前、commit 前都會中止。以本機 bare repo 測 9 種情境，summarizer 測試 42 個全過；沒有推送到真正的 AiMemory。
+- 學到：
+  - git 預設把中文檔名加引號跳脫，路徑一律用 `-z` 解析（`-z` 要放在 `--` 之前，否則被當成路徑）。
+  - 想法卡搬檔（bot）與使用者改 `status`（遠端）同時發生時，rebase 的改名偵測通常能自動合併；真正衝突的是使用者手改了系統覆寫區。衝突時丟棄未推出的 bot commit、讓相關想法卡從資料庫重寫，否則同一個衝突會每輪重複。
+  - 部署機不一定有 git 的 user 設定，而 rebase、autostash 也會產生 commit，所以所有 git 指令都以 bot 身分執行。
+- 設計：CLAUDE.md 慣例加上 `IDEA_GIT_PUBLISH` 與「測試不得推送到真正的 AiMemory」。
 
 ### 2026-10-15 · T21 專案清單改讀 AiMemory `projects/`
 - 完成：專案代號＝`projects/*.md` 檔名、名稱＝第一個 `# ` 標題（排除 README、隱藏檔、保留字 `other`）；模型填代號或名稱都轉成代號，歸不到填 `other`；刪除 `projects.txt`。summarizer 測試 32 個全過，另以 AiMemory 實際 clone 唯讀驗證。

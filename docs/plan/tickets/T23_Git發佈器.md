@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| 🟡 進行中 | ☁️ 雲端 | 60 分 | T20 |
+| ✅ 完成（2026-10-15） | ☁️ 雲端 | 60 分 | T20 |
 
 ## 目標
 
@@ -30,15 +30,15 @@
 
 ## 驗收（pytest，暫存資料夾 + 本機 bare repo 當假遠端，不碰真正的 AiMemory）
 
-- [ ] 正常發佈：遠端出現想法卡與日誌；作者為 `Idea Ledger Bot`；訊息格式正確
-- [ ] 無變動不 commit：第二輪遠端 HEAD 不變
-- [ ] 遠端有新 commit（使用者在其他裝置提交）：正確 rebase，歷史為線性，使用者的 commit 保留
-- [ ] 使用者在遠端改了想法卡 `status` 與筆記後，重新摘要再發佈，兩者仍保留
-- [ ] `ledger/` 外有變動時中止，不 commit；寫入器若寫到 `ledger/` 外，也在 commit 前中止
-- [ ] push 被拒（寫入期間遠端多了 commit）→ 重新 pull 後推送成功
-- [ ] 遠端不通時 commit 留在本機，下一輪推出
-- [ ] 未推出的 bot commit 與遠端使用者修改衝突 → 下一輪自動回到遠端版本並重寫，使用者的 `status` 保留
-- [ ] `make test` 全過
+- [x] 正常發佈：遠端出現想法卡與日誌；作者為 `Idea Ledger Bot`；訊息格式正確
+- [x] 無變動不 commit：第二輪遠端 HEAD 不變
+- [x] 遠端有新 commit（使用者在其他裝置提交）：正確 rebase，歷史為線性，使用者的 commit 保留
+- [x] 使用者在遠端改了想法卡 `status` 與筆記後，重新摘要再發佈，兩者仍保留
+- [x] `ledger/` 外有變動時中止，不 commit；寫入器若寫到 `ledger/` 外，也在 commit 前中止
+- [x] push 被拒（寫入期間遠端多了 commit）→ 重新 pull 後推送成功
+- [x] 遠端不通時 commit 留在本機，下一輪推出
+- [x] 未推出的 bot commit 與遠端使用者修改衝突 → 下一輪自動回到遠端版本並重寫，使用者的 `status` 保留
+- [x] `make test` 全過
 
 ## 不做
 
@@ -48,3 +48,11 @@
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T23:` 開頭。
+
+## 完成紀錄
+
+- `summarizer/publisher.py`：`publish(repo, writer)` 回報 `pushed／no_changes／aborted／pull_failed／push_failed／error`；所有 git 指令都以 bot 身分執行（rebase、autostash 也會產生 commit），不依賴本機的 git 設定。
+- 路徑一律以 `-z` 解析：中文檔名在預設設定下會被 git 加引號跳脫。
+- `LedgerWriter.reset_card()`：丟棄未推出的 commit 後，讓相關想法卡下一次重寫；搬檔的情況把路徑指回遠端上的舊檔，才讀得到使用者的 `status`。
+- `python -m summarizer`：`IDEA_GIT_PUBLISH=1` 才發佈；失敗時結束碼 2。
+- 測試 11 個（9 個以 bare repo 當假遠端，含不讀全域 git 設定）；summarizer 共 42 個。
