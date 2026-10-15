@@ -10,7 +10,7 @@ collector 與 summarizer 都直接在 macOS 上跑（Python 虛擬環境＋launc
 
 | 東西 | 位置 |
 |---|---|
-| 程式（IdeaLedgerAI） | 任何**不在 iCloud 同步**的地方，例如 `~/Code/IdeaLedgerAI` |
+| 程式（IdeaLedgerAI） | 任何**不在 iCloud 同步**的地方，George 的 Mac Mini 用 `~/IdeaLedger/IdeaLedgerAI` |
 | 資料庫、設定、記錄檔、Python 虛擬環境 | `~/Library/Application Support/IdeaLedger/`（`install.sh` 自動建立） |
 | AiMemory clone | `~/Library/Application Support/IdeaLedger/AiMemory` |
 
@@ -20,12 +20,12 @@ collector 與 summarizer 都直接在 macOS 上跑（Python 虛擬環境＋launc
 
 - Python 3.12 以上：`python3 --version`；不夠新就 `brew install python@3.12`，之後的指令前面加 `PYTHON=/opt/homebrew/bin/python3.12`。
 - Node 20 以上（建置擴充用）、git、Chrome。
-- Ollama 與 LiteLLM Gateway 已在跑。記下 LiteLLM 的網址（預設 `http://127.0.0.1:4000/v1`）與要用的模型名稱。
+- （選填）Ollama 與 LiteLLM Gateway：只有要做模型摘要時才需要。**目前預設不做摘要**，想法卡記「使用者輸入的文字」（T26），`LLM_MODEL` 留空即可。
 
 ## 1. 取得程式並建置擴充
 
 ```bash
-mkdir -p ~/Code && cd ~/Code
+mkdir -p ~/IdeaLedger && cd ~/IdeaLedger
 git clone https://github.com/pcpcchen-coder/IdeaLedgerAI.git
 cd IdeaLedgerAI
 make setup
@@ -40,18 +40,11 @@ deploy/install.sh
 
 第一次執行會：建立 `~/Library/Application Support/IdeaLedger/`、產生 `.env`（含隨機 token）、安裝 Python 套件、載入兩個 launchd 工作（collector 常駐、summarizer 每 5 分鐘）。
 
-打開設定檔填模型名稱：
+預設是**使用者輸入模式**（不做模型摘要），`.env` 不用改。T08 首測留下的 `collector_token.txt` 會被沿用為 token，擴充設定頁不必重填。
 
-```bash
-open -e "$HOME/Library/Application Support/IdeaLedger/.env"
-```
+之後想改成模型摘要：打開 `.env`（`open -e "$HOME/Library/Application Support/IdeaLedger/.env"`），`LLM_MODEL=` 填 LiteLLM 上的模型名稱（有 key 再填 `LLM_API_KEY=`），再執行一次 `deploy/install.sh`（不會覆寫 `.env`，token 不變）。值含空白時要加雙引號。
 
-- `LLM_MODEL=` 填 LiteLLM 上的模型名稱；有設 key 的話填 `LLM_API_KEY=`。
-- 其他值通常不用改。值含空白時要加雙引號。
-
-改完再執行一次 `deploy/install.sh`（不會覆寫 `.env`，token 不變）。
-
-> **從 T08 的測試資料庫接續（選做）：** 想沿用 T08 已收的對話，先執行 `deploy/uninstall.sh` 停掉服務，把舊的 `ledger.db` 複製成 `~/Library/Application Support/IdeaLedger/ledger.db`，再執行 `deploy/install.sh`。不搬也可以，擴充會重新回填。
+> **從 T08 接續：** T08 首測的資料庫已在 `~/Library/Application Support/IdeaLedger/ledger.db`，安裝後直接沿用。安裝前先關掉首測用的 collector 終端機視窗（`start_collector.command`），否則 8787 埠被占用。
 
 ## 3. Clone AiMemory 並設定推送權限
 
@@ -69,7 +62,7 @@ git clone https://github.com/pcpcchen-coder/AiMemory.git "$HOME/Library/Applicat
 ## 4. Chrome 專用設定檔
 
 1. Chrome 右上頭像 → 新增 → 命名「IdeaLedger」→ 在這個設定檔登入 chatgpt.com 與 claude.ai。
-2. 開 `chrome://extensions` → 右上開「開發人員模式」→「載入未封裝項目」→ 選 `~/Code/IdeaLedgerAI/extension/dist`。
+2. 開 `chrome://extensions` → 右上開「開發人員模式」→「載入未封裝項目」→ 選 `~/IdeaLedger/IdeaLedgerAI/extension/dist`。
 3. 點擴充圖示開設定頁：token 填 `.env` 裡的 `IDEA_TOKEN`（`grep IDEA_TOKEN "$HOME/Library/Application Support/IdeaLedger/.env"`）→ 儲存 → 按「立即巡檢」。
 4. `chrome://settings/performance` →「一律保持作用中的網站」加入 `chatgpt.com`、`claude.ai`，避免分頁被休眠。
 
@@ -92,7 +85,7 @@ deploy/doctor.sh
 | 訊息 | 處理 |
 |---|---|
 | collector 沒有回應 | 看 `~/Library/Application Support/IdeaLedger/logs/collector.log` |
-| LiteLLM 連不上 | 確認 LiteLLM 在跑、`.env` 的 `LLM_BASE_URL` 正確 |
+| LiteLLM 連不上 | 只在設定 `LLM_MODEL` 時檢查：確認 LiteLLM 在跑、`.env` 的 `LLM_BASE_URL` 正確 |
 | 無法推送到 AiMemory | 重做第 3 步的推送權限 |
 | 還沒有 summarizer 記錄 | 剛安裝時正常，等 5 分鐘再執行一次 |
 
@@ -102,6 +95,6 @@ deploy/doctor.sh
 
 ## 日常維護
 
-- **更新程式：** `cd ~/Code/IdeaLedgerAI && git pull && make build && deploy/install.sh`，再到 `chrome://extensions` 按擴充的重新載入。
+- **更新程式：** `cd ~/IdeaLedger/IdeaLedgerAI && git pull && make build && deploy/install.sh`，再到 `chrome://extensions` 按擴充的重新載入。
 - **記錄檔：** `~/Library/Application Support/IdeaLedger/logs/`。
 - **停用：** `deploy/uninstall.sh`（資料保留）。

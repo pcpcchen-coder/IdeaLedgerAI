@@ -67,6 +67,8 @@
 | **Phase 1b ChatGPT 專案名稱** |||||
 | [T24](tickets/T24_ChatGPT專案名稱採樣.md) | ChatGPT 專案名稱採樣 | 🖥 | 15 分 | T01 | ✅ |
 | [T25](tickets/T25_ChatGPT專案名稱.md) | ChatGPT 專案名稱（以名稱取代 `g-p-` ID） | ☁️ | 45 分 | T24, T07 | ✅ |
+| **Phase 2c 不做模型摘要** |||||
+| [T26](tickets/T26_以使用者輸入取代摘要.md) | 以使用者輸入取代摘要（George 決定） | ☁️ | 60 分 | T09, T10, T20 | ✅ |
 
 狀態符號：⬜ 待辦 · 🟡 進行中 · ✅ 完成 · ⛔ 卡住
 

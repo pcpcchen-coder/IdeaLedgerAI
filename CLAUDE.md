@@ -11,7 +11,7 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 - **本 repo（IdeaLedgerAI）＝開發工具用。** 只放擴充、collector、summarizer 的程式、設計文件與測試。**不得放任何真實個人資料**；fixtures 只能是遮罩後的測試對話。
 - **資料存放＝ [pcpcchen-coder/AiMemory](https://github.com/pcpcchen-coder/AiMemory)（私人 repo，當資料庫用）。** 工具產出的想法卡、日誌、索引寫到 AiMemory 的 `ledger/`，路徑規格以 `AiMemory/ledger/README.md` 為準。
 - **工具只能寫 AiMemory 的 `ledger/`**，不得新增、修改、刪除 AiMemory 其他任何檔案（`profile.md`、`decisions.md`、`memory-pack.md`、`projects/`、`inbox/` 等由 George 人工維護）。
-- 對話全文只留在 Mac Mini 本機的 collector 資料庫，不進任何 repo。
+- 對話全文只留在 Mac Mini 本機的 collector 資料庫，不進任何 repo。例外（George 決定，T26）：想法卡記「使用者輸入的文字」，會寫進 AiMemory；AI 回覆不寫入。
 
 ## 不可違反的設計約束
 
@@ -21,7 +21,7 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 - **讀取在平台分頁內執行**：由該網域的 content script 發同源請求，不從擴充背景直接打平台介面。
 - **平台開放**：任何地方都不得寫死平台清單或以平台 id 做 enum／分支判斷（擴充、collector、summarizer、Obsidian 寫入皆然）。平台 id 只做格式檢查（`^[a-z][a-z0-9-]{1,31}$`），顯示名稱來自平台描述。新增平台必須只靠新增 adapter 資料夾（方式一）或設定頁（方式二，T18）完成，不得要求修改核心程式。
 - **平台差異只在 `extension/src/adapters/<id>/`**：`platform.json`（id、name、hosts）＋ `index.js` ＋ `parse.js` ＋ `fetch.js`。建置時自動掃描註冊並產生 manifest 網域權限；`adapters/index.js` 與 `manifest.base.json` 不因新增平台而修改。介面固定為 `checkLogin()`、`listUpdated(cursor)`、`getConversation(id)`。
-- **本地摘要**：對話內容只送往本機 collector 與本地模型，不送第三方雲端 LLM。
+- **本地處理**：對話內容只送往本機 collector 與本地模型，不送第三方雲端 LLM。目前預設不做模型摘要，想法卡以使用者輸入的文字為內容（T26）；設定 `LLM_MODEL` 才用本地模型摘要。
 - **排除**：第一則使用者訊息含 `#nolog` 的對話不落地；專案黑名單內的對話略過。
 - **冪等**：collector 以 `(platform, conv_id, updated_at)` 判斷重複，重送不得產生重複處理。
 

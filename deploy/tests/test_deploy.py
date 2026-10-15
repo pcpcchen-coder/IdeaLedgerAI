@@ -81,6 +81,13 @@ def test_install_creates_env_and_plists(env):
         assert any(c.startswith(f"bootstrap gui/{uid} ") and c.endswith(f"{label}.plist") for c in calls)
 
 
+def test_install_reuses_t08_token(env):
+    data_dir(env).mkdir(parents=True, exist_ok=True)
+    (data_dir(env) / "collector_token.txt").write_text("t08TestToken1234567890abcdefABCD\n")
+    run("install.sh", env)
+    assert "IDEA_TOKEN=t08TestToken1234567890abcdefABCD\n" in read_env(env)
+
+
 def test_reinstall_keeps_env_and_token(env):
     run("install.sh", env)
     first = read_env(env)
@@ -150,5 +157,5 @@ def test_doctor_reports_missing_settings(env):
     proc = run("doctor.sh", env, check=False)
     assert proc.returncode == 1
     assert "✅ collector token 已設定" in proc.stdout
-    assert "❌ LLM_MODEL 未設定" in proc.stdout
+    assert "✅ 使用者輸入模式" in proc.stdout and "LiteLLM" not in proc.stdout
     assert "❌ AiMemory clone 不存在" in proc.stdout

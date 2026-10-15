@@ -11,7 +11,7 @@ load_env || exit 1
 
 # 設定
 [ -n "${IDEA_TOKEN:-}" ] && ok "collector token 已設定" || bad "IDEA_TOKEN 未設定（$ENV_FILE）"
-[ -n "${LLM_MODEL:-}" ] && ok "模型：$LLM_MODEL" || bad "LLM_MODEL 未設定（$ENV_FILE）"
+[ -n "${LLM_MODEL:-}" ] && ok "模型摘要：$LLM_MODEL" || ok "使用者輸入模式（LLM_MODEL 未設定，不做模型摘要，T26）"
 for var in IDEA_DB IDEA_MEMORY_REPO; do
   value="${!var:-}"
   if [ -z "$value" ]; then bad "$var 未設定"
@@ -31,13 +31,15 @@ else
   bad "collector 沒有回應（看 $IDEALEDGER_HOME/logs/collector.log）"
 fi
 
-# 本地模型（LiteLLM）
-auth=()
-[ -n "${LLM_API_KEY:-}" ] && auth=(-H "Authorization: Bearer $LLM_API_KEY")
-if curl -fsS -m 5 "${auth[@]+"${auth[@]}"}" "${LLM_BASE_URL%/}/models" >/dev/null 2>&1; then
-  ok "LiteLLM 可連線：$LLM_BASE_URL"
-else
-  bad "LiteLLM 連不上：$LLM_BASE_URL"
+# 本地模型（LiteLLM）：只有設定 LLM_MODEL 時才需要
+if [ -n "${LLM_MODEL:-}" ]; then
+  auth=()
+  [ -n "${LLM_API_KEY:-}" ] && auth=(-H "Authorization: Bearer $LLM_API_KEY")
+  if curl -fsS -m 5 "${auth[@]+"${auth[@]}"}" "${LLM_BASE_URL%/}/models" >/dev/null 2>&1; then
+    ok "LiteLLM 可連線：$LLM_BASE_URL"
+  else
+    bad "LiteLLM 連不上：$LLM_BASE_URL"
+  fi
 fi
 
 # AiMemory clone 與推送權限

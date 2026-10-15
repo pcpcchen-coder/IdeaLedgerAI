@@ -18,6 +18,10 @@
 
 ## 工作紀錄
 
+### 2026-10-15 · T26 以使用者輸入取代摘要
+- 決定（George）：先不跑模型摘要，想法卡改記對話中使用者輸入的文字（交辦工作時輸入少但足以表達需求）；使用者輸入因此會寫進 AiMemory，AI 回覆仍只留本機。程式放 `~/IdeaLedger`。
+- 完成：`summarizer/extract.py` 與 `run_extract_once`；`python -m summarizer` 沒設 `LLM_MODEL` 即為此模式；想法卡版面「## 使用者輸入」；`doctor.sh` 不再要求 LLM；`install.sh` 沿用 T08 token。新增 8 個測試，`make test` 全過。CLAUDE.md、部署文件同步更新。
+
 ### 2026-10-15 · T25 ChatGPT 專案名稱
 - 完成：adapter 讀 sidebar 專案名稱表（cursor 翻頁、分頁內快取、遇新 ID 超過 10 分鐘才重讀），清單與單篇的 `project` 改為名稱；失敗保留 ID，429 照常退避。新增 6 個測試，`make test` 全過。只改 `adapters/chatgpt/`、fixtures 與測試。
 

@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
+from .extract import MODE as USER_INPUTS_MODE
 
 LEDGER_DIR = "ledger"
 NOTES_MARKER = "<!-- 以下為個人筆記，系統不會覆寫 -->"
@@ -148,10 +149,14 @@ class LedgerWriter:
             f"status: {status}",
             "---",
         ]
-        body = [f"# {row['s_title']}", "", "## 摘要", "", row["summary"], "", "## 想法", ""]
-        body += [f"- [{i['type']}] {i['idea']}" + (f" → 下一步：{i['next_step']}" if i.get("next_step") else "") for i in ideas] or ["- （無）"]
-        body += ["", "## 決策", ""]
-        body += [f"- {d}" for d in decisions] or ["- （無）"]
+        if row["model"] == USER_INPUTS_MODE:
+            # 不經模型（T26）：只列使用者輸入的文字
+            body = [f"# {row['s_title']}", "", "## 使用者輸入", "", row["summary"]]
+        else:
+            body = [f"# {row['s_title']}", "", "## 摘要", "", row["summary"], "", "## 想法", ""]
+            body += [f"- [{i['type']}] {i['idea']}" + (f" → 下一步：{i['next_step']}" if i.get("next_step") else "") for i in ideas] or ["- （無）"]
+            body += ["", "## 決策", ""]
+            body += [f"- {d}" for d in decisions] or ["- （無）"]
         body += ["", f"來源：[{row['platform_name'] or row['platform']}]({row['url']})", "", NOTES_MARKER]
         return "\n".join(fm + [""] + body) + (notes if notes else "\n")
 
@@ -160,7 +165,7 @@ class LedgerWriter:
     def write_cards(self, report: WriteReport) -> set[str]:
         """寫有新摘要的想法卡；回傳受影響的日誌日期（依對話最後更新時間）。"""
         rows = self.conn.execute(
-            """SELECT c.*, s.title AS s_title, s.summary, s.ideas_json, s.decisions_json, s.projects_json,
+            """SELECT c.*, s.title AS s_title, s.summary, s.ideas_json, s.decisions_json, s.projects_json, s.model,
                       s.summarized_at || '|' || s.source_updated_at AS version, k.path AS old_path
                FROM summary s
                JOIN conv c ON c.platform = s.platform AND c.conv_id = s.conv_id

@@ -1,5 +1,7 @@
 # Summarizer
 
+> **目前模式（2026-10-15，T26）：使用者輸入。** 沒設定 `LLM_MODEL` 時不經模型，想法卡內容是對話中使用者輸入的文字（依序條列，單則 1000 字、全部 6000 字上限）。設定 `LLM_MODEL` 才走下方的模型摘要。
+
 把 collector 收到的對話，經 LiteLLM Gateway 用本地模型摘要成想法卡資料，存進 SQLite 的 `summary` 表。由 launchd 每 5 分鐘執行一次（部署見 T11）。
 
 ```bash
@@ -10,7 +12,7 @@ IDEA_DB=/path/to/ledger.db LLM_MODEL=<模型名稱> python -m summarizer
 |---|---|
 | `IDEA_DB` | 與 collector 相同的 SQLite 檔，預設 `./ledger.db` |
 | `LLM_BASE_URL` | OpenAI 相容端點，預設 `http://127.0.0.1:4000/v1`（LiteLLM Gateway） |
-| `LLM_MODEL` | 模型名稱，必填 |
+| `LLM_MODEL` | 模型名稱；不設定則為使用者輸入模式 |
 | `LLM_API_KEY` | 選填 |
 | `SUMMARY_BATCH` | 每次最多處理幾段，預設 20 |
 | `IDEA_MEMORY_REPO` | AiMemory 本機 clone 的根目錄：讀 `projects/*.md` 當專案清單，寫想法卡與日誌到 `ledger/` |

@@ -3,7 +3,7 @@
 環境變數：
   IDEA_DB        SQLite 路徑（與 collector 相同），預設 ./ledger.db
   LLM_BASE_URL   OpenAI 相容端點，預設 http://127.0.0.1:4000/v1（LiteLLM Gateway）
-  LLM_MODEL      模型名稱（必填）
+  LLM_MODEL      模型名稱；沒設定時不經模型，以「使用者輸入的文字」當想法卡內容（T26）
   LLM_API_KEY    選填
   SUMMARY_BATCH  每次最多處理幾段，預設 20
   IDEA_MEMORY_REPO  AiMemory 本機 clone 的根目錄；有設定才寫想法卡與每日日誌到其 ledger/（T20），
@@ -20,25 +20,30 @@ from .obsidian import LedgerWriter
 from .prompt import load_projects
 from .publisher import BOT_EMAIL, publish
 from .store import SummaryStore
-from .worker import run_once
+from .worker import run_extract_once, run_once
 
 
 def main() -> int:
-    try:
-        client = OpenAICompatClient(
-            base_url=os.environ.get("LLM_BASE_URL", "http://127.0.0.1:4000/v1"),
-            model=os.environ.get("LLM_MODEL", ""),
-            api_key=os.environ.get("LLM_API_KEY") or None,
-        )
-    except LLMError as e:
-        print(f"設定錯誤：{e}", file=sys.stderr)
-        return 1
+    client = None
+    if os.environ.get("LLM_MODEL"):
+        try:
+            client = OpenAICompatClient(
+                base_url=os.environ.get("LLM_BASE_URL", "http://127.0.0.1:4000/v1"),
+                model=os.environ["LLM_MODEL"],
+                api_key=os.environ.get("LLM_API_KEY") or None,
+            )
+        except LLMError as e:
+            print(f"設定錯誤：{e}", file=sys.stderr)
+            return 1
     store = SummaryStore(os.environ.get("IDEA_DB", "./ledger.db"))
     repo = os.environ.get("IDEA_MEMORY_REPO")
     try:
         projects = load_projects(repo)
-        report = run_once(store, client.complete, client.model, batch=int(os.environ.get("SUMMARY_BATCH", "20")),
-                          projects=projects)
+        batch = int(os.environ.get("SUMMARY_BATCH", "20"))
+        if client:
+            report = run_once(store, client.complete, client.model, batch=batch, projects=projects)
+        else:
+            report = run_extract_once(store, batch=batch, projects=projects)
         written = published = None
         if repo:
             tz = os.environ.get("IDEA_TZ", "Asia/Taipei")
@@ -50,7 +55,8 @@ def main() -> int:
                 written = writer.run()
     finally:
         store.close()
-    print(f"摘要完成 {len(report.summarized)}、失敗 {len(report.failed)}、期間又更新 {len(report.still_dirty)}")
+    mode = "模型摘要" if client else "使用者輸入"
+    print(f"[{mode}] 完成 {len(report.summarized)}、失敗 {len(report.failed)}、期間又更新 {len(report.still_dirty)}")
     for key in report.failed:
         print(f"  失敗：{key}", file=sys.stderr)
     if written:

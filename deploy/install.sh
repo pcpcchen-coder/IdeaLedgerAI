@@ -16,14 +16,19 @@ fail() { printf '錯誤：%s\n' "$*" >&2; exit 1; }
 # 2. 資料夾與設定檔（第一次才產生，之後不覆寫）
 mkdir -p "$IDEALEDGER_HOME/logs"
 if [ ! -f "$ENV_FILE" ]; then
-  token="$("$PYTHON" -c 'import secrets; print(secrets.token_hex(24))')"
+  # T08 首測留下的 token 就沿用，擴充設定頁不必重填
+  if [ -s "$IDEALEDGER_HOME/collector_token.txt" ]; then
+    token="$(tr -d '[:space:]' < "$IDEALEDGER_HOME/collector_token.txt")"
+  else
+    token="$("$PYTHON" -c 'import secrets; print(secrets.token_hex(24))')"
+  fi
   # 值加引號：預設路徑含空白（Application Support），.env 會被 shell 讀取
   sed -e "s|^IDEA_TOKEN=.*|IDEA_TOKEN=$token|" \
       -e "s|^IDEA_DB=.*|IDEA_DB=\"$IDEALEDGER_HOME/ledger.db\"|" \
       -e "s|^IDEA_MEMORY_REPO=.*|IDEA_MEMORY_REPO=\"$IDEALEDGER_HOME/AiMemory\"|" \
       "$REPO_ROOT/deploy/env.example" > "$ENV_FILE"
   chmod 600 "$ENV_FILE"
-  say "已建立設定檔：$ENV_FILE（token 已自動產生；請填 LLM_MODEL）"
+  say "已建立設定檔：$ENV_FILE（token 已自動產生；LLM_MODEL 選填，不填則以使用者輸入當想法卡內容）"
 fi
 load_env
 

@@ -9,6 +9,7 @@ from typing import Callable, Literal
 
 from pydantic import BaseModel, Field, ValidationError, field_validator
 
+from .extract import MODE as USER_INPUTS_MODE, extract_result
 from .prompt import OTHER_PROJECT, build_user_prompt, system_prompt
 from .store import SummaryStore
 
@@ -82,6 +83,26 @@ def run_once(store: SummaryStore, complete: Callable[[str, str], str], model: st
             continue
 
         if store.save(conv, result, model, now):
+            report.summarized.append(key)
+        else:
+            report.still_dirty.append(key)
+    return report
+
+
+def run_extract_once(store: SummaryStore, *, now: datetime | None = None, batch: int = 20,
+                     projects: dict[str, str] | None = None) -> RunReport:
+    """不經模型：以使用者輸入的文字當想法卡內容（T26）。每次都從完整訊息重新產生，不做增量。"""
+    now = now or datetime.now(timezone.utc)
+    report = RunReport()
+    for conv in store.pending(now, SETTLE, batch):
+        key = f"{conv['platform']}/{conv['conv_id']}"
+        try:
+            result = extract_result(conv, projects or {})
+        except Exception as e:  # noqa: BLE001 — 單段失敗不影響其他對話
+            store.record_failure(conv, f"{type(e).__name__}: {e}")
+            report.failed.append(key)
+            continue
+        if store.save(conv, result, USER_INPUTS_MODE, now):
             report.summarized.append(key)
         else:
             report.still_dirty.append(key)
