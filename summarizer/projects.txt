@@ -1,0 +1,11 @@
+# 想法卡可歸類的專案，一行一個。改這個檔即可，不需改程式。以 # 開頭的行會被忽略。
+換電站EMS
+微電網
+電池
+數位人類
+AI OS
+InMoov
+Amazing Hand
+可信任的控制
+本地LLM/CoPartner
+Idea Ledger

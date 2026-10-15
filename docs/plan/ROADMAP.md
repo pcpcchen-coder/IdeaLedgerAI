@@ -45,7 +45,7 @@
 | [T07](tickets/T07_取資料層與設定頁.md) | 取資料層與設定頁 | ☁️ | 60 分 | T04, T05, T06 | ⬜ |
 | [T08](tickets/T08_M1本機首測.md) | M1 本機首測 | 🖥 | 30 分 | T03, T07 | ⬜ |
 | **Phase 2 有想法卡（M2）** |||||
-| T09 | Summarizer worker | ☁️ | 90 分 | T03 | ⬜ |
+| [T09](tickets/T09_Summarizer_worker.md) | Summarizer worker | ☁️ | 90 分 | T03 | ✅ |
 | T10 | Obsidian 寫入與每日日誌 | ☁️ | 60 分 | T09 | ⬜ |
 | T11 | Mac Mini 部署 | ☁️ + 🖥 | 60 分 | T08, T10 | ⬜ |
 | **Phase 3 Kimi（M3）** |||||

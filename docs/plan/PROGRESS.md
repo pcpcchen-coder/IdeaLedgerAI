@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T09 Summarizer worker（只依賴 T03）
+- **☁️ 雲端可做：** T10 Obsidian 寫入與每日日誌（只依賴 T09）
 - **🖥 等 George：** T01 ChatGPT 介面採樣、T02 Claude 介面採樣（各約 30 分鐘，依賴已滿足）。T04、T05 要等這兩張的樣本。
 
 ## 卡住／待決定
@@ -12,6 +12,10 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T09 Summarizer worker
+- 完成：`summarizer/` 套件（store、llm、prompt、worker、`python -m summarizer`），增量摘要、頁面文字、截斷、格式驗證與重試、失敗計數、與 collector 的競態防護；14 個 pytest 全過。
+- 學到：摘要期間 collector 可能寫入新版本，清除 `dirty` 必須以讀取當下的 `updated_at` 為條件，否則會漏掉新內容。輸出品質要等接上真實模型（T11）才能評估。
 
 ### 2026-10-15 · T06 巡檢核心
 - 完成：排程（單一執行、鬧鐘隨機延遲）、分頁管理（找現有 → 重新載入休眠分頁 → 開釘選分頁）、RPC 錯誤還原、節流、退避、水位線、回填佇列、collector 用戶端、設定；平台清單一律來自 `registeredPlatforms()`。擴充測試 39 個全過，並對真實 collector 做端到端驗證。

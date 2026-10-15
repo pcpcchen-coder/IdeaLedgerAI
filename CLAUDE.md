@@ -30,7 +30,7 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 ## 開發指令
 
 - `make setup`：安裝擴充（npm）與 collector（pip）依賴，第一次使用時執行。
-- `make test`：擴充 node:test + collector pytest + 遮罩工具 pytest，每張工單收工前必須全過。
+- `make test`：擴充 node:test + collector pytest + summarizer pytest + 遮罩工具 pytest，每張工單收工前必須全過。
 - `make build`：產出 `extension/dist/`，Chrome 以「載入未封裝項目」載入這個資料夾。
 - `npm run gen`（build、test 前自動執行）：掃描 `src/adapters/*/platform.json` 產生 `registry.generated.js`（不進 repo）。
 - manifest 由 `manifest.base.json` 加上各平台網域於建置時產生，路徑以 `dist/` 為根；新增入口或複製檔時改 `extension/build.config.mjs`，測試會檢查 manifest 引用的檔案都有產出。
