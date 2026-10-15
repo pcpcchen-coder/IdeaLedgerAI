@@ -1,0 +1,47 @@
+# T03 Collector v2 端點
+
+| 狀態 | 執行 | 預估 | 依賴 |
+|---|---|---|---|
+| ⬜ 待辦 | ☁️ 雲端 | 60 分 | T00 |
+
+## 目標
+
+實作設計文件 v2 第 4 節的 collector：接收結構化對話、冪等寫入、記錄巡檢結果、提供健康與水位線查詢。
+
+## 開工前讀
+
+- 設計文件 v2 第 4、6、7 節
+- `collector/app/main.py`（T00 搬入的 v1 版）
+
+## 範圍
+
+拆成 `app/main.py`（路由）、`app/db.py`（SQLite 存取與 schema）、`app/models.py`（Pydantic 模型）。全部端點要求 `Authorization: Bearer <IDEA_TOKEN>`。
+
+| 端點 | 行為 |
+|---|---|
+| `POST /v2/conversations` | 依設計文件 4.1 格式驗證。不存在 → 新增，`dirty=1`，回 `created`；`updated_at` 較新 → 更新，`dirty=1`，回 `updated`；相同或較舊 → 不動，回 `unchanged`；第一則使用者訊息含 `#nolog` → 不寫入（若已存在則刪除），回 `excluded` |
+| `POST /v2/sweep-runs` | 寫一筆 `sweep_run`（platform、started_at、finished_at、status、listed、fetched、error） |
+| `GET /v2/health` | 各平台最近一次 `sweep_run` 的狀態、時間，以及 `conv` 筆數 |
+| `GET /v2/watermark?platform=x` | 該平台已存對話中最大的 `updated_at`；無資料回 `null`。供擴充儲存遺失時復原 |
+
+- 環境變數：`IDEA_TOKEN`（必填，缺少就啟動失敗）、`IDEA_DB`（預設 `./ledger.db`）。
+- 請求大小上限 10 MB。
+- 時間一律存 ISO 8601 UTC。
+
+## 驗收（pytest）
+
+- [ ] 無 token／錯誤 token → 401
+- [ ] 新增、更新、相同 `updated_at` 重送、較舊 `updated_at` 送入，四種情況回應與 `dirty` 都正確
+- [ ] `#nolog` 對話不落地；先存一般版本再送含 `#nolog` 的版本 → 被刪除
+- [ ] 格式錯誤（缺欄位、role 不合法）→ 422
+- [ ] `health`、`watermark` 回傳符合寫入的資料
+- [ ] `make test` 全過
+
+## 不做
+
+- 摘要、Obsidian 寫入（T09、T10）
+- Docker（T11）
+
+## 收工時
+
+更新 ROADMAP、PROGRESS；commit 訊息以 `T03:` 開頭。

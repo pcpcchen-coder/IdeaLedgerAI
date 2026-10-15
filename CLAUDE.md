@@ -17,6 +17,15 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入 ChatGPT�
 - **排除**：第一則使用者訊息含 `#nolog` 的對話不落地；專案黑名單內的對話略過。
 - **冪等**：collector 以 `(platform, conv_id, updated_at)` 判斷重複，重送不得產生重複處理。
 
+## 工作方式
+
+- 一次工作階段 = 一張工單（`docs/plan/tickets/`）。開工 `/next`，收工 `/wrap`。
+- 進度的唯一來源是 `docs/plan/PROGRESS.md` 與 `docs/plan/ROADMAP.md`；不要依賴對話記憶判斷做到哪。
+- 標 🖥 的工單需要 George 本機動手，雲端工作階段不得假裝完成；只能協助他照工單步驟進行。
+- 雲端工作階段無法登入 George 的平台帳號。adapter 解析層一律用 `extension/fixtures/` 的樣本開發與測試；欄位名稱以 `fixtures/*/NOTES.md` 為準，不憑記憶假設。
+- fixtures 只能提交遮罩後的檔案；原始檔放 `extension/fixtures/raw/`（已 gitignore）。
+- 只做工單範圍內的事，範圍外的發現記到 PROGRESS「卡住／待決定」。
+
 ## 執行環境
 
 - 主節點：Mac Mini M4 24GB，已有 Ollama、LiteLLM Gateway、Docker；需禁止睡眠、開機自動啟動 Chrome 專用設定檔。

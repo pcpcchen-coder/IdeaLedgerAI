@@ -25,17 +25,21 @@ Chrome 專用設定檔（已登入 3 個平台）
 | [設計文件 v1](docs/2026-10-15_IdeaLedger_設計文件_v1.html) | 舊版：各瀏覽器即時擷取（已降為選用模式） |
 | [工具評估](docs/00_工具評估_2026-10-07.md) | 為什麼自建而不用現成工具 |
 
-## 狀態
+## 開發進度
 
-| 里程碑 | 內容 | 狀態 |
+採「一次工作階段一張工單」的方式推進，有空時開工作階段打 `/next` 接續、打 `/wrap` 收工。
+
+- [路線圖與工單總表](docs/plan/ROADMAP.md)
+- [目前進度與下一步](docs/plan/PROGRESS.md)
+
+| 里程碑 | 內容 | 工單 |
 |---|---|---|
-| — | 設計文件 v2 | ✅ |
-| M1 | ChatGPT、Claude adapter + collector v2 端點 | ⬜ |
-| M2 | Summarizer worker + Obsidian 寫入 + 每日日誌 | ⬜ |
-| M3 | Kimi adapter（先做介面探查） | ⬜ |
-| M4 | 健康監控、首次回填、專案黑名單 | ⬜ |
+| M1 收得到 | ChatGPT、Claude 對話進入 collector | T00–T08 |
+| M2 有想法卡 | 本地摘要、Obsidian 想法卡與每日日誌 | T09–T11 |
+| M3 Kimi | Kimi 對話進入流程 | T12–T13 |
+| M4 無人看管 | 健康監控、回填、排除規則、一週驗收 | T14–T17 |
 
-目前 `extension/` 與 `collector/` 內是 v1 即時擷取的骨架，M1 會改寫為 v2 巡檢架構。
+目前 `extension/` 與 `collector/` 內是 v1 即時擷取的骨架，T00 會搬到 `extension/legacy/` 並建立 v2 結構。
 
 ## 已知限制
 
