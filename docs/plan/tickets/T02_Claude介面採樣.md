@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| 🟡 進行中（缺 D） | 🖥 George | 30 分 | T00 |
+| ✅ 完成 | 🖥 George | 30 分 | T00 |
 
 ## 目標
 
@@ -68,14 +68,15 @@
 ## 驗收
 
 - [x] 上表檔案已遮罩並提交
-- [ ] `NOTES.md` 回答上述 6 題（第 3 題待補）
+- [x] `NOTES.md` 回答上述 6 題（第 3 題依 George 確認）
 - [x] 組織 ID、使用者 ID 都已替換成佔位字串
 
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T02:` 開頭。
 
-## 剩餘
 
-- 2026-10-15 已在 Claude 桌面 App 內建瀏覽器完成 A、B、C、E 的建立與採樣（見 `extension/fixtures/claude/NOTES.md`）。
-- **D 手機 App 對話未做**：George 在手機 Claude App 開一段「IdeaLedger 測試 D」來回 1 輪 → 確認是否出現在網頁清單、記下清單項目的 `platform` 值 → 補採單篇（`conversation_mobile.json`）並回答 NOTES 第 3 題。
+## 結案說明
+
+- 2026-10-15 在 Claude 桌面 App 內建瀏覽器完成測試對話建立與採樣。
+- D（手機 App 對話）未採：George 確認手機 App 對話一定會同步到網頁歷史，不另測。

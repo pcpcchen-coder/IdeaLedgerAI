@@ -4,15 +4,17 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T04 ChatGPT 解析層、T05 Claude 解析層（T01、T02 的 A、B、C，Claude 另含 E，樣本已提交，欄位見 `extension/fixtures/*/NOTES.md`；缺的手機對話 D 不影響解析層）。也可做 T20 寫入路徑對齊 AiMemory（之後 T21、T23、T22），不依賴 T01、T02。
-- **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
+- **☁️ 雲端：** T04 ChatGPT 解析層、T05 Claude 解析層由另一個雲端工作階段進行中，不要重複開工。其餘可做：T20 寫入路徑對齊 AiMemory（之後 T21、T23、T22）。
+- **🖥 等 George：** 無（T08 M1 本機首測要等 T07）。
 
 ## 卡住／待決定
 
-- **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T01、T02 結案
+- 決定（George）：手機 App 對話一定會同步到網頁歷史，D 不另測。T01、T02 改為 ✅，NOTES 第 3 題依此回答。
 
 ### 2026-10-15 · T01 ChatGPT 介面採樣、T02 Claude 介面採樣（🟡 缺手機對話 D）
 - 完成：這次對話連結了 George 的電腦，在 Claude 桌面 App 內建瀏覽器（George 自行登入）建立測試對話 ChatGPT A–C、Claude A–C 與 E，以採樣腳本相同邏輯（只發 GET、瀏覽器內先遮蔽）取樣，經 `import_sample.py` 遮罩後提交 fixtures 與兩份 NOTES.md。所有請求最終皆 200，社群觀察的介面路徑正確。
