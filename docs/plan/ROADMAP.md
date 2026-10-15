@@ -64,6 +64,9 @@
 | [T21](tickets/T21_專案清單改讀AiMemory.md) | 專案清單改讀 AiMemory `projects/` | ☁️ | 30 分 | T20 | ✅ |
 | [T22](tickets/T22_衍生索引.md) | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ✅ |
 | [T23](tickets/T23_Git發佈器.md) | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ✅ |
+| **Phase 1b ChatGPT 專案名稱** |||||
+| [T24](tickets/T24_ChatGPT專案名稱採樣.md) | ChatGPT 專案名稱採樣 | 🖥 | 15 分 | T01 | ⬜ |
+| [T25](tickets/T25_ChatGPT專案名稱.md) | ChatGPT 專案名稱（以名稱取代 `g-p-` ID） | ☁️ | 45 分 | T24, T07 | ⬜ |
 
 狀態符號：⬜ 待辦 · 🟡 進行中 · ✅ 完成 · ⛔ 卡住
 
@@ -102,3 +105,11 @@
 **T22 衍生索引** — 產生 `ledger/platforms.md`、`ledger/monthly/YYYY-MM.md`、`ledger/ideas/index.md`、`ledger/ideas/by-project/<代號>.md`，格式依 ledger 規格。內容相同不重寫。驗收：快照測試；新平台、新專案自動出現。
 
 **T23 Git 發佈器** — 每輪：`git pull --rebase` → 寫入 → 若有變動則以 `Idea Ledger Bot` commit → push；push 被拒則重新 pull 再試一次，仍失敗留到下一輪。commit 前檢查變更只在 `ledger/` 內，否則中止且不 commit。驗收：以本機假遠端（bare repo）測試正常發佈、無變動不 commit、遠端有新 commit 時正確 rebase、使用者在遠端改了 `status` 後重寫仍保留、`ledger/` 外有變動時中止。
+
+## Phase 1b：ChatGPT 專案名稱（2026-10-15 新增）
+
+George 要求想法卡顯示 ChatGPT 的專案名稱。T01 樣本只有專案 ID（`g-p-…`），名稱需另一個請求。
+
+**T24 ChatGPT 專案名稱採樣** — 🖥 在 DevTools 搜尋回應內容，找出同時含專案名稱與 `g-p-` ID 的 GET 請求，取樣、遮罩（測試專案以外的名稱全部遮蔽）後提交 `fixtures/chatgpt/projects.json` 與 NOTES。
+
+**T25 ChatGPT 專案名稱** — ☁️ `parseProjects()` ＋ `fetch.js` 快取名稱表，清單與單篇的 `project` 換成名稱；新 ID 才重取一次，失敗時保留 ID，不影響收取。只改 `adapters/chatgpt/`。

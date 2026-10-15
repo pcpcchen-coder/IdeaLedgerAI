@@ -6,15 +6,19 @@
 
 - **☁️ 雲端可做：** T07 取資料層與設定頁（依賴 T04 ✅、T05 ✅、T06 ✅）。T11 還等 T08。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
+- **🖥 等 George：** T24 ChatGPT 專案名稱採樣（約 15 分鐘，見工單檔）；完成後雲端做 T25，想法卡就會顯示 ChatGPT 專案名稱。
 
 ## 卡住／待決定
 
-- **ChatGPT 專案名稱（T04）。** 清單與單篇回應只有專案的 `gizmo_id`（`g-p-…`），沒有名稱；想法卡的 `platform_project` 目前會是這串 ID。要顯示名稱需在 T07 另找取得專案名稱的端點（需 DevTools 採樣驗證）。
 - **舊 `projects.txt` 的專案在 AiMemory `projects/` 沒有對應檔（T21）。** 換電站EMS、微電網、電池、數位人類、AI OS、InMoov、Amazing Hand、可信任的控制、本地LLM/CoPartner、Idea Ledger 這些分類現在只剩 AiMemory 的 8 個專案可選，其餘會歸 `other`。若要保留這些分類，需由 George 在 AiMemory `projects/` 新增檔案（工具不改 AiMemory 的人工維護區）。
 - **手機 App 對話是否同步到網頁歷史（T01、T02 第 3 題）尚未驗證。** 這是整個「帳號層巡檢」設計的前提；若答案是否，需回頭改設計。George 選擇本次先略過。
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · 規劃：ChatGPT 專案名稱（T24、T25）
+- 決定（George）：想法卡要顯示 ChatGPT 的專案名稱，不是 `g-p-` ID。
+- 新增 T24（🖥 採樣取得專案名稱的請求）與 T25（☁️ adapter 內快取名稱表並替換）；原「卡住／待決定」中的這一項改由這兩張工單處理。T07 先照常以 ID 運作，T25 只改 `adapters/chatgpt/`。
 
 ### 2026-10-15 · T05 Claude 解析層
 - 完成：`extension/src/adapters/claude/parse.js`（組織、清單、單篇），以 T02 fixtures 測試 10 個；擴充測試共 63 個全過。
