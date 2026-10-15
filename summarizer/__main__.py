@@ -6,14 +6,14 @@
   LLM_MODEL      模型名稱（必填）
   LLM_API_KEY    選填
   SUMMARY_BATCH  每次最多處理幾段，預設 20
-  IDEA_VAULT     Obsidian vault 根目錄；有設定才寫想法卡與每日日誌（T10）
+  IDEA_MEMORY_REPO  AiMemory 本機 clone 的根目錄；有設定才寫想法卡與每日日誌到其 ledger/（T20）
   IDEA_TZ        日期使用的時區，預設 Asia/Taipei
 """
 import os
 import sys
 
 from .llm import LLMError, OpenAICompatClient
-from .obsidian import VaultWriter
+from .obsidian import LedgerWriter
 from .store import SummaryStore
 from .worker import run_once
 
@@ -29,10 +29,10 @@ def main() -> int:
         print(f"設定錯誤：{e}", file=sys.stderr)
         return 1
     store = SummaryStore(os.environ.get("IDEA_DB", "./ledger.db"))
-    vault = os.environ.get("IDEA_VAULT")
+    repo = os.environ.get("IDEA_MEMORY_REPO")
     try:
         report = run_once(store, client.complete, client.model, batch=int(os.environ.get("SUMMARY_BATCH", "20")))
-        written = VaultWriter(store.conn, vault, os.environ.get("IDEA_TZ", "Asia/Taipei")).run() if vault else None
+        written = LedgerWriter(store.conn, repo, os.environ.get("IDEA_TZ", "Asia/Taipei")).run() if repo else None
     finally:
         store.close()
     print(f"摘要完成 {len(report.summarized)}、失敗 {len(report.failed)}、期間又更新 {len(report.still_dirty)}")

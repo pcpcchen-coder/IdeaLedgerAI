@@ -4,7 +4,7 @@
 
 ## 下一步
 
-- **☁️ 雲端可做：** T04 ChatGPT 解析層、T05 Claude 解析層（T01、T02 的 A、B、C，Claude 另含 E，樣本已提交，欄位見 `extension/fixtures/*/NOTES.md`；缺的手機對話 D 不影響解析層）。也可做 T20 寫入路徑對齊 AiMemory（之後 T21、T23、T22），不依賴 T01、T02。
+- **☁️ 雲端可做：** T21 專案清單改讀 AiMemory `projects/`（依賴 T20 ✅）；之後 T23、T22。T04、T05 解析層也可做（樣本已提交）。
 - **🖥 等 George：** 補 T01、T02 的 D（手機 App 對話，各約 5 分鐘）：手機 App 各開一段「IdeaLedger 測試 D」來回 1 輪，再請雲端工作階段在內建瀏覽器補採並回答 NOTES 第 3 題。
 
 ## 卡住／待決定
@@ -13,6 +13,10 @@
 - Google Drive 上的「開發工單追蹤表」不會自動同步。本 repo 的 ROADMAP 是唯一進度來源；若要 `/wrap` 順便更新追蹤表，需在工作階段開啟 Google Sheets 連接器，並把這個步驟加進 `.claude/commands/wrap.md`。
 
 ## 工作紀錄
+
+### 2026-10-15 · T20 寫入路徑對齊 AiMemory `ledger/`
+- 完成：想法卡寫到 `ledger/conversations/YYYY/MM/`、日誌寫到 `ledger/daily/YYYY/MM/`；`IDEA_VAULT` 改名 `IDEA_MEMORY_REPO`；所有寫入與刪除經 `ensure_in_ledger` 檢查。summarizer 測試 31 個全過（新增 10）。CLAUDE.md 慣例與設計文件第 7、8 節同步改為新路徑。
+- 學到：`card` 表可能殘留 T10 時期的 `Ideas/` 路徑；改為「ledger/ 外的舊路徑視為沒有舊檔、不讀不刪」，避免搬檔時刪到 `ledger/` 以外。目前尚未部署，沒有實際舊資料需要遷移。
 
 ### 2026-10-15 · T01 ChatGPT 介面採樣、T02 Claude 介面採樣（🟡 缺手機對話 D）
 - 完成：這次對話連結了 George 的電腦，在 Claude 桌面 App 內建瀏覽器（George 自行登入）建立測試對話 ChatGPT A–C、Claude A–C 與 E，以採樣腳本相同邏輯（只發 GET、瀏覽器內先遮蔽）取樣，經 `import_sample.py` 遮罩後提交 fixtures 與兩份 NOTES.md。所有請求最終皆 200，社群觀察的介面路徑正確。

@@ -2,7 +2,7 @@
 
 | 狀態 | 執行 | 預估 | 依賴 |
 |---|---|---|---|
-| 🟡 進行中 | ☁️ 雲端 | 30 分 | T10 |
+| ✅ 完成（2026-10-15） | ☁️ 雲端 | 30 分 | T10 |
 
 ## 目標
 
@@ -28,13 +28,13 @@
 
 ## 驗收（pytest，暫存資料夾當 AiMemory clone）
 
-- [ ] 快照測試改為新路徑，想法卡內容不變
-- [ ] 日誌寫到 `ledger/daily/YYYY/MM/`
-- [ ] 一次完整執行後，repo 內 `ledger/` 以外沒有任何新檔或變動（暫存 repo 預先放一個 `profile.md`，內容與修改時間不變）
-- [ ] 路徑檢查拒絕 `ledger/` 以外的路徑（含 `..` 跳脫）
-- [ ] `card` 表殘留 `Ideas/` 舊路徑時，不讀不刪 `ledger/` 外的檔案
-- [ ] `IDEA_MEMORY_REPO` 未設定時不寫任何檔
-- [ ] `make test` 全過
+- [x] 快照測試改為新路徑，想法卡內容不變
+- [x] 日誌寫到 `ledger/daily/YYYY/MM/`
+- [x] 一次完整執行後，repo 內 `ledger/` 以外沒有任何新檔或變動（暫存 repo 預先放一個 `profile.md`，內容與修改時間不變）
+- [x] 路徑檢查拒絕 `ledger/` 以外的路徑（含 `..` 跳脫）
+- [x] `card` 表殘留 `Ideas/` 舊路徑時，不讀不刪 `ledger/` 外的檔案
+- [x] `IDEA_MEMORY_REPO` 未設定時不寫任何檔
+- [x] `make test` 全過
 
 ## 不做
 
@@ -45,3 +45,9 @@
 ## 收工時
 
 更新 ROADMAP、PROGRESS；commit 訊息以 `T20:` 開頭。
+
+## 完成紀錄
+
+- `summarizer/obsidian.py`：`VaultWriter` 改名 `LedgerWriter`，根目錄是 AiMemory clone；`ensure_in_ledger` 統一檢查寫入與刪除路徑（解析後必須在 `ledger/` 之內，`..` 跳脫與 `ledger` 本身都拒絕）。
+- `__main__.py`：`IDEA_VAULT` 改為 `IDEA_MEMORY_REPO`。
+- 測試 31 個（新增 10）：新路徑快照、`ledger/` 外零變動（含修改時間）、路徑檢查、T10 舊路徑殘留、環境變數開關。

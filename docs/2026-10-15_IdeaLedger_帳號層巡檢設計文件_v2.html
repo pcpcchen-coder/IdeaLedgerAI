@@ -169,11 +169,11 @@ sweep_run(platform, started_at, finished_at, status, listed, fetched, error)
 <tr><td class="bad">需重新登入</td><td>登入檢查失敗</td><td>紅點；每日日誌頂端列出</td></tr>
 <tr><td class="bad">介面失效</td><td>回應格式不符 adapter 預期</td><td>紅點；需更新 adapter</td></tr>
 </table>
-<p>每日日誌 <code>Ideas/_log/YYYY-MM-DD.md</code> 第一行固定寫各平台巡檢狀態，你翻日誌就知道系統是否健康。任一平台連續 24 小時失敗，collector 發一則 macOS 通知。</p>
+<p>每日日誌 <code>ledger/daily/YYYY/MM/YYYY-MM-DD.md</code>（AiMemory，見第 13 節） 第一行固定寫各平台巡檢狀態，你翻日誌就知道系統是否健康。任一平台連續 24 小時失敗，collector 發一則 macOS 通知。</p>
 
 <h2>8. 產出（與 v1 相同，資訊更完整）</h2>
 <ul>
-<li><strong>想法卡：</strong><code>Ideas/YYYY/MM/YYYY-MM-DD_&lt;platform&gt;_&lt;標題&gt;.md</code>，frontmatter 新增 <code>project</code>（平台上的專案名稱）。</li>
+<li><strong>想法卡：</strong><code>ledger/conversations/YYYY/MM/YYYY-MM-DD_&lt;platform&gt;_&lt;標題&gt;.md</code>（AiMemory，見第 13 節），frontmatter 新增 <code>project</code>（平台上的專案名稱）。</li>
 <li><strong>每日平台互動日誌：</strong>依對話的實際更新時間（不是巡檢時間）歸到當天，所以補抓的舊對話會出現在正確日期。</li>
 <li><strong>可回答的問題：</strong>哪天跟哪個平台聊了什麼、某個想法最早在哪個平台出現。</li>
 <li><strong>無法回答：</strong>是在網頁還是 App 上聊的，各平台歷史介面通常不提供這項資訊。</li>

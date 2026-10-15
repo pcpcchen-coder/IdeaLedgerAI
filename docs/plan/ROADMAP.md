@@ -60,7 +60,7 @@
 | T18 | 設定頁免程式新增平台（頁面文字擷取） | ☁️ | 90 分 | T03, T07 | ⬜ |
 | T19 | 免程式平台實測（以 Gemini 或 Grok 驗證） | 🖥 | 20 分 | T18 | ⬜ |
 | **Phase 2b 寫入 AiMemory** |||||
-| [T20](tickets/T20_寫入路徑對齊AiMemory.md) | 寫入路徑對齊 AiMemory `ledger/` | ☁️ | 30 分 | T10 | 🟡 |
+| [T20](tickets/T20_寫入路徑對齊AiMemory.md) | 寫入路徑對齊 AiMemory `ledger/` | ☁️ | 30 分 | T10 | ✅ |
 | T21 | 專案清單改讀 AiMemory `projects/` | ☁️ | 30 分 | T20 | ⬜ |
 | T22 | 衍生索引：平台總覽、每月彙總、想法索引 | ☁️ | 60 分 | T21 | ⬜ |
 | T23 | Git 發佈器（pull → 寫入 → commit → push） | ☁️ | 60 分 | T20 | ⬜ |
