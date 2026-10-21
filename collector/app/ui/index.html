@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>對話紀錄 · Idea Ledger</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/ui/app.css">
+<script src="/ui/app.js" defer></script>
+</head>
+<body>
+<header class="bar">
+  <div class="brand">Idea Ledger <span class="muted">對話紀錄</span></div>
+  <div class="search">
+    <input id="q" type="search" placeholder="搜尋標題、專案、對話內容（空白分隔＝同時包含）" autocomplete="off" spellcheck="false" aria-label="搜尋">
+    <kbd title="按 / 跳到搜尋">/</kbd>
+  </div>
+  <select id="platform" aria-label="平台"><option value="">全部平台</option></select>
+  <select id="project" aria-label="專案"><option value="*">全部專案</option></select>
+</header>
+
+<main class="layout">
+  <section class="list" aria-label="對話清單">
+    <div class="list-head"><span id="count" class="muted"></span></div>
+    <ol id="items"></ol>
+    <button id="more" type="button" class="more" hidden>載入更多</button>
+    <p id="empty" class="empty" hidden>沒有符合的對話</p>
+  </section>
+
+  <article class="detail" id="detail" aria-live="polite">
+    <div class="placeholder" id="placeholder">
+      <p>從左邊選一段對話。</p>
+      <p class="muted">快捷鍵：<kbd>/</kbd> 搜尋　<kbd>↑</kbd><kbd>↓</kbd> 選擇　<kbd>Enter</kbd> 開啟　<kbd>O</kbd> 到平台開啟原對話　<kbd>Esc</kbd> 返回</p>
+    </div>
+    <div id="conv" hidden>
+      <div class="conv-head">
+        <button id="back" type="button" class="back">← 返回清單</button>
+        <h1 id="title"></h1>
+        <div id="meta" class="meta"></div>
+        <div class="actions">
+          <a id="open" class="primary" target="_blank" rel="noopener noreferrer"></a>
+          <button id="copy" type="button">複製網址</button>
+          <label class="toggle"><input id="mine" type="checkbox"> 只看我的輸入</label>
+          <span id="hits" class="muted"></span>
+        </div>
+        <div id="card" class="muted small"></div>
+      </div>
+      <div id="messages" class="messages"></div>
+    </div>
+  </article>
+</main>
+
+<dialog id="login">
+  <form id="loginForm" method="dialog">
+    <h2>輸入 collector token</h2>
+    <p class="muted small">在 <code>~/Library/Application Support/IdeaLedger/.env</code> 的 <code>IDEA_TOKEN</code>，或從選單列圖示「瀏覽對話紀錄」開啟就會自動帶入。token 只存在這個瀏覽器。</p>
+    <input id="token" type="password" autocomplete="off" required>
+    <p id="loginError" class="error small"></p>
+    <button type="submit" class="primary">進入</button>
+  </form>
+</dialog>
+</body>
+</html>

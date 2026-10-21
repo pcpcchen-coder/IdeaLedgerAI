@@ -77,10 +77,10 @@ class HookWriter:
     def __init__(self, writer, before=None):
         self.writer, self.before = writer, before
 
-    def run(self):
+    def run(self, now=None):
         if self.before:
             self.before()
-        return self.writer.run()
+        return self.writer.run(now)
 
     def reset_card(self, *a, **kw):
         return self.writer.reset_card(*a, **kw)

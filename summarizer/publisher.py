@@ -26,7 +26,7 @@ DAILY = f"{LEDGER_DIR}/daily/"
 
 
 class Writer(Protocol):
-    def run(self) -> WriteReport: ...
+    def run(self, now: datetime | None = None) -> WriteReport: ...
     def reset_card(self, platform: str, conv_id: str, path: str | None = None) -> None: ...
 
 
@@ -193,7 +193,7 @@ def _publish(repo: Repo, writer: Writer, now: datetime, tz: str) -> PublishRepor
             return PublishReport("pull_failed", f"pull 衝突且無法自動處理：{e}")
 
     # 3. 寫入
-    written = writer.run()
+    written = writer.run(now)  # 與 commit 訊息用同一個時間，日誌歸日一致
 
     # 4. commit 前再檢查一次
     if outside := outside_ledger(repo.changed_paths()):

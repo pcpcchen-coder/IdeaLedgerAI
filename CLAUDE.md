@@ -45,7 +45,7 @@ Idea Ledger AI：常開電腦上的 Chrome 專用設定檔（已登入各 AI 平
 ## 執行環境
 
 - 主節點：Mac Mini M4 24GB，已有 Ollama、LiteLLM Gateway；需禁止睡眠、開機自動啟動 Chrome 專用設定檔。部署步驟見 `docs/DEPLOY_MAC.md`（`deploy/install.sh`）。
-- Collector 只綁 `127.0.0.1:8787`，Bearer Token 驗證；不對外開放。
+- Collector 只綁 `127.0.0.1:8787`，Bearer Token 驗證；不對外開放。`/ui` 是唯讀的對話瀏覽頁（T28），靜態檔不含資料，資料走需要 token 的 `/v2` API；對話內容只能以文字節點呈現。
 - 技術棧偏好：Python／FastAPI；擴充為 Chrome MV3。collector 與 summarizer 都在 macOS 本機以 launchd 執行，**不用 Docker**（SQLite WAL 不能跨 Docker 虛擬機與主機共用，T11 決定）。
 - 資料庫與 AiMemory clone 放 `~/Library/Application Support/IdeaLedger/`，不可放在 iCloud 同步的資料夾（文件、桌面、iCloud Drive）。
 

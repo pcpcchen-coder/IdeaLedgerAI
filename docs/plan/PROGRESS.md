@@ -18,6 +18,12 @@
 
 ## 工作紀錄
 
+### 2026-10-21 · T28 對話紀錄瀏覽介面
+- 起因（George）：要能瀏覽完整紀錄、搜尋並直接點開原對話。
+- 完成：collector 提供 `/ui` 網頁與三個唯讀 API（清單搜尋、單篇、篩選選項）；選單列與擴充設定頁各一個入口，自動帶 token。新增 13 個 pytest、1 個 node:test；以假資料在瀏覽器實測。
+- 附帶修正：`publish` 沒把 `now` 傳給寫入器，測試會隨執行日期失敗（今天 10/21 就失敗了）。
+- 剩餘：🖥 Mac Mini 更新程式、重建擴充並重新載入。
+
 ### 2026-10-15 · T27 選單列狀態圖示
 - 起因（George）：服務在背景跑，看不出正常與否。
 - 完成：`statusbar/`（檢查邏輯 + rumps 選單列 UI）、summarizer 寫狀態檔、launchd `com.idealedger.statusbar`、`install.sh`／`doctor.sh` 更新。新增 13 個測試，`make test` 全過。

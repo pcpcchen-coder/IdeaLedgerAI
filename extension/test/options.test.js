@@ -4,7 +4,7 @@ import assert from "node:assert/strict";
 import { badgeFor, BADGE_COLORS, statusView } from "../src/lib/status.js";
 import { normalizeConfig } from "../src/bg/config.js";
 import { createScheduler } from "../src/bg/scheduler.js";
-import { formToConfig, platformRows, shortTime } from "../src/options/view.js";
+import { browseUrl, formToConfig, platformRows, shortTime } from "../src/options/view.js";
 import { fakeClock, NOW } from "./helpers.js";
 
 const PLATFORMS = [
@@ -64,4 +64,10 @@ test("排程：把觸發來源（alarm／manual）傳給 runAll，讓巡檢開�
   await s.trigger("manual");
   await s.onAlarm({ name: "idealedger-sweep" });
   assert.deepEqual(sources, ["manual", "alarm"]);
+});
+
+test("瀏覽紀錄網址（T28）：token 放在片段並編碼；沒有 token 就讓頁面自己問", () => {
+  assert.equal(browseUrl({ collectorUrl: "http://127.0.0.1:8787/", token: "a b&c" }), "http://127.0.0.1:8787/ui#token=a%20b%26c");
+  assert.equal(browseUrl({ collectorUrl: "http://127.0.0.1:8787", token: "" }), "http://127.0.0.1:8787/ui");
+  assert.equal(browseUrl({ collectorUrl: "", token: "x" }), null);
 });

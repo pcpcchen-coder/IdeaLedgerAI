@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import os
 import subprocess
+from urllib.parse import quote
 
 import rumps
 from AppKit import NSApplication, NSApplicationActivationPolicyAccessory
@@ -14,6 +15,7 @@ REFRESH_SECONDS = 60
 UID = os.getuid()
 SUMMARIZER = f"gui/{UID}/com.idealedger.summarizer"
 COLLECTOR = f"gui/{UID}/com.idealedger.collector"
+BROWSE_URL = "http://127.0.0.1:8787/ui"
 
 
 def notify(title: str, text: str) -> None:
@@ -47,6 +49,7 @@ class StatusApp(rumps.App):
             self.menu.add(mi)
         self.menu.add(rumps.separator)
         self.menu.add(rumps.MenuItem(f"檢查時間 {st.checked_at.astimezone():%H:%M}，每分鐘更新"))
+        self.menu.add(rumps.MenuItem("瀏覽對話紀錄…", callback=self.browse))
         self.menu.add(rumps.MenuItem("立即重新檢查", callback=self.refresh))
         self.menu.add(rumps.MenuItem("立即執行一次 summarizer", callback=self.kick_summarizer))
         self.menu.add(rumps.MenuItem("重新啟動 collector", callback=self.restart_collector))
@@ -59,6 +62,12 @@ class StatusApp(rumps.App):
             bad = next(i for i in st.items if i.level == S.RED)
             notify("Idea Ledger 異常", bad.text)
         self.last_level = st.level
+
+    def browse(self, _sender) -> None:
+        """在預設瀏覽器開 collector 的瀏覽介面（T28）；token 放在片段，頁面讀到就從網址移除。"""
+        token = os.environ.get("IDEA_TOKEN", "")
+        url = BROWSE_URL + (f"#token={quote(token, safe='')}" if token else "")
+        subprocess.run(["open", url], check=False)
 
     def kick_summarizer(self, _sender) -> None:
         subprocess.run(["launchctl", "kickstart", SUMMARIZER], check=False)

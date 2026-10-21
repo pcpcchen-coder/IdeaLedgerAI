@@ -46,3 +46,13 @@ export function formToConfig(form) {
   const { platforms: _platforms, ...rest } = form;
   return normalizeConfig({ ...rest, enabled });
 }
+
+/**
+ * 瀏覽介面（T28）的網址：collector 的 /ui，token 放在網址片段（# 之後不會送到伺服器，頁面讀到就移除）。
+ * @param {{ collectorUrl: string, token: string }} config
+ */
+export function browseUrl(config) {
+  const base = String(config.collectorUrl ?? "").replace(/\/+$/, "");
+  if (!base) return null;
+  return config.token ? `${base}/ui#token=${encodeURIComponent(config.token)}` : `${base}/ui`;
+}

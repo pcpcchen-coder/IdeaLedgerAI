@@ -1,7 +1,7 @@
-// 設定頁：讀寫 chrome.storage 的設定、顯示各平台燈號、「立即巡檢」。顯示邏輯在 view.js。
+// 設定頁：讀寫 chrome.storage 的設定、顯示各平台燈號、「立即巡檢」「瀏覽紀錄」。顯示邏輯在 view.js。
 import { loadConfig } from "../bg/config.js";
 import { createCustomManager } from "../bg/custom.js";
-import { formToConfig, platformRows, shortTime } from "./view.js";
+import { browseUrl, formToConfig, platformRows, shortTime } from "./view.js";
 
 const storage = chrome.storage.local;
 const $ = (id) => document.getElementById(id);
@@ -132,6 +132,12 @@ $("sweepNow").addEventListener("click", async () => {
   const res = await chrome.runtime.sendMessage({ type: "sweepNow" });
   message(res?.ok ? `巡檢完成（${res.results.length} 個平台）。` : `巡檢失敗：${res?.error ?? "未知錯誤"}`);
   await refresh();
+});
+
+// 瀏覽完整紀錄（T28）：在這個 Chrome 設定檔開分頁，點「開啟原對話」時平台已是登入狀態
+$("browse").addEventListener("click", async () => {
+  const url = browseUrl(await loadConfig(storage));
+  if (url) await chrome.tabs.create({ url });
 });
 
 // 巡檢狀態寫在 storage，變動時即時更新表格

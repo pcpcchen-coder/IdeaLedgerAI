@@ -136,6 +136,11 @@ class Store:
 
     # ---- 查詢 ----
 
+    def browse(self, fn, *args, **kwargs):
+        """瀏覽介面的唯讀查詢（browse.py）；與寫入共用連線，所以同樣在鎖內執行。"""
+        with self.lock:
+            return fn(self.conn, *args, **kwargs)
+
     def watermark(self, platform: str) -> Optional[str]:
         row = self.conn.execute("SELECT MAX(updated_at) AS w FROM conv WHERE platform=?", (platform,)).fetchone()
         return row["w"]
